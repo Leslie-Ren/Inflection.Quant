@@ -18,6 +18,3 @@ theme = "PaperMod"
   name = "Articles"
   url = "/articles/"
   weight = 1
-
-[outputs]
-  home = ["HTML", "RSS", "JSON"]
