@@ -1,23 +1,23 @@
 baseURL = "https://leslie-ren.github.io/Inflection.Quant/"
 relativeURLs = false
 canonifyURLs = false
-
 languageCode = "en-us"
 title = "Inflection Quant Solutions"
 theme = "PaperMod"
 
 [params]
   math = true
-  mainSections = ["articles", "quant-foundations", "quant-engineering"]
+  mainSections = ["articles"]
   ShowReadingTime = false
   ShowShareButtons = true
   ShowPostNavLinks = true
   ShowBreadCrumbs = true
 
 [menu]
-
 [[menu.main]]
-name = "Articles"
-url = "/articles/"
-weight = 1
+  name = "Articles"
+  url = "/articles/"
+  weight = 1
 
+[outputs]
+  home = ["HTML", "RSS", "JSON"]
