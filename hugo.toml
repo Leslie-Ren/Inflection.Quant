@@ -7,7 +7,7 @@ theme = "PaperMod"
 
 [params]
   math = true
-  mainSections = ["articles"]
+  mainSections = ["articles/quant-foundations", "articles/quant-engineering"]
   ShowReadingTime = false
   ShowShareButtons = true
   ShowPostNavLinks = true
