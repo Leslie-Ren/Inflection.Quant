@@ -1,0 +1,19 @@
+baseURL = "https://yourusername.github.io/"
+languageCode = "en-us"
+title = "Inflection Quant Solutions"
+theme = "PaperMod"
+
+[params]
+  math = true
+  ShowReadingTime = false
+  ShowShareButtons = true
+  ShowPostNavLinks = true
+  ShowBreadCrumbs = true
+
+
+[menu]
+
+[[menu.main]]
+name = "Articles"
+url = "/articles/"
+weight = 1
