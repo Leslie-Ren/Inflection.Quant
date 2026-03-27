@@ -1,6 +1,6 @@
 baseURL = "https://leslie-ren.github.io/Inflection.Quant/"
 relativeURLs = false
-canonifyURLs = false
+canonifyURLs = true
 languageCode = "en-us"
 title = "Inflection Quant Solutions"
 theme = "PaperMod"
