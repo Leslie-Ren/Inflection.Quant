@@ -2,23 +2,66 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Tags on Inflection Quant Solutions</title>
-    <link>http://localhost:1313/Inflection.Quant/tags/</link>
+    <link>http://localhost:1313/tags/</link>
     <description>Recent content in Tags on Inflection Quant Solutions</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <atom:link href="http://localhost:1313/Inflection.Quant/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 03 Apr 2026 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>American Option</title>
+      <link>http://localhost:1313/tags/american-option/</link>
+      <pubDate>Fri, 03 Apr 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/american-option/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Black–Scholes PDE</title>
+      <link>http://localhost:1313/tags/blackscholes-pde/</link>
+      <pubDate>Fri, 03 Apr 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/blackscholes-pde/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>European Option</title>
+      <link>http://localhost:1313/tags/european-option/</link>
+      <pubDate>Fri, 03 Apr 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/european-option/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Put-Call Parity</title>
+      <link>http://localhost:1313/tags/put-call-parity/</link>
+      <pubDate>Fri, 03 Apr 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/put-call-parity/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Infrastructure</title>
+      <link>http://localhost:1313/tags/infrastructure/</link>
+      <pubDate>Fri, 27 Mar 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/infrastructure/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>QIS</title>
+      <link>http://localhost:1313/tags/qis/</link>
+      <pubDate>Fri, 27 Mar 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/qis/</guid>
+      <description></description>
+    </item>
     <item>
       <title>Brownian Motion</title>
-      <link>http://localhost:1313/Inflection.Quant/tags/brownian-motion/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/Inflection.Quant/tags/brownian-motion/</guid>
+      <link>http://localhost:1313/tags/brownian-motion/</link>
+      <pubDate>Thu, 26 Mar 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/brownian-motion/</guid>
       <description></description>
     </item>
     <item>
       <title>Quant</title>
-      <link>http://localhost:1313/Inflection.Quant/tags/quant/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/Inflection.Quant/tags/quant/</guid>
+      <link>http://localhost:1313/tags/quant/</link>
+      <pubDate>Thu, 26 Mar 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/quant/</guid>
       <description></description>
     </item>
   </channel>

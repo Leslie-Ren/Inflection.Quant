@@ -1,3 +1,3 @@
 ---
-title: "Quant Foundamentals"
+title: "Quant Fundamentals"
 ---

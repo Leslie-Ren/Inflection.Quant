@@ -1,13 +1,18 @@
-baseURL = "https://leslie-ren.github.io/Inflection.Quant/"
-relativeURLs = false
-canonifyURLs = true
+
+# baseURL = "https://leslie-ren.github.io/Inflection.Quant/"
+baseURL = "https://yourusername.github.io/"
+relativeURLs = true
+canonifyURLs = false
+
 languageCode = "en-us"
 title = "Inflection Quant Solutions"
 theme = "PaperMod"
 
 [params]
   math = true
-  mainSections = ["articles/quant-foundations", "articles/quant-engineering"]
+  # mainSections = ["articles/quant-foundations", "articles/quant-engineering"]
+  mainSections = ["articles"]
+  ShowPostsOnHomePage = false
   ShowReadingTime = false
   ShowShareButtons = true
   ShowPostNavLinks = true
