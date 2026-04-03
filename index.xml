@@ -6,6 +6,33 @@
     <description>Recent content on Inflection Quant Solutions</description>
     <generator>Hugo</generator>
     <language>en-us</language>
+    <lastBuildDate>Fri, 03 Apr 2026 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://leslie-ren.github.io/Inflection.Quant/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Early Exercise of American Options: Call Equivalence and the Put Premium</title>
+      <link>https://leslie-ren.github.io/Inflection.Quant/articles/quant-foundations/american_vs_european_options/</link>
+      <pubDate>Fri, 03 Apr 2026 00:00:00 +0000</pubDate>
+      <guid>https://leslie-ren.github.io/Inflection.Quant/articles/quant-foundations/american_vs_european_options/</guid>
+      <description>&lt;h2 id=&#34;why-this-matters&#34;&gt;Why This Matters&lt;/h2&gt;
+&lt;p&gt;While practitioners price American puts correctly in production systems, the deeper question of &lt;em&gt;why&lt;/em&gt; early exercise is sometimes optimal — and the precise conditions under which it occurs — is less often articulated rigorously. This article works through the argument carefully, starting with why early exercise is never optimal for calls, and then showing — using the Black–Scholes PDE — when and why it becomes mandatory for puts.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>From Investment Strategies to Production: High-Level Guidelines for Cross-Asset QIS</title>
+      <link>https://leslie-ren.github.io/Inflection.Quant/articles/quant-engineering/qis_infra_guidelines/</link>
+      <pubDate>Fri, 27 Mar 2026 00:00:00 +0000</pubDate>
+      <guid>https://leslie-ren.github.io/Inflection.Quant/articles/quant-engineering/qis_infra_guidelines/</guid>
+      <description>&lt;p&gt;Banks build cross-asset quantitative investment strategies (QIS) to capture opportunities across multiple markets and deliver systematic, data-driven investment outcomes. Clients like these strategies because they are highly customizable, provide transparent, rule-based exposures across asset classes, and offer measurable performance and risk profiles.&lt;/p&gt;
+&lt;p&gt;This article provides a high-level overview of the &lt;strong&gt;workflow, requirements, and guidelines&lt;/strong&gt; for building production-grade cross-asset QIS infrastructure. A separate article will cover &lt;strong&gt;specific challenges and practical solutions&lt;/strong&gt; encountered in implementation.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Understanding Brownian Motion: Why Variance Grows Linearly in Time</title>
+      <link>https://leslie-ren.github.io/Inflection.Quant/articles/quant-foundations/understanding_brownian_motion/</link>
+      <pubDate>Thu, 26 Mar 2026 00:00:00 +0000</pubDate>
+      <guid>https://leslie-ren.github.io/Inflection.Quant/articles/quant-foundations/understanding_brownian_motion/</guid>
+      <description>&lt;p&gt;Brownian motion — the mathematical model behind everything from stock prices to the way heat spreads — has a surprisingly elegant property: the variance of a particle’s position at time $t$ grows &lt;strong&gt;linearly&lt;/strong&gt; with time. Not $t^2$, not $\sqrt{t}$, but exactly $t$. At first glance, this might seem like a purely mathematical choice, but it actually comes from both physical observations and mathematical construction.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;physical-motivation&#34;&gt;Physical Motivation&lt;/h2&gt;
+&lt;p&gt;The story starts with Robert Brown, who in 1827 observed pollen grains jittering randomly in water. The motion seemed erratic, almost chaotic. Decades later, Einstein (1905) made this quantitative, showing that a particle’s &lt;strong&gt;mean squared displacement&lt;/strong&gt; (MSD) grows in proportion to time:&lt;/p&gt;</description>
+    </item>
   </channel>
 </rss>
