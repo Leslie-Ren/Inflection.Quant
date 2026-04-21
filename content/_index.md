@@ -3,43 +3,35 @@ ShowSocial: false
 draft: false
 ---
 
-**From Quant Insights to Real-World Solutions**
 
-I help trading desks and quant teams tackle complex problems by designing models, frameworks, and tools that deliver measurable business impact. My work spans derivative pricing, risk management, and translating models into production systems, bridging the gap between quantitative ideas and their execution in live trading and risk environments. 
+## From Quant Ideas to Practical Understanding
 
----
-
-## What I Do
-
-Many quant ideas are conceptually strong but challenging to implement in practice. I focus on solving real-world problems that have tangible business impact, turning models into usable tools and solutions. I enjoy diving into the details of implementation, because the process often uncovers practical insights that make the final solution more robust and effective.
-
-
-**Selected Work:**
-- Building cross-asset quantitative investment strategy (QIS) production infrastructure  
-- Developing intraday risk and P&L attribution tools for trading desks  
-- Pricing linear and non-linear energy derivatives
-- Designing and implementing interest rate (IR) risk hedging strategies for commodity desks    
-- Implementing hourly power swaps in Openlink  
-- Modeling counterparty credit risk for commodity derivatives
+I work in quantitative finance and started this site to write about topics I find 
+interesting: mostly around how theoretical models are built and how they hold up in practice. 
+When I read academic papers, I sometimes find it hard to see the intuition behind the 
+formulas. But shorter articles often skip the technical details I want to see. I am 
+trying to find a middle ground: keeping the rigor, but explaining the ideas behind it. 
+Writing is also how I learn, and I hope some of it is useful to others.
 
 ---
 
-## Writing
-
-I write about two types of topics:  
+## What I Write About
 
 **Quantitative Finance Concepts**  
-I enjoy exploring the math behind models: stochastic processes, derivatives pricing and risk modeling. Writing helps me clarify my own understanding while sharing insights with others.  
+The math behind models: stochastic processes, derivatives pricing, and risk modelling. 
+I try to write the explanations I wish I had when I was learning these topics.
 
 **Practical Industry Insights**  
-I also write about lessons from building and using quant systems in practice:  the challenges, the model choices, and the surprises you only notice when theory meets reality.  
+Lessons from working with quant systems in practice: the model choices, the edge 
+cases, and the things you only notice when theory meets reality.
 
-**Articles are written with AI-assisted drafting and editing where helpful. All analysis, interpretations, and conclusions are my own.*
+**Articles are written with AI-assisted drafting and editing where helpful. All analysis, 
+interpretations, and conclusions are my own.*
 
 ---
 
-## Get In Touch
+### Get in Touch
 
-I love questions, ideas, and collaboration. Feel free to reach out.  
+I enjoy questions and discussions. Feel free to reach out.
 
 → [inflection.quant@gmail.com](mailto:inflection.quant@gmail.com)
