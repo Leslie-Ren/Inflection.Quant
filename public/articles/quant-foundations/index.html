@@ -5,9 +5,9 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="noindex, nofollow">
-<title>Quant Fundamentals | Inflection Quant Solutions</title>
+<title>Quant Fundamentals | Inflection Quant Lab</title>
 <meta name="keywords" content="">
-<meta name="description" content="Quant Fundamentals - Inflection Quant Solutions">
+<meta name="description" content="Quant Fundamentals - Inflection Quant Lab">
 <meta name="author" content="">
 <link rel="canonical" href="http://localhost:1313/articles/quant-foundations/">
 <link crossorigin="anonymous" href="../../assets/css/stylesheet.199042e659bc7245f5609d333d6c044eb554a0640849bb874e1dff8eb0f57209.css" integrity="sha256-GZBC5lm8ckX1YJ0zPWwETrVUoGQISbuHTh3/jrD1cgk=" rel="preload stylesheet" as="style">
@@ -71,13 +71,28 @@
         document.querySelector("html").dataset.theme = 'light';
     }
 
+</script><script>
+document.addEventListener("DOMContentLoaded", function() {
+  window.MathJax = {
+    tex: {
+      packages: ['base', 'ams'],
+      inlineMath: [['$', '$'], ['\\(', '\\)']],
+      displayMath: [['$$','$$'], ['\\[','\\]']]
+    },
+    options: {skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']}
+  };
+  var script = document.createElement("script");
+  script.src = "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js";
+  script.defer = true;
+  document.body.appendChild(script);
+});
 </script>
 </head>
 <body class="list" id="top">
     <header class="header">
     <nav class="nav">
         <div class="logo">
-            <a href="http://localhost:1313/" accesskey="h" title="Inflection Quant Solutions (Alt + H)">Inflection Quant Solutions</a>
+            <a href="http://localhost:1313/" accesskey="h" title="Inflection Quant Lab (Alt + H)">Inflection Quant Lab</a>
             <div class="logo-switches">
                 <button id="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
                     <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
@@ -119,11 +134,39 @@
 
 <article class="post-entry"> 
   <header class="entry-header">
+    <h2 class="entry-hint-parent">From Option Prices to the Shape of Returns: A Model-Free Construction of Volatility, Skewness and Kurtosis
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>Why This Matters Most of my early intuition about options came from the Black-Scholes model, which is clean and widely used. But once I started working with real option data, it becomes clear that the Black-Scholes assumption of a lognormal distribution is too restrictive. For a given maturity, the implied volatility is not constant across strikes, and its shape suggests asymmetry and heavy tails in the risk-neutral distribution.
+That leads to a more basic question. Instead of imposing a parametric model and calibrating its parameters, is there a way to extract volatility, skewness, and kurtosis directly from option prices in a model-free way? This is where the Bakshi, Kapadia, and Madan (2003) framework becomes useful. Their key idea is that smooth payoff functions can be represented as a continuum of vanilla options across strikes. In this view, volatility, skewness, and kurtosis are not model assumptions or calibration outputs. They are quantities that can be recovered from market prices through static option replication.
+...</p>
+  </div>
+  <footer class="entry-footer"><span title='2026-04-16 00:00:00 +0000 UTC'>April 16, 2026</span></footer>
+  <a class="entry-link" aria-label="post link to From Option Prices to the Shape of Returns: A Model-Free Construction of Volatility, Skewness and Kurtosis" href="http://localhost:1313/articles/quant-foundations/vol_skewness_kurtosis/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">Solving for Implied Volatility: Newton&#39;s Method vs Brent&#39;s Method
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>Why This Matters I started writing about calibrating a full volatility surface and realised it first requires a clear understanding of a simpler problem: solving for implied vol from a single option price. At its core, this is a root-finding problem: given a market price, we need to find the volatility that makes the model match that price. Once framed this way, the question becomes how to solve this nonlinear problem efficiently and reliably.
+...</p>
+  </div>
+  <footer class="entry-footer"><span title='2026-04-09 00:00:00 +0000 UTC'>April 9, 2026</span></footer>
+  <a class="entry-link" aria-label="post link to Solving for Implied Volatility: Newton&#39;s Method vs Brent&#39;s Method" href="http://localhost:1313/articles/quant-foundations/newton_vs_brent_vol_solver/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
     <h2 class="entry-hint-parent">Early Exercise of American Options: Call Equivalence and the Put Premium
     </h2>
   </header>
   <div class="entry-content">
-    <p>Why This Matters While practitioners price American puts correctly in production systems, the deeper question of why early exercise is sometimes optimal — and the precise conditions under which it occurs — is less often articulated rigorously. This article works through the argument carefully, starting with why early exercise is never optimal for calls, and then showing — using the Black–Scholes PDE — when and why it becomes mandatory for puts.
+    <p>Why This Matters While practitioners price American puts correctly in production systems, the deeper question of why early exercise is sometimes optimal, and the precise conditions under which it occurs, is less often articulated rigorously. This article works through the argument, starting with why early exercise is never optimal for calls, and then showing, using the Black–Scholes PDE, when and why it becomes mandatory for puts.
+For those working with options pricing, hedging, or products with embedded American optionality, a rigorous understanding of the early exercise boundary can offer useful intuition beyond what standard pricing tools provide.
 ...</p>
   </div>
   <footer class="entry-footer"><span title='2026-04-03 00:00:00 +0000 UTC'>April 3, 2026</span></footer>
@@ -132,21 +175,20 @@
 
 <article class="post-entry"> 
   <header class="entry-header">
-    <h2 class="entry-hint-parent">Understanding Brownian Motion: Why Variance Grows Linearly in Time
+    <h2 class="entry-hint-parent">Brownian Motion: From Random Walks to Option Prices
     </h2>
   </header>
   <div class="entry-content">
-    <p>Brownian motion — the mathematical model behind everything from stock prices to the way heat spreads — has a surprisingly elegant property: the variance of a particle’s position at time $t$ grows linearly with time. Not $t^2$, not $\sqrt{t}$, but exactly $t$. At first glance, this might seem like a purely mathematical choice, but it actually comes from both physical observations and mathematical construction.
-Physical Motivation The story starts with Robert Brown, who in 1827 observed pollen grains jittering randomly in water. The motion seemed erratic, almost chaotic. Decades later, Einstein (1905) made this quantitative, showing that a particle’s mean squared displacement (MSD) grows in proportion to time:
+    <p>Why This Matters Brownian motion, the mathematical model underlying everything from stock prices to heat diffusion, has one of its most elegant properties: the variance of its position at time $t$ grows linearly with time. Not $t^2$, not $\sqrt{t}$, but exactly $t$. This seemingly abstract fact has a concrete consequence in financial markets: under the idealised conditions of an at-the-money option with zero rates, it is precisely why option prices scale with $\sqrt{T}$ rather than $T$, a direct fingerprint of Brownian motion inside Black-Scholes. Understanding why requires looking at both physical observations and the mathematical construction of Brownian motion.
 ...</p>
   </div>
   <footer class="entry-footer"><span title='2026-03-26 00:00:00 +0000 UTC'>March 26, 2026</span></footer>
-  <a class="entry-link" aria-label="post link to Understanding Brownian Motion: Why Variance Grows Linearly in Time" href="http://localhost:1313/articles/quant-foundations/understanding_brownian_motion/"></a>
+  <a class="entry-link" aria-label="post link to Brownian Motion: From Random Walks to Option Prices" href="http://localhost:1313/articles/quant-foundations/understanding_brownian_motion/"></a>
 </article>
     </main>
     
 <footer class="footer">
-        <span>&copy; 2026 <a href="http://localhost:1313/">Inflection Quant Solutions</a></span> · 
+        <span>&copy; 2026 <a href="http://localhost:1313/">Inflection Quant Lab</a></span> · 
 
     <span>
         Powered by
@@ -223,15 +265,21 @@ Physical Motivation The story starts with Robert Brown, who in 1827 observed pol
 
 
   <script>
-window.MathJax = {
-  tex: {
-    inlineMath: [['$', '$'], ['\\(', '\\)']],
-    displayMath: [['$$','$$'], ['\\[','\\]']]
-  }
-};
+document.addEventListener("DOMContentLoaded", function() {
+  window.MathJax = {
+    tex: {
+      packages: ['base', 'ams'],
+      inlineMath: [['$', '$'], ['\\(', '\\)']],
+      displayMath: [['$$','$$'], ['\\[','\\]']]
+    },
+    options: {skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']}
+  };
+  var script = document.createElement("script");
+  script.src = "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js";
+  script.defer = true;
+  document.body.appendChild(script);
+});
 </script>
-
-<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
 
 </body>
 

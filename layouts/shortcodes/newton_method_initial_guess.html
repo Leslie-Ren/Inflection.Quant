@@ -1,0 +1,196 @@
+
+<style>
+  .ctrl { display:flex; align-items:center; gap:10px; margin-bottom:12px; font-size:13px; color:var(--color-text-secondary); }
+  .ctrl label { min-width:130px; }
+  .ctrl input[type=range] { flex:1; }
+  .ctrl span { min-width:44px; font-size:13px; font-weight:500; color:var(--color-text-primary); }
+  .legend { display:flex; flex-wrap:wrap; gap:16px; font-size:12px; color:var(--color-text-secondary); margin-bottom:4px; }
+  .legend-item { display:flex; align-items:center; gap:5px; }
+  .swatch { width:12px; height:3px; border-radius:2px; }
+  .info-row { display:flex; gap:12px; margin-top:10px; }
+  .info-card { flex:1; background:var(--color-background-secondary); border-radius:var(--border-radius-md); padding:10px 14px; }
+  .info-card .lbl { font-size:11px; color:var(--color-text-secondary); margin-bottom:2px; }
+  .info-card .val { font-size:15px; font-weight:500; color:var(--color-text-primary); }
+  .info-card .val.bad { color:#A32D2D; }
+  .info-card .val.good { color:#3B6D11; }
+</style>
+
+<!--
+<h2 class="sr-only">Interactive visualization: Newton's method for implied volatility — showing how a poor initial guess leads to divergence or oscillation.</h2>
+-->
+<div class="ctrl">
+  <label>True implied vol (σ*)</label>
+  <input type="range" id="trueVol" min="10" max="90" value="70" step="1">
+  <span id="trueVolOut">70%</span>
+</div>
+<div class="ctrl">
+  <label>Initial guess (σ₀)</label>
+  <input type="range" id="guess" min="5" max="95" value="20" step="1">
+  <span id="guessOut">20%</span>
+</div>
+
+<div class="legend">
+  <div class="legend-item"><div class="swatch" style="background:#185FA5;height:3px;"></div><span>BS price curve C(σ)</span></div>
+  <div class="legend-item"><div class="swatch" style="background:#639922;height:3px;"></div><span>Market price C_mkt</span></div>
+  <div class="legend-item"><div class="swatch" style="background:#E24B4A;height:1px;border-top:2px dashed #E24B4A;"></div><span>Newton tangent lines</span></div>
+  <div class="legend-item"><div class="swatch" style="background:#E24B4A;height:3px;border-radius:50%;width:12px;height:12px;border-radius:50%;"></div><span>Newton iterates</span></div>
+</div>
+
+<div style="position:relative;width:100%;height:320px;">
+  <canvas id="chart" role="img" aria-label="Chart showing Black-Scholes price as a function of volatility, with Newton iteration steps from initial guess to (or away from) the true implied vol."></canvas>
+</div>
+
+<div class="info-row" id="infoRow"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+const normCDF = z => {
+  const t = 1/(1+0.2316419*Math.abs(z));
+  const d = 0.3989422820*Math.exp(-z*z/2);
+  const p = d*t*(0.3193815+t*(-0.3565638+t*(1.7814779+t*(-1.8212560+t*1.3302744))));
+  return z>=0 ? 1-p : p;
+};
+const normPDF = z => Math.exp(-z*z/2)/Math.sqrt(2*Math.PI);
+
+const S=100, K_ref=130, r=0.05, T=0.5;
+
+function bsCall(sig) {
+  if(sig<0.001) return Math.max(0, S*Math.exp(-0*T) - K_ref*Math.exp(-r*T));
+  const d1=(Math.log(S/K_ref)+(r+0.5*sig*sig)*T)/(sig*Math.sqrt(T));
+  const d2=d1-sig*Math.sqrt(T);
+  return S*normCDF(d1)-K_ref*Math.exp(-r*T)*normCDF(d2);
+}
+function vega(sig) {
+  if(sig<0.001) return 0;
+  const d1=(Math.log(S/K_ref)+(r+0.5*sig*sig)*T)/(sig*Math.sqrt(T));
+  return S*Math.sqrt(T)*normPDF(d1);
+}
+
+const sigRange = [];
+const priceRange = [];
+for(let i=1;i<=200;i++){
+  const s=i*0.005;
+  sigRange.push(+(s*100).toFixed(2));
+  priceRange.push(bsCall(s));
+}
+
+function runNewton(sigma0_pct, trueVol_pct, maxIter=5){
+  const Cmkt = bsCall(trueVol_pct/100);
+  const steps = [{sig:sigma0_pct/100, price:bsCall(sigma0_pct/100)}];
+  let sig = sigma0_pct/100;
+  for(let i=0;i<maxIter;i++){
+    const v = vega(sig);
+    if(v<1e-8) break;
+    const step = (bsCall(sig)-Cmkt)/v;
+    sig = sig-step;
+    steps.push({sig, price:bsCall(Math.max(sig,0.001)), clipped:sig<0});
+    if(Math.abs(bsCall(Math.max(sig,0.001))-Cmkt)<1e-6) break;
+  }
+  return {steps, Cmkt};
+}
+
+let chart;
+function buildChart(trueVol, guess) {
+  const {steps, Cmkt} = runNewton(guess, trueVol, 6);
+  const tangents = [];
+  for(let i=0;i<steps.length-1;i++){
+    const s=steps[i];
+    tangents.push({start:s.sig*100, price:s.price, endSig:steps[i+1].sig*100});
+  }
+
+  const pointData = steps.map((s,i)=>({x:Math.max(s.sig*100,0.5),y:bsCall(Math.max(s.sig,0.001)),i}));
+  const tangentDatasets = tangents.map((t,i)=>{
+    const slope = vega(t.start/100);
+    const x0=Math.max(t.start-15,1), x1=Math.min(t.endSig*100+15,100);
+    return {
+      type:'line', label:'', data:[
+        {x:x0, y:bsCall(t.start/100)+slope*(x0/100-t.start/100)},
+        {x:t.endSig*100, y:Cmkt}
+      ],
+      borderColor:'#E24B4A', borderDash:[4,3], borderWidth:1.5, pointRadius:0, showLine:true
+    };
+  });
+
+  const converged = steps.length>1 && Math.abs(bsCall(Math.max(steps[steps.length-1].sig,0.001))-Cmkt)<0.005;
+  const lastSig = steps[steps.length-1].sig;
+  const wentNeg = steps.some(s=>s.sig<0);
+
+  const datasets = [
+    {
+      type:'line', label:'C_BS(σ)',
+      data: sigRange.map((s,i)=>({x:s,y:priceRange[i]})),
+      borderColor:'#185FA5', borderWidth:2, pointRadius:0, fill:false, tension:0.3
+    },
+    {
+      type:'line', label:'C_mkt',
+      data:[{x:1,y:Cmkt},{x:100,y:Cmkt}],
+      borderColor:'#639922', borderDash:[6,4], borderWidth:1.5, pointRadius:0
+    },
+    ...tangentDatasets,
+    {
+      type:'scatter', label:'Newton iterates',
+      data: pointData,
+      backgroundColor: pointData.map((d,i)=>i===0?'#185FA5':i===pointData.length-1&&converged?'#3B6D11':'#E24B4A'),
+      pointRadius: pointData.map((d,i)=>i===0?7:5),
+      pointStyle: pointData.map((d,i)=>i===0?'triangle':'circle'),
+      borderColor:'var(--color-background-primary)', borderWidth:1.5
+    }
+  ];
+
+  if(chart) { chart.destroy(); }
+  const ctx = document.getElementById('chart').getContext('2d');
+  chart = new Chart(ctx, {
+    type:'scatter',
+    data:{datasets},
+    options:{
+      responsive:true, maintainAspectRatio:false,
+      animation:false,
+      plugins:{legend:{display:false}, tooltip:{
+        callbacks:{
+          label: ctx => {
+            if(ctx.dataset.label==='Newton iterates'){
+              const i=ctx.dataIndex;
+              return `σ${i} = ${(ctx.raw.x).toFixed(1)}%  →  C = ${ctx.raw.y.toFixed(3)}`;
+            }
+            return null;
+          }
+        }
+      }},
+      scales:{
+        x:{type:'linear',min:1,max:100,title:{display:true,text:'Volatility σ (%)',color:'#73726c',font:{size:12}},
+          ticks:{color:'#73726c',font:{size:11},callback:v=>v+'%'}},
+        y:{title:{display:true,text:'Option price',color:'#73726c',font:{size:12}},
+          ticks:{color:'#73726c',font:{size:11},callback:v=>v.toFixed(1)},
+          min:0}
+      }
+    }
+  });
+
+  const distPct = Math.abs(trueVol - guess);
+  const info = document.getElementById('infoRow');
+  const iters = steps.length-1;
+  const errFinal = Math.abs(steps[steps.length-1].sig*100 - trueVol).toFixed(1);
+  const statusLabel = wentNeg ? 'Diverged (σ < 0)' : converged ? 'Converged' : `Not converged`;
+  const statusClass = converged ? 'good' : 'bad';
+  info.innerHTML = `
+    <div class="info-card"><div class="lbl">Starting error |σ₀ − σ*|</div><div class="val">${distPct.toFixed(0)} vol pts</div></div>
+    <div class="info-card"><div class="lbl">Vega at σ₀</div><div class="val">${vega(guess/100).toFixed(3)}</div></div>
+    <div class="info-card"><div class="lbl">Iterations shown</div><div class="val">${iters}</div></div>
+    <div class="info-card"><div class="lbl">Status after ${iters} steps</div><div class="val ${statusClass}">${statusLabel}</div></div>
+  `;
+}
+
+const tv = document.getElementById('trueVol');
+const g  = document.getElementById('guess');
+const tvo= document.getElementById('trueVolOut');
+const go = document.getElementById('guessOut');
+
+function update(){
+  tvo.textContent=tv.value+'%';
+  go.textContent=g.value+'%';
+  buildChart(+tv.value, +g.value);
+}
+tv.addEventListener('input',update);
+g.addEventListener('input',update);
+update();
+</script>

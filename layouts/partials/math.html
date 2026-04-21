@@ -1,10 +1,16 @@
 <script>
-window.MathJax = {
-  tex: {
-    inlineMath: [['$', '$'], ['\\(', '\\)']],
-    displayMath: [['$$','$$'], ['\\[','\\]']]
-  }
-};
+document.addEventListener("DOMContentLoaded", function() {
+  window.MathJax = {
+    tex: {
+      packages: ['base', 'ams'],
+      inlineMath: [['$', '$'], ['\\(', '\\)']],
+      displayMath: [['$$','$$'], ['\\[','\\]']]
+    },
+    options: {skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']}
+  };
+  var script = document.createElement("script");
+  script.src = "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js";
+  script.defer = true;
+  document.body.appendChild(script);
+});
 </script>
-
-<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>

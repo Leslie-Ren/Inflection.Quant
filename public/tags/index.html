@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="noindex, nofollow">
-<title>Tags | Inflection Quant Solutions</title>
+<title>Tags | Inflection Quant Lab</title>
 <meta name="keywords" content="">
 <meta name="description" content="">
 <meta name="author" content="">
@@ -71,13 +71,28 @@
         document.querySelector("html").dataset.theme = 'light';
     }
 
+</script><script>
+document.addEventListener("DOMContentLoaded", function() {
+  window.MathJax = {
+    tex: {
+      packages: ['base', 'ams'],
+      inlineMath: [['$', '$'], ['\\(', '\\)']],
+      displayMath: [['$$','$$'], ['\\[','\\]']]
+    },
+    options: {skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']}
+  };
+  var script = document.createElement("script");
+  script.src = "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js";
+  script.defer = true;
+  document.body.appendChild(script);
+});
 </script>
 </head>
 <body class="list" id="top">
     <header class="header">
     <nav class="nav">
         <div class="logo">
-            <a href="http://localhost:1313/" accesskey="h" title="Inflection Quant Solutions (Alt + H)">Inflection Quant Solutions</a>
+            <a href="http://localhost:1313/" accesskey="h" title="Inflection Quant Lab (Alt + H)">Inflection Quant Lab</a>
             <div class="logo-switches">
                 <button id="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
                     <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
@@ -120,16 +135,40 @@
         <a href="http://localhost:1313/tags/american-option/">American Option <sup><strong><sup>1</sup></strong></sup> </a>
     </li>
     <li>
+        <a href="http://localhost:1313/tags/bisection-method/">Bisection Method <sup><strong><sup>1</sup></strong></sup> </a>
+    </li>
+    <li>
+        <a href="http://localhost:1313/tags/black-scholes/">Black-Scholes <sup><strong><sup>1</sup></strong></sup> </a>
+    </li>
+    <li>
         <a href="http://localhost:1313/tags/blackscholes-pde/">Black–Scholes PDE <sup><strong><sup>1</sup></strong></sup> </a>
+    </li>
+    <li>
+        <a href="http://localhost:1313/tags/brent-method/">Brent Method <sup><strong><sup>1</sup></strong></sup> </a>
     </li>
     <li>
         <a href="http://localhost:1313/tags/brownian-motion/">Brownian Motion <sup><strong><sup>1</sup></strong></sup> </a>
     </li>
     <li>
+        <a href="http://localhost:1313/tags/convergence-rate/">Convergence Rate <sup><strong><sup>1</sup></strong></sup> </a>
+    </li>
+    <li>
         <a href="http://localhost:1313/tags/european-option/">European Option <sup><strong><sup>1</sup></strong></sup> </a>
     </li>
     <li>
+        <a href="http://localhost:1313/tags/exchange-traded-options/">Exchange-traded Options <sup><strong><sup>1</sup></strong></sup> </a>
+    </li>
+    <li>
         <a href="http://localhost:1313/tags/infrastructure/">Infrastructure <sup><strong><sup>1</sup></strong></sup> </a>
+    </li>
+    <li>
+        <a href="http://localhost:1313/tags/inverse-quadratic-interpolation/">Inverse Quadratic Interpolation <sup><strong><sup>1</sup></strong></sup> </a>
+    </li>
+    <li>
+        <a href="http://localhost:1313/tags/newton-raphson/">Newton-Raphson <sup><strong><sup>1</sup></strong></sup> </a>
+    </li>
+    <li>
+        <a href="http://localhost:1313/tags/option-price/">Option Price <sup><strong><sup>1</sup></strong></sup> </a>
     </li>
     <li>
         <a href="http://localhost:1313/tags/put-call-parity/">Put-Call Parity <sup><strong><sup>1</sup></strong></sup> </a>
@@ -138,13 +177,22 @@
         <a href="http://localhost:1313/tags/qis/">QIS <sup><strong><sup>1</sup></strong></sup> </a>
     </li>
     <li>
-        <a href="http://localhost:1313/tags/quant/">Quant <sup><strong><sup>1</sup></strong></sup> </a>
+        <a href="http://localhost:1313/tags/random-walk/">Random Walk <sup><strong><sup>1</sup></strong></sup> </a>
+    </li>
+    <li>
+        <a href="http://localhost:1313/tags/root-finding/">Root Finding <sup><strong><sup>1</sup></strong></sup> </a>
+    </li>
+    <li>
+        <a href="http://localhost:1313/tags/secant-method/">Secant Method <sup><strong><sup>1</sup></strong></sup> </a>
+    </li>
+    <li>
+        <a href="http://localhost:1313/tags/vol-surface/">Vol Surface <sup><strong><sup>1</sup></strong></sup> </a>
     </li>
 </ul>
     </main>
     
 <footer class="footer">
-        <span>&copy; 2026 <a href="http://localhost:1313/">Inflection Quant Solutions</a></span> · 
+        <span>&copy; 2026 <a href="http://localhost:1313/">Inflection Quant Lab</a></span> · 
 
     <span>
         Powered by
@@ -221,15 +269,21 @@
 
 
   <script>
-window.MathJax = {
-  tex: {
-    inlineMath: [['$', '$'], ['\\(', '\\)']],
-    displayMath: [['$$','$$'], ['\\[','\\]']]
-  }
-};
+document.addEventListener("DOMContentLoaded", function() {
+  window.MathJax = {
+    tex: {
+      packages: ['base', 'ams'],
+      inlineMath: [['$', '$'], ['\\(', '\\)']],
+      displayMath: [['$$','$$'], ['\\[','\\]']]
+    },
+    options: {skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']}
+  };
+  var script = document.createElement("script");
+  script.src = "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js";
+  script.defer = true;
+  document.body.appendChild(script);
+});
 </script>
-
-<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
 
 </body>
 

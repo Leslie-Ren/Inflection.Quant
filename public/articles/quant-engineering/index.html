@@ -5,9 +5,9 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="noindex, nofollow">
-<title>Quant Engineering | Inflection Quant Solutions</title>
+<title>Quant Engineering | Inflection Quant Lab</title>
 <meta name="keywords" content="">
-<meta name="description" content="Quant Engineering - Inflection Quant Solutions">
+<meta name="description" content="Quant Engineering - Inflection Quant Lab">
 <meta name="author" content="">
 <link rel="canonical" href="http://localhost:1313/articles/quant-engineering/">
 <link crossorigin="anonymous" href="../../assets/css/stylesheet.199042e659bc7245f5609d333d6c044eb554a0640849bb874e1dff8eb0f57209.css" integrity="sha256-GZBC5lm8ckX1YJ0zPWwETrVUoGQISbuHTh3/jrD1cgk=" rel="preload stylesheet" as="style">
@@ -71,13 +71,28 @@
         document.querySelector("html").dataset.theme = 'light';
     }
 
+</script><script>
+document.addEventListener("DOMContentLoaded", function() {
+  window.MathJax = {
+    tex: {
+      packages: ['base', 'ams'],
+      inlineMath: [['$', '$'], ['\\(', '\\)']],
+      displayMath: [['$$','$$'], ['\\[','\\]']]
+    },
+    options: {skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']}
+  };
+  var script = document.createElement("script");
+  script.src = "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js";
+  script.defer = true;
+  document.body.appendChild(script);
+});
 </script>
 </head>
 <body class="list" id="top">
     <header class="header">
     <nav class="nav">
         <div class="logo">
-            <a href="http://localhost:1313/" accesskey="h" title="Inflection Quant Solutions (Alt + H)">Inflection Quant Solutions</a>
+            <a href="http://localhost:1313/" accesskey="h" title="Inflection Quant Lab (Alt + H)">Inflection Quant Lab</a>
             <div class="logo-switches">
                 <button id="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
                     <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
@@ -119,6 +134,20 @@
 
 <article class="post-entry"> 
   <header class="entry-header">
+    <h2 class="entry-hint-parent">Calibrating Market-Consistent Volatility Surfaces: A Practical Guide for Traders and Quants
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>Calibrating the Black‑Scholes Implied Volatility Surface A practitioner’s guide to extracting, cleaning, and fitting a market-consistent vol surface from exchange-traded European index options — from raw tick data to a tradeable surface.
+Modeling &#43; Implementation · SPX / EURO STOXX 50 · European-style · ~3,200 words Contents The implied vol framework Data sourcing and cleaning Computing implied vols from market prices Surface parameterization: SVI and SSVI Fitting the surface: loss functions and optimization Arbitrage constraints and validation Interpolation and practical output
+...</p>
+  </div>
+  <footer class="entry-footer"><span title='2026-04-07 00:00:00 +0000 UTC'>April 7, 2026</span></footer>
+  <a class="entry-link" aria-label="post link to Calibrating Market-Consistent Volatility Surfaces: A Practical Guide for Traders and Quants" href="http://localhost:1313/articles/quant-engineering/vol_surface_calibration/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
     <h2 class="entry-hint-parent">From Investment Strategies to Production: High-Level Guidelines for Cross-Asset QIS
     </h2>
   </header>
@@ -133,7 +162,7 @@ This article provides a high-level overview of the workflow, requirements, and g
     </main>
     
 <footer class="footer">
-        <span>&copy; 2026 <a href="http://localhost:1313/">Inflection Quant Solutions</a></span> · 
+        <span>&copy; 2026 <a href="http://localhost:1313/">Inflection Quant Lab</a></span> · 
 
     <span>
         Powered by
@@ -210,15 +239,21 @@ This article provides a high-level overview of the workflow, requirements, and g
 
 
   <script>
-window.MathJax = {
-  tex: {
-    inlineMath: [['$', '$'], ['\\(', '\\)']],
-    displayMath: [['$$','$$'], ['\\[','\\]']]
-  }
-};
+document.addEventListener("DOMContentLoaded", function() {
+  window.MathJax = {
+    tex: {
+      packages: ['base', 'ams'],
+      inlineMath: [['$', '$'], ['\\(', '\\)']],
+      displayMath: [['$$','$$'], ['\\[','\\]']]
+    },
+    options: {skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']}
+  };
+  var script = document.createElement("script");
+  script.src = "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js";
+  script.defer = true;
+  document.body.appendChild(script);
+});
 </script>
-
-<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
 
 </body>
 

@@ -71,7 +71,17 @@
         document.querySelector("html").dataset.theme = 'light';
     }
 
+</script><script>
+window.MathJax = {
+  tex: {
+    packages: ['base', 'ams'],   
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$','$$'], ['\\[','\\]']]
+  }
+};
 </script>
+
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
 </head>
 <body class="list" id="top">
     <header class="header">
@@ -212,13 +222,14 @@ Physical Motivation The story starts with Robert Brown, who in 1827 observed pol
   <script>
 window.MathJax = {
   tex: {
+    packages: ['base', 'ams'],   
     inlineMath: [['$', '$'], ['\\(', '\\)']],
     displayMath: [['$$','$$'], ['\\[','\\]']]
   }
 };
 </script>
 
-<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
 
 </body>
 

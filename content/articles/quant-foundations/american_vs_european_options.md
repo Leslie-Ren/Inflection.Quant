@@ -8,7 +8,7 @@ tags: ["American Option", "European Option", "Put-Call Parity", "Black–Scholes
 
 ## Why This Matters
 
-While practitioners price American puts correctly in production systems, the deeper question of *why* early exercise is sometimes optimal — and the precise conditions under which it occurs — is less often articulated rigorously. This article works through the argument carefully, starting with why early exercise is never optimal for calls, and then showing — using the Black–Scholes PDE — when and why it becomes mandatory for puts.
+While practitioners price American puts correctly in production systems, the deeper question of *why* early exercise is sometimes optimal, and the precise conditions under which it occurs, is less often articulated rigorously. This article works through the argument, starting with why early exercise is never optimal for calls, and then showing, using the Black–Scholes PDE, when and why it becomes mandatory for puts.
 
 For those working with options pricing, hedging, or products with embedded American optionality, a rigorous understanding of the early exercise boundary can offer useful intuition beyond what standard pricing tools provide.
 
@@ -50,8 +50,8 @@ Since the stock pays no dividends, there is no economic benefit to holding the s
 
 ### When This Breaks Down
 
-The result changes if the stock pays dividends. Dividends reduce the stock price on the ex-dividend date, and option holders do not receive dividends. Exercising just before a dividend can therefore be advantageous — the early exercise premium becomes 
-positive, and the American call is worth strictly more than its European counterpart.
+The result changes if the stock pays dividends. Dividends reduce the stock price on the ex-dividend date, and option holders do not receive dividends. Exercising just before a dividend can therefore be advantageous sometimes — the early exercise premium becomes 
+positive, and the American call is worth more than its European counterpart.
 
 ---
 
@@ -91,16 +91,19 @@ low enough that the time value of waiting no longer justifies the interest cost.
 ## The Black–Scholes PDE Perspective
 
 The Black–Scholes framework gives a precise, formal account of why early exercise 
-becomes mandatory. Under the Black–Scholes assumptions, any derivative $P(S,t)$ on 
+becomes optimal. Under the Black–Scholes assumptions, any derivative $P(S,t)$ on 
 a non-dividend-paying stock satisfies the PDE:
 
-$$
+<div>
+\[
 \underbrace{\frac{\partial P}{\partial t}}_{\text{Time Decay}}
 + \underbrace{\frac{1}{2}\sigma^2 S^2 \frac{\partial^2 P}{\partial S^2}}_{\text{Convexity Gain (Gamma)}}
 + \underbrace{rS\frac{\partial P}{\partial S}}_{\text{Drift of Underlying}}
 - \underbrace{rP}_{\text{Carry Cost}}
 = 0
-$$
+\]
+</div>
+
 
 This PDE is derived by constructing a delta-hedged portfolio and requiring that its 
 value grows at the risk-free rate under no-arbitrage. Each term has a financial meaning:
@@ -189,6 +192,3 @@ with a partial delta will be systematically underhedged.
 model risk that can be material in high rate environments.
 
 ---
-
-
-!!think about the binomial tree, is it possible to exercise on j but not exerice on j+1

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Convergent Rate on Inflection Quant Solutions</title>
+    <link>http://localhost:1313/tags/convergent-rate/</link>
+    <description>Recent content in Convergent Rate on Inflection Quant Solutions</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 09 Apr 2026 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/convergent-rate/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Solving for Implied Volatility: Newton&#39;s Method vs Brent&#39;s Method</title>
+      <link>http://localhost:1313/articles/quant-foundations/newton_vs_brent_vol_solver/</link>
+      <pubDate>Thu, 09 Apr 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/articles/quant-foundations/newton_vs_brent_vol_solver/</guid>
+      <description>&lt;h2 id=&#34;why-this-matters&#34;&gt;Why This Matters&lt;/h2&gt;
+&lt;p&gt;Computing implied volatility reliably is harder than it looks. The Black–Scholes inversion has no closed-form solution, and the numerical methods that work well in textbook examples can fail silently in production — on deep OTM strikes, short-dated contracts, or anywhere vega is small and the pricing error is poorly conditioned. A solver that converges in 3 iterations on a liquid ATM option may oscillate or diverge entirely on a 5-delta wing.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

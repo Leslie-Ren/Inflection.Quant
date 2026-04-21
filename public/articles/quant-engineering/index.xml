@@ -1,13 +1,34 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>Quant Engineering on Inflection Quant Solutions</title>
+    <title>Quant Engineering on Inflection Quant Lab</title>
     <link>http://localhost:1313/articles/quant-engineering/</link>
-    <description>Recent content in Quant Engineering on Inflection Quant Solutions</description>
+    <description>Recent content in Quant Engineering on Inflection Quant Lab</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 27 Mar 2026 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 07 Apr 2026 00:00:00 +0000</lastBuildDate>
     <atom:link href="http://localhost:1313/articles/quant-engineering/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Calibrating Market-Consistent Volatility Surfaces: A Practical Guide for Traders and Quants</title>
+      <link>http://localhost:1313/articles/quant-engineering/vol_surface_calibration/</link>
+      <pubDate>Tue, 07 Apr 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/articles/quant-engineering/vol_surface_calibration/</guid>
+      <description>&lt;p&gt;Calibrating the Black‑Scholes Implied Volatility Surface
+A practitioner&amp;rsquo;s guide to extracting, cleaning, and fitting a market-consistent vol surface from exchange-traded European index options — from raw tick data to a tradeable surface.&lt;/p&gt;
+&lt;p&gt;Modeling + Implementation
+·
+SPX / EURO STOXX 50 · European-style
+·
+~3,200 words
+Contents
+The implied vol framework
+Data sourcing and cleaning
+Computing implied vols from market prices
+Surface parameterization: SVI and SSVI
+Fitting the surface: loss functions and optimization
+Arbitrage constraints and validation
+Interpolation and practical output&lt;/p&gt;</description>
+    </item>
     <item>
       <title>From Investment Strategies to Production: High-Level Guidelines for Cross-Asset QIS</title>
       <link>http://localhost:1313/articles/quant-engineering/qis_infra_guidelines/</link>

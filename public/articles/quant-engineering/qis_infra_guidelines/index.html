@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="noindex, nofollow">
-<title>From Investment Strategies to Production: High-Level Guidelines for Cross-Asset QIS | Inflection Quant Solutions</title>
+<title>From Investment Strategies to Production: High-Level Guidelines for Cross-Asset QIS | Inflection Quant Lab</title>
 <meta name="keywords" content="QIS, Infrastructure">
 <meta name="description" content="Banks build cross-asset quantitative investment strategies (QIS) to capture opportunities across multiple markets and deliver systematic, data-driven investment outcomes. Clients like these strategies because they are highly customizable, provide transparent, rule-based exposures across asset classes, and offer measurable performance and risk profiles.
 This article provides a high-level overview of the workflow, requirements, and guidelines for building production-grade cross-asset QIS infrastructure. A separate article will cover specific challenges and practical solutions encountered in implementation.">
@@ -71,13 +71,28 @@ This article provides a high-level overview of the workflow, requirements, and g
         document.querySelector("html").dataset.theme = 'light';
     }
 
+</script><script>
+document.addEventListener("DOMContentLoaded", function() {
+  window.MathJax = {
+    tex: {
+      packages: ['base', 'ams'],
+      inlineMath: [['$', '$'], ['\\(', '\\)']],
+      displayMath: [['$$','$$'], ['\\[','\\]']]
+    },
+    options: {skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']}
+  };
+  var script = document.createElement("script");
+  script.src = "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js";
+  script.defer = true;
+  document.body.appendChild(script);
+});
 </script>
 </head>
 <body id="top">
     <header class="header">
     <nav class="nav">
         <div class="logo">
-            <a href="http://localhost:1313/" accesskey="h" title="Inflection Quant Solutions (Alt + H)">Inflection Quant Solutions</a>
+            <a href="http://localhost:1313/" accesskey="h" title="Inflection Quant Lab (Alt + H)">Inflection Quant Lab</a>
             <div class="logo-switches">
                 <button id="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
                     <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
@@ -169,7 +184,7 @@ This article provides a high-level overview of the workflow, requirements, and g
   <a class="next" href="http://localhost:1313/articles/quant-foundations/understanding_brownian_motion/">
     <span class="title">Next »</span>
     <br>
-    <span>Understanding Brownian Motion: Why Variance Grows Linearly in Time</span>
+    <span>Brownian Motion: From Random Walks to Option Prices</span>
   </a>
 </nav>
 
@@ -246,7 +261,7 @@ This article provides a high-level overview of the workflow, requirements, and g
     </main>
     
 <footer class="footer">
-        <span>&copy; 2026 <a href="http://localhost:1313/">Inflection Quant Solutions</a></span> · 
+        <span>&copy; 2026 <a href="http://localhost:1313/">Inflection Quant Lab</a></span> · 
 
     <span>
         Powered by
@@ -323,15 +338,21 @@ This article provides a high-level overview of the workflow, requirements, and g
 
 
   <script>
-window.MathJax = {
-  tex: {
-    inlineMath: [['$', '$'], ['\\(', '\\)']],
-    displayMath: [['$$','$$'], ['\\[','\\]']]
-  }
-};
+document.addEventListener("DOMContentLoaded", function() {
+  window.MathJax = {
+    tex: {
+      packages: ['base', 'ams'],
+      inlineMath: [['$', '$'], ['\\(', '\\)']],
+      displayMath: [['$$','$$'], ['\\[','\\]']]
+    },
+    options: {skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']}
+  };
+  var script = document.createElement("script");
+  script.src = "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js";
+  script.defer = true;
+  document.body.appendChild(script);
+});
 </script>
-
-<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
 
 </body>
 

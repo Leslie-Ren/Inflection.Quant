@@ -5,7 +5,7 @@ relativeURLs = true
 canonifyURLs = false
 
 languageCode = "en-us"
-title = "Inflection Quant Solutions"
+title = "Inflection Quant Lab"
 theme = "PaperMod"
 
 [params]
@@ -17,6 +17,9 @@ theme = "PaperMod"
   ShowShareButtons = true
   ShowPostNavLinks = true
   ShowBreadCrumbs = true
+
+[markup.goldmark.renderer]
+  unsafe = true
 
 [menu]
 [[menu.main]]
