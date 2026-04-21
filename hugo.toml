@@ -18,7 +18,6 @@ theme = "PaperMod"
   ShowShareButtons = true
   ShowPostNavLinks = true
   ShowBreadCrumbs = true
-  googleSiteVerification = "of2Pz27K05bYIg57IYeeBpTRO7kneF7_0SNINDKhJCk" 
 
 
 [markup.goldmark.renderer]
