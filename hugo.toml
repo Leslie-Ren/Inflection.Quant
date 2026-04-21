@@ -1,6 +1,6 @@
 
-# baseURL = "https://leslie-ren.github.io/Inflection.Quant/"
-baseURL = "https://yourusername.github.io/"
+# baseURL = "/"
+# baseURL = "https://yourusername.github.io/"
 relativeURLs = true
 canonifyURLs = false
 
