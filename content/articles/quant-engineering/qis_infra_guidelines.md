@@ -1,7 +1,7 @@
 ---
 title: "From Investment Strategies to Production: High-Level Guidelines for Cross-Asset QIS"
 date: 2026-03-27
-draft: false
+draft: true
 math: true
 tags: ["QIS", "Infrastructure"]
 ---

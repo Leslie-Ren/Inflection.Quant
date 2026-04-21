@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Quant Fundamentals on Inflection Quant Lab</title>
-    <link>//localhost:1313/articles/quant-foundations/</link>
+    <link>http://localhost:1313/articles/quant-foundations/</link>
     <description>Recent content in Quant Fundamentals on Inflection Quant Lab</description>
     <generator>Hugo</generator>
     <language>en-us</language>
     <lastBuildDate>Thu, 16 Apr 2026 00:00:00 +0000</lastBuildDate>
-    <atom:link href="//localhost:1313/articles/quant-foundations/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/articles/quant-foundations/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>From Option Prices to the Shape of Returns: A Model-Free Construction of Volatility, Skewness and Kurtosis</title>
-      <link>//localhost:1313/articles/quant-foundations/vol_skewness_kurtosis/</link>
+      <link>http://localhost:1313/articles/quant-foundations/vol_skewness_kurtosis/</link>
       <pubDate>Thu, 16 Apr 2026 00:00:00 +0000</pubDate>
-      <guid>//localhost:1313/articles/quant-foundations/vol_skewness_kurtosis/</guid>
+      <guid>http://localhost:1313/articles/quant-foundations/vol_skewness_kurtosis/</guid>
       <description>&lt;h2 id=&#34;why-this-matters&#34;&gt;Why This Matters&lt;/h2&gt;
 &lt;p&gt;Most of my early intuition about options came from the Black-Scholes model, which is
 clean and widely used. But once I started working with real option data, it becomes
@@ -30,26 +30,26 @@ replication.&lt;/p&gt;</description>
     </item>
     <item>
       <title>Solving for Implied Volatility: Newton&#39;s Method vs Brent&#39;s Method</title>
-      <link>//localhost:1313/articles/quant-foundations/newton_vs_brent_vol_solver/</link>
+      <link>http://localhost:1313/articles/quant-foundations/newton_vs_brent_vol_solver/</link>
       <pubDate>Thu, 09 Apr 2026 00:00:00 +0000</pubDate>
-      <guid>//localhost:1313/articles/quant-foundations/newton_vs_brent_vol_solver/</guid>
+      <guid>http://localhost:1313/articles/quant-foundations/newton_vs_brent_vol_solver/</guid>
       <description>&lt;h2 id=&#34;why-this-matters&#34;&gt;Why This Matters&lt;/h2&gt;
 &lt;p&gt;I started writing about calibrating a full volatility surface and realised it first requires a clear understanding of a simpler problem: solving for implied vol from a single option price. At its core, this is a root-finding problem: given a market price, we need to find the volatility that makes the model match that price. Once framed this way, the question becomes how to solve this nonlinear problem efficiently and reliably.&lt;/p&gt;</description>
     </item>
     <item>
       <title>Early Exercise of American Options: Call Equivalence and the Put Premium</title>
-      <link>//localhost:1313/articles/quant-foundations/american_vs_european_options/</link>
+      <link>http://localhost:1313/articles/quant-foundations/american_vs_european_options/</link>
       <pubDate>Fri, 03 Apr 2026 00:00:00 +0000</pubDate>
-      <guid>//localhost:1313/articles/quant-foundations/american_vs_european_options/</guid>
+      <guid>http://localhost:1313/articles/quant-foundations/american_vs_european_options/</guid>
       <description>&lt;h2 id=&#34;why-this-matters&#34;&gt;Why This Matters&lt;/h2&gt;
 &lt;p&gt;While practitioners price American puts correctly in production systems, the deeper question of &lt;em&gt;why&lt;/em&gt; early exercise is sometimes optimal, and the precise conditions under which it occurs, is less often articulated rigorously. This article works through the argument, starting with why early exercise is never optimal for calls, and then showing, using the Black–Scholes PDE, when and why it becomes mandatory for puts.&lt;/p&gt;
 &lt;p&gt;For those working with options pricing, hedging, or products with embedded American optionality, a rigorous understanding of the early exercise boundary can offer useful intuition beyond what standard pricing tools provide.&lt;/p&gt;</description>
     </item>
     <item>
       <title>Brownian Motion: From Random Walks to Option Prices</title>
-      <link>//localhost:1313/articles/quant-foundations/understanding_brownian_motion/</link>
+      <link>http://localhost:1313/articles/quant-foundations/understanding_brownian_motion/</link>
       <pubDate>Thu, 26 Mar 2026 00:00:00 +0000</pubDate>
-      <guid>//localhost:1313/articles/quant-foundations/understanding_brownian_motion/</guid>
+      <guid>http://localhost:1313/articles/quant-foundations/understanding_brownian_motion/</guid>
       <description>&lt;h2 id=&#34;why-this-matters&#34;&gt;Why This Matters&lt;/h2&gt;
 &lt;p&gt;Brownian motion, the mathematical model underlying everything from stock prices to heat diffusion, has one of its most elegant properties: the variance of its position at time $t$ grows linearly with time. Not $t^2$, not $\sqrt{t}$, but exactly $t$. This seemingly abstract fact has a concrete consequence in financial markets: under the idealised conditions of an at-the-money option with zero rates, it is precisely why option prices scale with $\sqrt{T}$ rather than $T$, a direct fingerprint of Brownian motion inside Black-Scholes. Understanding why requires looking at both &lt;strong&gt;physical observations&lt;/strong&gt; and the &lt;strong&gt;mathematical construction&lt;/strong&gt; of Brownian motion.&lt;/p&gt;</description>
     </item>

@@ -1,7 +1,7 @@
 ---
 title: "Calibrating Market-Consistent Volatility Surfaces: A Practical Guide for Traders and Quants"
 date: 2026-04-07
-draft: false
+draft: true
 math: true
 tags: ["Vol Surface","Exchange-traded Options","Black-Scholes"]
 ---
