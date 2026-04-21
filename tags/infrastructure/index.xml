@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Infrastructure on Inflection Quant Lab</title>
-    <link>https://leslie-ren.github.io/Inflection.Quant/tags/infrastructure/</link>
+    <link>http://localhost:1313/tags/infrastructure/</link>
     <description>Recent content in Infrastructure on Inflection Quant Lab</description>
     <generator>Hugo</generator>
     <language>en-us</language>
     <lastBuildDate>Fri, 27 Mar 2026 00:00:00 +0000</lastBuildDate>
-    <atom:link href="https://leslie-ren.github.io/Inflection.Quant/tags/infrastructure/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/tags/infrastructure/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>From Investment Strategies to Production: High-Level Guidelines for Cross-Asset QIS</title>
-      <link>https://leslie-ren.github.io/Inflection.Quant/articles/quant-engineering/qis_infra_guidelines/</link>
+      <link>http://localhost:1313/articles/quant-engineering/qis_infra_guidelines/</link>
       <pubDate>Fri, 27 Mar 2026 00:00:00 +0000</pubDate>
-      <guid>https://leslie-ren.github.io/Inflection.Quant/articles/quant-engineering/qis_infra_guidelines/</guid>
+      <guid>http://localhost:1313/articles/quant-engineering/qis_infra_guidelines/</guid>
       <description>&lt;p&gt;Banks build cross-asset quantitative investment strategies (QIS) to capture opportunities across multiple markets and deliver systematic, data-driven investment outcomes. Clients like these strategies because they are highly customizable, provide transparent, rule-based exposures across asset classes, and offer measurable performance and risk profiles.&lt;/p&gt;
 &lt;p&gt;This article provides a high-level overview of the &lt;strong&gt;workflow, requirements, and guidelines&lt;/strong&gt; for building production-grade cross-asset QIS infrastructure. A separate article will cover &lt;strong&gt;specific challenges and practical solutions&lt;/strong&gt; encountered in implementation.&lt;/p&gt;</description>
     </item>

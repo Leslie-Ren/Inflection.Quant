@@ -59,21 +59,6 @@
     <loc>https://leslie-ren.github.io/Inflection.Quant/articles/quant-foundations/newton_vs_brent_vol_solver/</loc>
     <lastmod>2026-04-09T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://leslie-ren.github.io/Inflection.Quant/tags/black-scholes/</loc>
-    <lastmod>2026-04-07T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://leslie-ren.github.io/Inflection.Quant/articles/quant-engineering/vol_surface_calibration/</loc>
-    <lastmod>2026-04-07T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://leslie-ren.github.io/Inflection.Quant/tags/exchange-traded-options/</loc>
-    <lastmod>2026-04-07T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://leslie-ren.github.io/Inflection.Quant/articles/quant-engineering/</loc>
-    <lastmod>2026-04-07T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://leslie-ren.github.io/Inflection.Quant/tags/vol-surface/</loc>
-    <lastmod>2026-04-07T00:00:00+00:00</lastmod>
-  </url><url>
     <loc>https://leslie-ren.github.io/Inflection.Quant/tags/american-option/</loc>
     <lastmod>2026-04-03T00:00:00+00:00</lastmod>
   </url><url>
@@ -88,15 +73,6 @@
   </url><url>
     <loc>https://leslie-ren.github.io/Inflection.Quant/tags/put-call-parity/</loc>
     <lastmod>2026-04-03T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://leslie-ren.github.io/Inflection.Quant/articles/quant-engineering/qis_infra_guidelines/</loc>
-    <lastmod>2026-03-27T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://leslie-ren.github.io/Inflection.Quant/tags/infrastructure/</loc>
-    <lastmod>2026-03-27T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://leslie-ren.github.io/Inflection.Quant/tags/qis/</loc>
-    <lastmod>2026-03-27T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://leslie-ren.github.io/Inflection.Quant/tags/brennersubrahmanyam-approximation/</loc>
     <lastmod>2026-03-26T00:00:00+00:00</lastmod>
@@ -113,6 +89,10 @@
     <loc>https://leslie-ren.github.io/Inflection.Quant/tags/random-walk/</loc>
     <lastmod>2026-03-26T00:00:00+00:00</lastmod>
   </url><url>
+    <loc>https://leslie-ren.github.io/Inflection.Quant/_index_consulting_version/</loc>
+  </url><url>
     <loc>https://leslie-ren.github.io/Inflection.Quant/categories/</loc>
+  </url><url>
+    <loc>https://leslie-ren.github.io/Inflection.Quant/articles/quant-engineering/</loc>
   </url>
 </urlset>

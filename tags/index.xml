@@ -100,27 +100,6 @@
       <description></description>
     </item>
     <item>
-      <title>Black-Scholes</title>
-      <link>https://leslie-ren.github.io/Inflection.Quant/tags/black-scholes/</link>
-      <pubDate>Tue, 07 Apr 2026 00:00:00 +0000</pubDate>
-      <guid>https://leslie-ren.github.io/Inflection.Quant/tags/black-scholes/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Exchange-Traded Options</title>
-      <link>https://leslie-ren.github.io/Inflection.Quant/tags/exchange-traded-options/</link>
-      <pubDate>Tue, 07 Apr 2026 00:00:00 +0000</pubDate>
-      <guid>https://leslie-ren.github.io/Inflection.Quant/tags/exchange-traded-options/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Vol Surface</title>
-      <link>https://leslie-ren.github.io/Inflection.Quant/tags/vol-surface/</link>
-      <pubDate>Tue, 07 Apr 2026 00:00:00 +0000</pubDate>
-      <guid>https://leslie-ren.github.io/Inflection.Quant/tags/vol-surface/</guid>
-      <description></description>
-    </item>
-    <item>
       <title>American Option</title>
       <link>https://leslie-ren.github.io/Inflection.Quant/tags/american-option/</link>
       <pubDate>Fri, 03 Apr 2026 00:00:00 +0000</pubDate>
@@ -146,20 +125,6 @@
       <link>https://leslie-ren.github.io/Inflection.Quant/tags/put-call-parity/</link>
       <pubDate>Fri, 03 Apr 2026 00:00:00 +0000</pubDate>
       <guid>https://leslie-ren.github.io/Inflection.Quant/tags/put-call-parity/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Infrastructure</title>
-      <link>https://leslie-ren.github.io/Inflection.Quant/tags/infrastructure/</link>
-      <pubDate>Fri, 27 Mar 2026 00:00:00 +0000</pubDate>
-      <guid>https://leslie-ren.github.io/Inflection.Quant/tags/infrastructure/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>QIS</title>
-      <link>https://leslie-ren.github.io/Inflection.Quant/tags/qis/</link>
-      <pubDate>Fri, 27 Mar 2026 00:00:00 +0000</pubDate>
-      <guid>https://leslie-ren.github.io/Inflection.Quant/tags/qis/</guid>
       <description></description>
     </item>
     <item>

@@ -37,27 +37,6 @@ replication.&lt;/p&gt;</description>
 &lt;p&gt;I started writing about calibrating a full volatility surface and realised it first requires a clear understanding of a simpler problem: solving for implied vol from a single option price. At its core, this is a root-finding problem: given a market price, we need to find the volatility that makes the model match that price. Once framed this way, the question becomes how to solve this nonlinear problem efficiently and reliably.&lt;/p&gt;</description>
     </item>
     <item>
-      <title>Calibrating Market-Consistent Volatility Surfaces: A Practical Guide for Traders and Quants</title>
-      <link>https://leslie-ren.github.io/Inflection.Quant/articles/quant-engineering/vol_surface_calibration/</link>
-      <pubDate>Tue, 07 Apr 2026 00:00:00 +0000</pubDate>
-      <guid>https://leslie-ren.github.io/Inflection.Quant/articles/quant-engineering/vol_surface_calibration/</guid>
-      <description>&lt;p&gt;Calibrating the Black‑Scholes Implied Volatility Surface
-A practitioner&amp;rsquo;s guide to extracting, cleaning, and fitting a market-consistent vol surface from exchange-traded European index options — from raw tick data to a tradeable surface.&lt;/p&gt;
-&lt;p&gt;Modeling + Implementation
-·
-SPX / EURO STOXX 50 · European-style
-·
-~3,200 words
-Contents
-The implied vol framework
-Data sourcing and cleaning
-Computing implied vols from market prices
-Surface parameterization: SVI and SSVI
-Fitting the surface: loss functions and optimization
-Arbitrage constraints and validation
-Interpolation and practical output&lt;/p&gt;</description>
-    </item>
-    <item>
       <title>Early Exercise of American Options: Call Equivalence and the Put Premium</title>
       <link>https://leslie-ren.github.io/Inflection.Quant/articles/quant-foundations/american_vs_european_options/</link>
       <pubDate>Fri, 03 Apr 2026 00:00:00 +0000</pubDate>
@@ -67,20 +46,23 @@ Interpolation and practical output&lt;/p&gt;</description>
 &lt;p&gt;For those working with options pricing, hedging, or products with embedded American optionality, a rigorous understanding of the early exercise boundary can offer useful intuition beyond what standard pricing tools provide.&lt;/p&gt;</description>
     </item>
     <item>
-      <title>From Investment Strategies to Production: High-Level Guidelines for Cross-Asset QIS</title>
-      <link>https://leslie-ren.github.io/Inflection.Quant/articles/quant-engineering/qis_infra_guidelines/</link>
-      <pubDate>Fri, 27 Mar 2026 00:00:00 +0000</pubDate>
-      <guid>https://leslie-ren.github.io/Inflection.Quant/articles/quant-engineering/qis_infra_guidelines/</guid>
-      <description>&lt;p&gt;Banks build cross-asset quantitative investment strategies (QIS) to capture opportunities across multiple markets and deliver systematic, data-driven investment outcomes. Clients like these strategies because they are highly customizable, provide transparent, rule-based exposures across asset classes, and offer measurable performance and risk profiles.&lt;/p&gt;
-&lt;p&gt;This article provides a high-level overview of the &lt;strong&gt;workflow, requirements, and guidelines&lt;/strong&gt; for building production-grade cross-asset QIS infrastructure. A separate article will cover &lt;strong&gt;specific challenges and practical solutions&lt;/strong&gt; encountered in implementation.&lt;/p&gt;</description>
-    </item>
-    <item>
       <title>Brownian Motion: From Random Walks to Option Prices</title>
       <link>https://leslie-ren.github.io/Inflection.Quant/articles/quant-foundations/understanding_brownian_motion/</link>
       <pubDate>Thu, 26 Mar 2026 00:00:00 +0000</pubDate>
       <guid>https://leslie-ren.github.io/Inflection.Quant/articles/quant-foundations/understanding_brownian_motion/</guid>
       <description>&lt;h2 id=&#34;why-this-matters&#34;&gt;Why This Matters&lt;/h2&gt;
 &lt;p&gt;Brownian motion, the mathematical model underlying everything from stock prices to heat diffusion, has one of its most elegant properties: the variance of its position at time $t$ grows linearly with time. Not $t^2$, not $\sqrt{t}$, but exactly $t$. This seemingly abstract fact has a concrete consequence in financial markets: under the idealised conditions of an at-the-money option with zero rates, it is precisely why option prices scale with $\sqrt{T}$ rather than $T$, a direct fingerprint of Brownian motion inside Black-Scholes. Understanding why requires looking at both &lt;strong&gt;physical observations&lt;/strong&gt; and the &lt;strong&gt;mathematical construction&lt;/strong&gt; of Brownian motion.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title></title>
+      <link>https://leslie-ren.github.io/Inflection.Quant/_index_consulting_version/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://leslie-ren.github.io/Inflection.Quant/_index_consulting_version/</guid>
+      <description>&lt;p&gt;&lt;strong&gt;From Quant Insights to Real-World Solutions&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;I help trading desks and quant teams tackle complex problems by designing models, frameworks, and tools that deliver measurable business impact. My work spans derivative pricing, risk management, and translating models into production systems, bridging the gap between quantitative ideas and their execution in live trading and risk environments.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;what-i-do&#34;&gt;What I Do&lt;/h2&gt;
+&lt;p&gt;Many quant ideas are conceptually strong but challenging to implement in practice. I focus on solving real-world problems that have tangible business impact, turning models into usable tools and solutions. I enjoy diving into the details of implementation, because the process often uncovers practical insights that make the final solution more robust and effective.&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>
