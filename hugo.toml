@@ -1,5 +1,5 @@
 
-# baseURL = "/"
+baseURL = "/"
 # baseURL = "https://yourusername.github.io/"
 relativeURLs = true
 canonifyURLs = false
