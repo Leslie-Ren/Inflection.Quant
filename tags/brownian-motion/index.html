@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
-<title>Brownian Motion | Inflection Quant Solutions</title>
+<title>Brownian Motion | Inflection Quant Lab</title>
 <meta name="keywords" content="">
 <meta name="description" content="">
 <meta name="author" content="">
@@ -71,8 +71,23 @@
         document.querySelector("html").dataset.theme = 'light';
     }
 
+</script><script>
+document.addEventListener("DOMContentLoaded", function() {
+  window.MathJax = {
+    tex: {
+      packages: ['base', 'ams'],
+      inlineMath: [['$', '$'], ['\\(', '\\)']],
+      displayMath: [['$$','$$'], ['\\[','\\]']]
+    },
+    options: {skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']}
+  };
+  var script = document.createElement("script");
+  script.src = "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js";
+  script.defer = true;
+  document.body.appendChild(script);
+});
 </script><meta property="og:url" content="https://leslie-ren.github.io/Inflection.Quant/tags/brownian-motion/">
-  <meta property="og:site_name" content="Inflection Quant Solutions">
+  <meta property="og:site_name" content="Inflection Quant Lab">
   <meta property="og:title" content="Brownian Motion">
   <meta property="og:locale" content="en_us">
   <meta property="og:type" content="website">
@@ -85,7 +100,7 @@
     <header class="header">
     <nav class="nav">
         <div class="logo">
-            <a href="https://leslie-ren.github.io/Inflection.Quant/" accesskey="h" title="Inflection Quant Solutions (Alt + H)">Inflection Quant Solutions</a>
+            <a href="https://leslie-ren.github.io/Inflection.Quant/" accesskey="h" title="Inflection Quant Lab (Alt + H)">Inflection Quant Lab</a>
             <div class="logo-switches">
                 <button id="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
                     <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
@@ -127,21 +142,20 @@
 
 <article class="post-entry tag-entry"> 
   <header class="entry-header">
-    <h2 class="entry-hint-parent">Understanding Brownian Motion: Why Variance Grows Linearly in Time
+    <h2 class="entry-hint-parent">Brownian Motion: From Random Walks to Option Prices
     </h2>
   </header>
   <div class="entry-content">
-    <p>Brownian motion — the mathematical model behind everything from stock prices to the way heat spreads — has a surprisingly elegant property: the variance of a particle’s position at time $t$ grows linearly with time. Not $t^2$, not $\sqrt{t}$, but exactly $t$. At first glance, this might seem like a purely mathematical choice, but it actually comes from both physical observations and mathematical construction.
-Physical Motivation The story starts with Robert Brown, who in 1827 observed pollen grains jittering randomly in water. The motion seemed erratic, almost chaotic. Decades later, Einstein (1905) made this quantitative, showing that a particle’s mean squared displacement (MSD) grows in proportion to time:
+    <p>Why This Matters Brownian motion, the mathematical model underlying everything from stock prices to heat diffusion, has one of its most elegant properties: the variance of its position at time $t$ grows linearly with time. Not $t^2$, not $\sqrt{t}$, but exactly $t$. This seemingly abstract fact has a concrete consequence in financial markets: under the idealised conditions of an at-the-money option with zero rates, it is precisely why option prices scale with $\sqrt{T}$ rather than $T$, a direct fingerprint of Brownian motion inside Black-Scholes. Understanding why requires looking at both physical observations and the mathematical construction of Brownian motion.
 ...</p>
   </div>
   <footer class="entry-footer"><span title='2026-03-26 00:00:00 +0000 UTC'>March 26, 2026</span></footer>
-  <a class="entry-link" aria-label="post link to Understanding Brownian Motion: Why Variance Grows Linearly in Time" href="https://leslie-ren.github.io/Inflection.Quant/articles/quant-foundations/understanding_brownian_motion/"></a>
+  <a class="entry-link" aria-label="post link to Brownian Motion: From Random Walks to Option Prices" href="https://leslie-ren.github.io/Inflection.Quant/articles/quant-foundations/understanding_brownian_motion/"></a>
 </article>
     </main>
     
 <footer class="footer">
-        <span>&copy; 2026 <a href="https://leslie-ren.github.io/Inflection.Quant/">Inflection Quant Solutions</a></span> · 
+        <span>&copy; 2026 <a href="https://leslie-ren.github.io/Inflection.Quant/">Inflection Quant Lab</a></span> · 
 
     <span>
         Powered by

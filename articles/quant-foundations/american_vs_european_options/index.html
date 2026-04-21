@@ -5,10 +5,11 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
-<title>Early Exercise of American Options: Call Equivalence and the Put Premium | Inflection Quant Solutions</title>
+<title>Early Exercise of American Options: Call Equivalence and the Put Premium | Inflection Quant Lab</title>
 <meta name="keywords" content="American Option, European Option, Put-Call Parity, Black–Scholes PDE">
 <meta name="description" content="Why This Matters
-While practitioners price American puts correctly in production systems, the deeper question of why early exercise is sometimes optimal — and the precise conditions under which it occurs — is less often articulated rigorously. This article works through the argument carefully, starting with why early exercise is never optimal for calls, and then showing — using the Black–Scholes PDE — when and why it becomes mandatory for puts.">
+While practitioners price American puts correctly in production systems, the deeper question of why early exercise is sometimes optimal, and the precise conditions under which it occurs, is less often articulated rigorously. This article works through the argument, starting with why early exercise is never optimal for calls, and then showing, using the Black–Scholes PDE, when and why it becomes mandatory for puts.
+For those working with options pricing, hedging, or products with embedded American optionality, a rigorous understanding of the early exercise boundary can offer useful intuition beyond what standard pricing tools provide.">
 <meta name="author" content="">
 <link rel="canonical" href="https://leslie-ren.github.io/Inflection.Quant/articles/quant-foundations/american_vs_european_options/">
 <link crossorigin="anonymous" href="../../../Inflection.Quant/assets/css/stylesheet.199042e659bc7245f5609d333d6c044eb554a0640849bb874e1dff8eb0f57209.css" integrity="sha256-GZBC5lm8ckX1YJ0zPWwETrVUoGQISbuHTh3/jrD1cgk=" rel="preload stylesheet" as="style">
@@ -71,10 +72,26 @@ While practitioners price American puts correctly in production systems, the dee
         document.querySelector("html").dataset.theme = 'light';
     }
 
+</script><script>
+document.addEventListener("DOMContentLoaded", function() {
+  window.MathJax = {
+    tex: {
+      packages: ['base', 'ams'],
+      inlineMath: [['$', '$'], ['\\(', '\\)']],
+      displayMath: [['$$','$$'], ['\\[','\\]']]
+    },
+    options: {skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']}
+  };
+  var script = document.createElement("script");
+  script.src = "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js";
+  script.defer = true;
+  document.body.appendChild(script);
+});
 </script><meta property="og:url" content="https://leslie-ren.github.io/Inflection.Quant/articles/quant-foundations/american_vs_european_options/">
-  <meta property="og:site_name" content="Inflection Quant Solutions">
+  <meta property="og:site_name" content="Inflection Quant Lab">
   <meta property="og:title" content="Early Exercise of American Options: Call Equivalence and the Put Premium">
-  <meta property="og:description" content="Why This Matters While practitioners price American puts correctly in production systems, the deeper question of why early exercise is sometimes optimal — and the precise conditions under which it occurs — is less often articulated rigorously. This article works through the argument carefully, starting with why early exercise is never optimal for calls, and then showing — using the Black–Scholes PDE — when and why it becomes mandatory for puts.">
+  <meta property="og:description" content="Why This Matters While practitioners price American puts correctly in production systems, the deeper question of why early exercise is sometimes optimal, and the precise conditions under which it occurs, is less often articulated rigorously. This article works through the argument, starting with why early exercise is never optimal for calls, and then showing, using the Black–Scholes PDE, when and why it becomes mandatory for puts.
+For those working with options pricing, hedging, or products with embedded American optionality, a rigorous understanding of the early exercise boundary can offer useful intuition beyond what standard pricing tools provide.">
   <meta property="og:locale" content="en_us">
   <meta property="og:type" content="article">
     <meta property="article:section" content="articles">
@@ -87,7 +104,8 @@ While practitioners price American puts correctly in production systems, the dee
 
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Early Exercise of American Options: Call Equivalence and the Put Premium">
-  <meta name="twitter:description" content="Why This Matters While practitioners price American puts correctly in production systems, the deeper question of why early exercise is sometimes optimal — and the precise conditions under which it occurs — is less often articulated rigorously. This article works through the argument carefully, starting with why early exercise is never optimal for calls, and then showing — using the Black–Scholes PDE — when and why it becomes mandatory for puts.">
+  <meta name="twitter:description" content="Why This Matters While practitioners price American puts correctly in production systems, the deeper question of why early exercise is sometimes optimal, and the precise conditions under which it occurs, is less often articulated rigorously. This article works through the argument, starting with why early exercise is never optimal for calls, and then showing, using the Black–Scholes PDE, when and why it becomes mandatory for puts.
+For those working with options pricing, hedging, or products with embedded American optionality, a rigorous understanding of the early exercise boundary can offer useful intuition beyond what standard pricing tools provide.">
 
 
 <script type="application/ld+json">
@@ -122,12 +140,12 @@ While practitioners price American puts correctly in production systems, the dee
   "@type": "BlogPosting",
   "headline": "Early Exercise of American Options: Call Equivalence and the Put Premium",
   "name": "Early Exercise of American Options: Call Equivalence and the Put Premium",
-  "description": "Why This Matters While practitioners price American puts correctly in production systems, the deeper question of why early exercise is sometimes optimal — and the precise conditions under which it occurs — is less often articulated rigorously. This article works through the argument carefully, starting with why early exercise is never optimal for calls, and then showing — using the Black–Scholes PDE — when and why it becomes mandatory for puts.\n",
+  "description": "Why This Matters While practitioners price American puts correctly in production systems, the deeper question of why early exercise is sometimes optimal, and the precise conditions under which it occurs, is less often articulated rigorously. This article works through the argument, starting with why early exercise is never optimal for calls, and then showing, using the Black–Scholes PDE, when and why it becomes mandatory for puts.\nFor those working with options pricing, hedging, or products with embedded American optionality, a rigorous understanding of the early exercise boundary can offer useful intuition beyond what standard pricing tools provide.\n",
   "keywords": [
     "American Option", "European Option", "Put-Call Parity", "Black–Scholes PDE"
   ],
-  "articleBody": "Why This Matters While practitioners price American puts correctly in production systems, the deeper question of why early exercise is sometimes optimal — and the precise conditions under which it occurs — is less often articulated rigorously. This article works through the argument carefully, starting with why early exercise is never optimal for calls, and then showing — using the Black–Scholes PDE — when and why it becomes mandatory for puts.\nFor those working with options pricing, hedging, or products with embedded American optionality, a rigorous understanding of the early exercise boundary can offer useful intuition beyond what standard pricing tools provide.\nPut–Call Parity For European options on a non-dividend-paying stock, put–call parity states:\n$$C_0 + Ke^{-rT} = P_0 + S_0$$\nRearranging, we get:\n$$C_0 = S_0 + P_0 - Ke^{-rT}$$\nThis shows that a European call can be thought of as:\nOwning the stock Holding a European put (downside protection) Deferring payment of the strike (earning interest on $K$ until maturity) The value of a put option must be non-negative. So from the rearranged parity equation, we can get a lower bound for the European call option:\n$$C_0 \\geq S_0 - Ke^{-rT}$$\nWhy Early Exercise of an American Call Is Suboptimal Consider an American call. Its holder can exercise early, but is it ever optimal?\nExercising early gives a payoff of $S_t - K$ at time $t \u003c T$. If the holder does not exercise, the option is worth at least $S_t - Ke^{-r(T-t)}$, which is more valuable than the exercised payoff. Since the stock pays no dividends, there is no economic benefit to holding the stock earlier. Exercising the call early would forfeit the time value of the option and the interest on $K$, making it suboptimal. Therefore, the American call is never exercised early, and its price equals that of the European call.\nWhen This Breaks Down The result changes if the stock pays dividends. Dividends reduce the stock price on the ex-dividend date, and option holders do not receive dividends. Exercising just before a dividend can therefore be advantageous — the early exercise premium becomes positive, and the American call is worth strictly more than its European counterpart.\nWhy American Puts Are Worth More Than European Puts For puts, the logic reverses. Waiting is no longer free — the holder defers receiving $K$, rather than deferring paying it. Every period the put is held unexercised, the holder foregoes interest on $K$. When that cost exceeds the remaining benefit of holding, early exercise is optimal.\nTo see this concretely, consider a put deep in-the-money with $S_t \\approx 0$:\nExercising immediately yields $K - S_t \\approx K$, which can be invested at rate $r$ Waiting until maturity to receive $K - S_T$ means forgoing interest on $K$, while the stock can barely fall further The cost of waiting is real and quantifiable. The benefit of waiting has nearly vanished. Early exercise dominates.\nThe General Early Exercise Condition More generally, think of holding the put as a trade-off between two things:\nThe cost of waiting: every period the option is held unexercised, the holder foregoes interest proportional to $r(K-S)$\nThe benefit of waiting: the stock could fall further, increasing the payoff. This is the option’s remaining time value — the value of continued optionality.\nEarly exercise is optimal whenever the cost exceeds the benefit. When $S \\approx 0$, the remaining optionality collapses to zero and this condition is trivially satisfied. But the same crossover occurs more broadly — whenever the put is sufficiently deep in-the-money, interest rates are high, or volatility is low enough that the time value of waiting no longer justifies the interest cost.\nThe Black–Scholes PDE Perspective The Black–Scholes framework gives a precise, formal account of why early exercise becomes mandatory. Under the Black–Scholes assumptions, any derivative $P(S,t)$ on a non-dividend-paying stock satisfies the PDE:\n$$ \\underbrace{\\frac{\\partial P}{\\partial t}}_{\\text{Time Decay}}\n\\underbrace{\\frac{1}{2}\\sigma^2 S^2 \\frac{\\partial^2 P}{\\partial S^2}}_{\\text{Convexity Gain (Gamma)}} \\underbrace{rS\\frac{\\partial P}{\\partial S}}_{\\text{Drift of Underlying}} \\underbrace{rP}_{\\text{Carry Cost}} = 0 $$ This PDE is derived by constructing a delta-hedged portfolio and requiring that its value grows at the risk-free rate under no-arbitrage. Each term has a financial meaning:\nTime Decay $\\frac{\\partial P}{\\partial t}$: the rate at which the option loses value as expiry approaches, holding $S$ fixed Convexity Gain $\\frac{1}{2}\\sigma^2 S^2 \\frac{\\partial^2 P}{\\partial S^2}$: the gain from being long gamma — because the put is convex in $S$, the holder benefits on average from large moves in either direction Drift of Underlying $rS\\frac{\\partial P}{\\partial S}$: since $\\frac{\\partial P}{\\partial S} \u003c 0$ for a put, the risk-neutral upward drift of the stock works against the put holder Carry Cost $-rP$: the opportunity cost of holding the option rather than investing its value at the risk-free rate The PDE is a balance condition: the convexity gain from being long gamma exactly offsets the combined drag from time decay, adverse drift, and carry cost.\nThe Hold Region and the Exercise Region For a European put, the PDE holds everywhere — the holder has no choice but to wait. For an American put, the holder has agency, and the picture splits into two regions.\nIn the hold (continuation) region, where $P(S,t) \u003e K - S$, the option is worth more alive than dead. The convexity gain is sufficient to justify the carry cost and the drag from drift. The PDE holds with equality:\n$$\\frac{\\partial P}{\\partial t} + \\frac{1}{2}\\sigma^2 S^2 \\frac{\\partial^2 P}{\\partial S^2} + rS\\frac{\\partial P}{\\partial S} - rP = 0$$\nIn the exercise (stopping) region, where $P(S,t) = K - S$, the balance breaks down. Substituting $P = K - S$:\n$\\frac{\\partial P}{\\partial t} = 0$ — intrinsic value has no time decay $\\frac{1}{2}\\sigma^2 S^2 \\frac{\\partial^2 P}{\\partial S^2} = 0$ — intrinsic value is linear in $S$, so gamma is zero $rS\\frac{\\partial P}{\\partial S} = -rS$ — the delta of $K - S$ is $-1$ $-rP = -r(K-S)$ The PDE evaluates to:\n$$0 + 0 + (-rS) - r(K - S) = -rK \u003c 0$$\nThe equality strictly fails. With gamma zero and drift negligible, the carry cost $rK$ is entirely uncompensated. The PDE inequality signals that continuation is dominated by immediate exercise.\nThe $S \\to 0$ Case: A Formal Illustration To see this most clearly, assume $S \\approx 0$ and suppose the holder continues to hold. As $S \\to 0$, the gamma and drift terms vanish:\n$$\\frac{1}{2}\\sigma^2 S^2 \\frac{\\partial^2 P}{\\partial S^2} \\to 0, \\qquad rS\\frac{\\partial P}{\\partial S} \\to 0$$\nThe PDE reduces to:\n$$\\frac{\\partial P}{\\partial t} - rP = 0 \\implies \\frac{\\partial P}{\\partial t} \\approx rK$$\nThis says the option’s value must be growing at rate $rK$ per unit time. But that is impossible — when $S \\approx 0$, the put is already worth approximately $K$, its maximum possible value. There is no room left to grow. The assumption of holding cannot be sustained, and the option must be exercised.\nNote that $S \\to 0$ is an extreme case that makes the argument unambiguous. The same logic applies more broadly: whenever the put is sufficiently deep in-the-money, interest rates are high, or volatility is low enough that the remaining optionality has eroded below the the opportunity cost of delaying the receipt of $K$, early exercise is optimal.\nPractical Implications This result has direct consequences for practitioners:\nOptions pricing: American puts must be priced using methods that account for early exercise — binomial trees, finite difference methods, or approximation formulas. Using Black–Scholes directly will systematically underprice them, with the error growing as the put goes deeper in-the-money or as interest rates rise.\nHedging: The delta of an American put in the stopping region is $-1$ — the option moves one-for-one with the stock. A hedger treating it as a live option with a partial delta will be systematically underhedged.\nStructured products: Any product with embedded American put optionality requires careful treatment of the early exercise boundary. Ignoring it introduces model risk that can be material in high rate environments.\n!!think about the binomial tree, is it possible to exercise on j but not exerice on j+1\n",
-  "wordCount" : "1332",
+  "articleBody": "Why This Matters While practitioners price American puts correctly in production systems, the deeper question of why early exercise is sometimes optimal, and the precise conditions under which it occurs, is less often articulated rigorously. This article works through the argument, starting with why early exercise is never optimal for calls, and then showing, using the Black–Scholes PDE, when and why it becomes mandatory for puts.\nFor those working with options pricing, hedging, or products with embedded American optionality, a rigorous understanding of the early exercise boundary can offer useful intuition beyond what standard pricing tools provide.\nPut–Call Parity For European options on a non-dividend-paying stock, put–call parity states:\n$$C_0 + Ke^{-rT} = P_0 + S_0$$\nRearranging, we get:\n$$C_0 = S_0 + P_0 - Ke^{-rT}$$\nThis shows that a European call can be thought of as:\nOwning the stock Holding a European put (downside protection) Deferring payment of the strike (earning interest on $K$ until maturity) The value of a put option must be non-negative. So from the rearranged parity equation, we can get a lower bound for the European call option:\n$$C_0 \\geq S_0 - Ke^{-rT}$$\nWhy Early Exercise of an American Call Is Suboptimal Consider an American call. Its holder can exercise early, but is it ever optimal?\nExercising early gives a payoff of $S_t - K$ at time $t \u003c T$. If the holder does not exercise, the option is worth at least $S_t - Ke^{-r(T-t)}$, which is more valuable than the exercised payoff. Since the stock pays no dividends, there is no economic benefit to holding the stock earlier. Exercising the call early would forfeit the time value of the option and the interest on $K$, making it suboptimal. Therefore, the American call is never exercised early, and its price equals that of the European call.\nWhen This Breaks Down The result changes if the stock pays dividends. Dividends reduce the stock price on the ex-dividend date, and option holders do not receive dividends. Exercising just before a dividend can therefore be advantageous sometimes — the early exercise premium becomes positive, and the American call is worth more than its European counterpart.\nWhy American Puts Are Worth More Than European Puts For puts, the logic reverses. Waiting is no longer free — the holder defers receiving $K$, rather than deferring paying it. Every period the put is held unexercised, the holder foregoes interest on $K$. When that cost exceeds the remaining benefit of holding, early exercise is optimal.\nTo see this concretely, consider a put deep in-the-money with $S_t \\approx 0$:\nExercising immediately yields $K - S_t \\approx K$, which can be invested at rate $r$ Waiting until maturity to receive $K - S_T$ means forgoing interest on $K$, while the stock can barely fall further The cost of waiting is real and quantifiable. The benefit of waiting has nearly vanished. Early exercise dominates.\nThe General Early Exercise Condition More generally, think of holding the put as a trade-off between two things:\nThe cost of waiting: every period the option is held unexercised, the holder foregoes interest proportional to $r(K-S)$\nThe benefit of waiting: the stock could fall further, increasing the payoff. This is the option’s remaining time value — the value of continued optionality.\nEarly exercise is optimal whenever the cost exceeds the benefit. When $S \\approx 0$, the remaining optionality collapses to zero and this condition is trivially satisfied. But the same crossover occurs more broadly — whenever the put is sufficiently deep in-the-money, interest rates are high, or volatility is low enough that the time value of waiting no longer justifies the interest cost.\nThe Black–Scholes PDE Perspective The Black–Scholes framework gives a precise, formal account of why early exercise becomes optimal. Under the Black–Scholes assumptions, any derivative $P(S,t)$ on a non-dividend-paying stock satisfies the PDE:\n\\[ \\underbrace{\\frac{\\partial P}{\\partial t}}_{\\text{Time Decay}} + \\underbrace{\\frac{1}{2}\\sigma^2 S^2 \\frac{\\partial^2 P}{\\partial S^2}}_{\\text{Convexity Gain (Gamma)}} + \\underbrace{rS\\frac{\\partial P}{\\partial S}}_{\\text{Drift of Underlying}} - \\underbrace{rP}_{\\text{Carry Cost}} = 0 \\] This PDE is derived by constructing a delta-hedged portfolio and requiring that its value grows at the risk-free rate under no-arbitrage. Each term has a financial meaning:\nTime Decay $\\frac{\\partial P}{\\partial t}$: the rate at which the option loses value as expiry approaches, holding $S$ fixed Convexity Gain $\\frac{1}{2}\\sigma^2 S^2 \\frac{\\partial^2 P}{\\partial S^2}$: the gain from being long gamma — because the put is convex in $S$, the holder benefits on average from large moves in either direction Drift of Underlying $rS\\frac{\\partial P}{\\partial S}$: since $\\frac{\\partial P}{\\partial S} \u003c 0$ for a put, the risk-neutral upward drift of the stock works against the put holder Carry Cost $-rP$: the opportunity cost of holding the option rather than investing its value at the risk-free rate The PDE is a balance condition: the convexity gain from being long gamma exactly offsets the combined drag from time decay, adverse drift, and carry cost.\nThe Hold Region and the Exercise Region For a European put, the PDE holds everywhere — the holder has no choice but to wait. For an American put, the holder has agency, and the picture splits into two regions.\nIn the hold (continuation) region, where $P(S,t) \u003e K - S$, the option is worth more alive than dead. The convexity gain is sufficient to justify the carry cost and the drag from drift. The PDE holds with equality:\n$$\\frac{\\partial P}{\\partial t} + \\frac{1}{2}\\sigma^2 S^2 \\frac{\\partial^2 P}{\\partial S^2} + rS\\frac{\\partial P}{\\partial S} - rP = 0$$\nIn the exercise (stopping) region, where $P(S,t) = K - S$, the balance breaks down. Substituting $P = K - S$:\n$\\frac{\\partial P}{\\partial t} = 0$ — intrinsic value has no time decay $\\frac{1}{2}\\sigma^2 S^2 \\frac{\\partial^2 P}{\\partial S^2} = 0$ — intrinsic value is linear in $S$, so gamma is zero $rS\\frac{\\partial P}{\\partial S} = -rS$ — the delta of $K - S$ is $-1$ $-rP = -r(K-S)$ The PDE evaluates to:\n$$0 + 0 + (-rS) - r(K - S) = -rK \u003c 0$$\nThe equality strictly fails. With gamma zero and drift negligible, the carry cost $rK$ is entirely uncompensated. The PDE inequality signals that continuation is dominated by immediate exercise.\nThe $S \\to 0$ Case: A Formal Illustration To see this most clearly, assume $S \\approx 0$ and suppose the holder continues to hold. As $S \\to 0$, the gamma and drift terms vanish:\n$$\\frac{1}{2}\\sigma^2 S^2 \\frac{\\partial^2 P}{\\partial S^2} \\to 0, \\qquad rS\\frac{\\partial P}{\\partial S} \\to 0$$\nThe PDE reduces to:\n$$\\frac{\\partial P}{\\partial t} - rP = 0 \\implies \\frac{\\partial P}{\\partial t} \\approx rK$$\nThis says the option’s value must be growing at rate $rK$ per unit time. But that is impossible — when $S \\approx 0$, the put is already worth approximately $K$, its maximum possible value. There is no room left to grow. The assumption of holding cannot be sustained, and the option must be exercised.\nNote that $S \\to 0$ is an extreme case that makes the argument unambiguous. The same logic applies more broadly: whenever the put is sufficiently deep in-the-money, interest rates are high, or volatility is low enough that the remaining optionality has eroded below the the opportunity cost of delaying the receipt of $K$, early exercise is optimal.\nPractical Implications This result has direct consequences for practitioners:\nOptions pricing: American puts must be priced using methods that account for early exercise — binomial trees, finite difference methods, or approximation formulas. Using Black–Scholes directly will systematically underprice them, with the error growing as the put goes deeper in-the-money or as interest rates rise.\nHedging: The delta of an American put in the stopping region is $-1$ — the option moves one-for-one with the stock. A hedger treating it as a live option with a partial delta will be systematically underhedged.\nStructured products: Any product with embedded American put optionality requires careful treatment of the early exercise boundary. Ignoring it introduces model risk that can be material in high rate environments.\n",
+  "wordCount" : "1313",
   "inLanguage": "en",
   "datePublished": "2026-04-03T00:00:00Z",
   "dateModified": "2026-04-03T00:00:00Z",
@@ -137,7 +155,7 @@ While practitioners price American puts correctly in production systems, the dee
   },
   "publisher": {
     "@type": "Organization",
-    "name": "Inflection Quant Solutions",
+    "name": "Inflection Quant Lab",
     "logo": {
       "@type": "ImageObject",
       "url": "https://leslie-ren.github.io/Inflection.Quant/favicon.ico"
@@ -150,7 +168,7 @@ While practitioners price American puts correctly in production systems, the dee
     <header class="header">
     <nav class="nav">
         <div class="logo">
-            <a href="https://leslie-ren.github.io/Inflection.Quant/" accesskey="h" title="Inflection Quant Solutions (Alt + H)">Inflection Quant Solutions</a>
+            <a href="https://leslie-ren.github.io/Inflection.Quant/" accesskey="h" title="Inflection Quant Lab (Alt + H)">Inflection Quant Lab</a>
             <div class="logo-switches">
                 <button id="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
                     <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
@@ -196,7 +214,7 @@ While practitioners price American puts correctly in production systems, the dee
 </div>
   </header> 
   <div class="post-content"><h2 id="why-this-matters">Why This Matters<a hidden class="anchor" aria-hidden="true" href="#why-this-matters">#</a></h2>
-<p>While practitioners price American puts correctly in production systems, the deeper question of <em>why</em> early exercise is sometimes optimal — and the precise conditions under which it occurs — is less often articulated rigorously. This article works through the argument carefully, starting with why early exercise is never optimal for calls, and then showing — using the Black–Scholes PDE — when and why it becomes mandatory for puts.</p>
+<p>While practitioners price American puts correctly in production systems, the deeper question of <em>why</em> early exercise is sometimes optimal, and the precise conditions under which it occurs, is less often articulated rigorously. This article works through the argument, starting with why early exercise is never optimal for calls, and then showing, using the Black–Scholes PDE, when and why it becomes mandatory for puts.</p>
 <p>For those working with options pricing, hedging, or products with embedded American optionality, a rigorous understanding of the early exercise boundary can offer useful intuition beyond what standard pricing tools provide.</p>
 <hr>
 <h2 id="putcall-parity">Put–Call Parity<a hidden class="anchor" aria-hidden="true" href="#putcall-parity">#</a></h2>
@@ -222,8 +240,8 @@ While practitioners price American puts correctly in production systems, the dee
 <p>Since the stock pays no dividends, there is no economic benefit to holding the stock earlier. Exercising the call early would <strong>forfeit the time value of the option and the interest on $K$</strong>, making it suboptimal. Therefore, the American call is never exercised early, and its price equals that of the European call.</p>
 <hr>
 <h3 id="when-this-breaks-down">When This Breaks Down<a hidden class="anchor" aria-hidden="true" href="#when-this-breaks-down">#</a></h3>
-<p>The result changes if the stock pays dividends. Dividends reduce the stock price on the ex-dividend date, and option holders do not receive dividends. Exercising just before a dividend can therefore be advantageous — the early exercise premium becomes
-positive, and the American call is worth strictly more than its European counterpart.</p>
+<p>The result changes if the stock pays dividends. Dividends reduce the stock price on the ex-dividend date, and option holders do not receive dividends. Exercising just before a dividend can therefore be advantageous sometimes — the early exercise premium becomes
+positive, and the American call is worth more than its European counterpart.</p>
 <hr>
 <h2 id="why-american-puts-are-worth-more-than-european-puts">Why American Puts Are Worth More Than European Puts<a hidden class="anchor" aria-hidden="true" href="#why-american-puts-are-worth-more-than-european-puts">#</a></h2>
 <p>For puts, the logic reverses. Waiting is no longer free — the holder defers
@@ -251,19 +269,17 @@ low enough that the time value of waiting no longer justifies the interest cost.
 <hr>
 <h2 id="the-blackscholes-pde-perspective">The Black–Scholes PDE Perspective<a hidden class="anchor" aria-hidden="true" href="#the-blackscholes-pde-perspective">#</a></h2>
 <p>The Black–Scholes framework gives a precise, formal account of why early exercise
-becomes mandatory. Under the Black–Scholes assumptions, any derivative $P(S,t)$ on
+becomes optimal. Under the Black–Scholes assumptions, any derivative $P(S,t)$ on
 a non-dividend-paying stock satisfies the PDE:</p>
-<p>$$
-\underbrace{\frac{\partial P}{\partial t}}_{\text{Time Decay}}</p>
-<ul>
-<li>\underbrace{\frac{1}{2}\sigma^2 S^2 \frac{\partial^2 P}{\partial S^2}}_{\text{Convexity Gain (Gamma)}}</li>
-<li>\underbrace{rS\frac{\partial P}{\partial S}}_{\text{Drift of Underlying}}</li>
-</ul>
-<ul>
-<li>\underbrace{rP}_{\text{Carry Cost}}
+<div>
+\[
+\underbrace{\frac{\partial P}{\partial t}}_{\text{Time Decay}}
++ \underbrace{\frac{1}{2}\sigma^2 S^2 \frac{\partial^2 P}{\partial S^2}}_{\text{Convexity Gain (Gamma)}}
++ \underbrace{rS\frac{\partial P}{\partial S}}_{\text{Drift of Underlying}}
+- \underbrace{rP}_{\text{Carry Cost}}
 = 0
-$$</li>
-</ul>
+\]
+</div>
 <p>This PDE is derived by constructing a delta-hedged portfolio and requiring that its
 value grows at the risk-free rate under no-arbitrage. Each term has a financial meaning:</p>
 <ul>
@@ -330,7 +346,6 @@ with a partial delta will be systematically underhedged.</p>
 <p><strong>Structured products</strong>: Any product with embedded American put optionality requires careful treatment of the early exercise boundary. Ignoring it introduces
 model risk that can be material in high rate environments.</p>
 <hr>
-<p>!!think about the binomial tree, is it possible to exercise on j but not exerice on j+1</p>
 
 
   </div>
@@ -343,6 +358,11 @@ model risk that can be material in high rate environments.</p>
       <li><a href="https://leslie-ren.github.io/Inflection.Quant/tags/blackscholes-pde/">Black–Scholes PDE</a></li>
     </ul>
 <nav class="paginav">
+  <a class="prev" href="https://leslie-ren.github.io/Inflection.Quant/articles/quant-engineering/vol_surface_calibration/">
+    <span class="title">« Prev</span>
+    <br>
+    <span>Calibrating Market-Consistent Volatility Surfaces: A Practical Guide for Traders and Quants</span>
+  </a>
   <a class="next" href="https://leslie-ren.github.io/Inflection.Quant/articles/quant-engineering/qis_infra_guidelines/">
     <span class="title">Next »</span>
     <br>
@@ -423,7 +443,7 @@ model risk that can be material in high rate environments.</p>
     </main>
     
 <footer class="footer">
-        <span>&copy; 2026 <a href="https://leslie-ren.github.io/Inflection.Quant/">Inflection Quant Solutions</a></span> · 
+        <span>&copy; 2026 <a href="https://leslie-ren.github.io/Inflection.Quant/">Inflection Quant Lab</a></span> · 
 
     <span>
         Powered by

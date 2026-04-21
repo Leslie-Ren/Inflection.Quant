@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Implied Moments on Inflection Quant Lab</title>
+    <link>https://leslie-ren.github.io/Inflection.Quant/tags/implied-moments/</link>
+    <description>Recent content in Implied Moments on Inflection Quant Lab</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 16 Apr 2026 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://leslie-ren.github.io/Inflection.Quant/tags/implied-moments/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>From Option Prices to the Shape of Returns: A Model-Free Construction of Volatility, Skewness and Kurtosis</title>
+      <link>https://leslie-ren.github.io/Inflection.Quant/articles/quant-foundations/vol_skewness_kurtosis/</link>
+      <pubDate>Thu, 16 Apr 2026 00:00:00 +0000</pubDate>
+      <guid>https://leslie-ren.github.io/Inflection.Quant/articles/quant-foundations/vol_skewness_kurtosis/</guid>
+      <description>&lt;h2 id=&#34;why-this-matters&#34;&gt;Why This Matters&lt;/h2&gt;
+&lt;p&gt;Most of my early intuition about options came from the Black-Scholes model, which is
+clean and widely used. But once I started working with real option data, it becomes
+clear that the Black-Scholes assumption of a lognormal distribution is too restrictive.
+For a given maturity, the implied volatility is not constant across strikes, and its
+shape suggests asymmetry and heavy tails in the risk-neutral distribution.&lt;/p&gt;
+&lt;p&gt;That leads to a more basic question. Instead of imposing a parametric model and
+calibrating its parameters, is there a way to extract volatility, skewness, and kurtosis
+directly from option prices in a model-free way? This is where the Bakshi, Kapadia, and
+Madan (2003) framework becomes useful. Their key idea is that smooth payoff functions
+can be represented as a continuum of vanilla options across strikes. In this view,
+volatility, skewness, and kurtosis are not model assumptions or calibration outputs.
+They are quantities that can be recovered from market prices through static option
+replication.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

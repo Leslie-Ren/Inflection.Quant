@@ -1,13 +1,125 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>Tags on Inflection Quant Solutions</title>
+    <title>Tags on Inflection Quant Lab</title>
     <link>https://leslie-ren.github.io/Inflection.Quant/tags/</link>
-    <description>Recent content in Tags on Inflection Quant Solutions</description>
+    <description>Recent content in Tags on Inflection Quant Lab</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 03 Apr 2026 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 16 Apr 2026 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://leslie-ren.github.io/Inflection.Quant/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Implied Moments</title>
+      <link>https://leslie-ren.github.io/Inflection.Quant/tags/implied-moments/</link>
+      <pubDate>Thu, 16 Apr 2026 00:00:00 +0000</pubDate>
+      <guid>https://leslie-ren.github.io/Inflection.Quant/tags/implied-moments/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Kurtosis</title>
+      <link>https://leslie-ren.github.io/Inflection.Quant/tags/kurtosis/</link>
+      <pubDate>Thu, 16 Apr 2026 00:00:00 +0000</pubDate>
+      <guid>https://leslie-ren.github.io/Inflection.Quant/tags/kurtosis/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Model-Free Methods</title>
+      <link>https://leslie-ren.github.io/Inflection.Quant/tags/model-free-methods/</link>
+      <pubDate>Thu, 16 Apr 2026 00:00:00 +0000</pubDate>
+      <guid>https://leslie-ren.github.io/Inflection.Quant/tags/model-free-methods/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Skewness</title>
+      <link>https://leslie-ren.github.io/Inflection.Quant/tags/skewness/</link>
+      <pubDate>Thu, 16 Apr 2026 00:00:00 +0000</pubDate>
+      <guid>https://leslie-ren.github.io/Inflection.Quant/tags/skewness/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Static Replication</title>
+      <link>https://leslie-ren.github.io/Inflection.Quant/tags/static-replication/</link>
+      <pubDate>Thu, 16 Apr 2026 00:00:00 +0000</pubDate>
+      <guid>https://leslie-ren.github.io/Inflection.Quant/tags/static-replication/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Volatility</title>
+      <link>https://leslie-ren.github.io/Inflection.Quant/tags/volatility/</link>
+      <pubDate>Thu, 16 Apr 2026 00:00:00 +0000</pubDate>
+      <guid>https://leslie-ren.github.io/Inflection.Quant/tags/volatility/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Bisection Method</title>
+      <link>https://leslie-ren.github.io/Inflection.Quant/tags/bisection-method/</link>
+      <pubDate>Thu, 09 Apr 2026 00:00:00 +0000</pubDate>
+      <guid>https://leslie-ren.github.io/Inflection.Quant/tags/bisection-method/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Brent Method</title>
+      <link>https://leslie-ren.github.io/Inflection.Quant/tags/brent-method/</link>
+      <pubDate>Thu, 09 Apr 2026 00:00:00 +0000</pubDate>
+      <guid>https://leslie-ren.github.io/Inflection.Quant/tags/brent-method/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Convergence Rate</title>
+      <link>https://leslie-ren.github.io/Inflection.Quant/tags/convergence-rate/</link>
+      <pubDate>Thu, 09 Apr 2026 00:00:00 +0000</pubDate>
+      <guid>https://leslie-ren.github.io/Inflection.Quant/tags/convergence-rate/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Inverse Quadratic Interpolation</title>
+      <link>https://leslie-ren.github.io/Inflection.Quant/tags/inverse-quadratic-interpolation/</link>
+      <pubDate>Thu, 09 Apr 2026 00:00:00 +0000</pubDate>
+      <guid>https://leslie-ren.github.io/Inflection.Quant/tags/inverse-quadratic-interpolation/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Newton-Raphson</title>
+      <link>https://leslie-ren.github.io/Inflection.Quant/tags/newton-raphson/</link>
+      <pubDate>Thu, 09 Apr 2026 00:00:00 +0000</pubDate>
+      <guid>https://leslie-ren.github.io/Inflection.Quant/tags/newton-raphson/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Root Finding</title>
+      <link>https://leslie-ren.github.io/Inflection.Quant/tags/root-finding/</link>
+      <pubDate>Thu, 09 Apr 2026 00:00:00 +0000</pubDate>
+      <guid>https://leslie-ren.github.io/Inflection.Quant/tags/root-finding/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Secant Method</title>
+      <link>https://leslie-ren.github.io/Inflection.Quant/tags/secant-method/</link>
+      <pubDate>Thu, 09 Apr 2026 00:00:00 +0000</pubDate>
+      <guid>https://leslie-ren.github.io/Inflection.Quant/tags/secant-method/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Black-Scholes</title>
+      <link>https://leslie-ren.github.io/Inflection.Quant/tags/black-scholes/</link>
+      <pubDate>Tue, 07 Apr 2026 00:00:00 +0000</pubDate>
+      <guid>https://leslie-ren.github.io/Inflection.Quant/tags/black-scholes/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Exchange-Traded Options</title>
+      <link>https://leslie-ren.github.io/Inflection.Quant/tags/exchange-traded-options/</link>
+      <pubDate>Tue, 07 Apr 2026 00:00:00 +0000</pubDate>
+      <guid>https://leslie-ren.github.io/Inflection.Quant/tags/exchange-traded-options/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Vol Surface</title>
+      <link>https://leslie-ren.github.io/Inflection.Quant/tags/vol-surface/</link>
+      <pubDate>Tue, 07 Apr 2026 00:00:00 +0000</pubDate>
+      <guid>https://leslie-ren.github.io/Inflection.Quant/tags/vol-surface/</guid>
+      <description></description>
+    </item>
     <item>
       <title>American Option</title>
       <link>https://leslie-ren.github.io/Inflection.Quant/tags/american-option/</link>
@@ -51,6 +163,13 @@
       <description></description>
     </item>
     <item>
+      <title>Brenner–Subrahmanyam Approximation</title>
+      <link>https://leslie-ren.github.io/Inflection.Quant/tags/brennersubrahmanyam-approximation/</link>
+      <pubDate>Thu, 26 Mar 2026 00:00:00 +0000</pubDate>
+      <guid>https://leslie-ren.github.io/Inflection.Quant/tags/brennersubrahmanyam-approximation/</guid>
+      <description></description>
+    </item>
+    <item>
       <title>Brownian Motion</title>
       <link>https://leslie-ren.github.io/Inflection.Quant/tags/brownian-motion/</link>
       <pubDate>Thu, 26 Mar 2026 00:00:00 +0000</pubDate>
@@ -58,10 +177,17 @@
       <description></description>
     </item>
     <item>
-      <title>Quant</title>
-      <link>https://leslie-ren.github.io/Inflection.Quant/tags/quant/</link>
+      <title>Option Price</title>
+      <link>https://leslie-ren.github.io/Inflection.Quant/tags/option-price/</link>
       <pubDate>Thu, 26 Mar 2026 00:00:00 +0000</pubDate>
-      <guid>https://leslie-ren.github.io/Inflection.Quant/tags/quant/</guid>
+      <guid>https://leslie-ren.github.io/Inflection.Quant/tags/option-price/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Random Walk</title>
+      <link>https://leslie-ren.github.io/Inflection.Quant/tags/random-walk/</link>
+      <pubDate>Thu, 26 Mar 2026 00:00:00 +0000</pubDate>
+      <guid>https://leslie-ren.github.io/Inflection.Quant/tags/random-walk/</guid>
       <description></description>
     </item>
   </channel>

@@ -1,22 +1,20 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>Brownian Motion on Inflection Quant Solutions</title>
+    <title>Brownian Motion on Inflection Quant Lab</title>
     <link>https://leslie-ren.github.io/Inflection.Quant/tags/brownian-motion/</link>
-    <description>Recent content in Brownian Motion on Inflection Quant Solutions</description>
+    <description>Recent content in Brownian Motion on Inflection Quant Lab</description>
     <generator>Hugo</generator>
     <language>en-us</language>
     <lastBuildDate>Thu, 26 Mar 2026 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://leslie-ren.github.io/Inflection.Quant/tags/brownian-motion/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Understanding Brownian Motion: Why Variance Grows Linearly in Time</title>
+      <title>Brownian Motion: From Random Walks to Option Prices</title>
       <link>https://leslie-ren.github.io/Inflection.Quant/articles/quant-foundations/understanding_brownian_motion/</link>
       <pubDate>Thu, 26 Mar 2026 00:00:00 +0000</pubDate>
       <guid>https://leslie-ren.github.io/Inflection.Quant/articles/quant-foundations/understanding_brownian_motion/</guid>
-      <description>&lt;p&gt;Brownian motion — the mathematical model behind everything from stock prices to the way heat spreads — has a surprisingly elegant property: the variance of a particle’s position at time $t$ grows &lt;strong&gt;linearly&lt;/strong&gt; with time. Not $t^2$, not $\sqrt{t}$, but exactly $t$. At first glance, this might seem like a purely mathematical choice, but it actually comes from both physical observations and mathematical construction.&lt;/p&gt;
-&lt;hr&gt;
-&lt;h2 id=&#34;physical-motivation&#34;&gt;Physical Motivation&lt;/h2&gt;
-&lt;p&gt;The story starts with Robert Brown, who in 1827 observed pollen grains jittering randomly in water. The motion seemed erratic, almost chaotic. Decades later, Einstein (1905) made this quantitative, showing that a particle’s &lt;strong&gt;mean squared displacement&lt;/strong&gt; (MSD) grows in proportion to time:&lt;/p&gt;</description>
+      <description>&lt;h2 id=&#34;why-this-matters&#34;&gt;Why This Matters&lt;/h2&gt;
+&lt;p&gt;Brownian motion, the mathematical model underlying everything from stock prices to heat diffusion, has one of its most elegant properties: the variance of its position at time $t$ grows linearly with time. Not $t^2$, not $\sqrt{t}$, but exactly $t$. This seemingly abstract fact has a concrete consequence in financial markets: under the idealised conditions of an at-the-money option with zero rates, it is precisely why option prices scale with $\sqrt{T}$ rather than $T$, a direct fingerprint of Brownian motion inside Black-Scholes. Understanding why requires looking at both &lt;strong&gt;physical observations&lt;/strong&gt; and the &lt;strong&gt;mathematical construction&lt;/strong&gt; of Brownian motion.&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>
