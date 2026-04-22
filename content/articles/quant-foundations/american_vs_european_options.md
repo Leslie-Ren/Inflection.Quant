@@ -8,7 +8,7 @@ tags: ["American Option", "European Option", "Put-Call Parity", "Black–Scholes
 
 ## Why This Matters
 
-While practitioners price American puts correctly in production systems, the deeper question of *why* early exercise is sometimes optimal, and the precise conditions under which it occurs, is less often articulated rigorously. This article works through the argument, starting with why early exercise is never optimal for calls, and then showing, using the Black–Scholes PDE, when and why it becomes mandatory for puts.
+While practitioners price American puts correctly in production systems, the deeper question of *why* early exercise is sometimes optimal, and the precise conditions under which it occurs, is less often articulated rigorously. This article works through the argument, starting with why early exercise is never optimal for calls without dividend, and then showing, using the Black–Scholes PDE, when and why it becomes mandatory for puts.
 
 For those working with options pricing, hedging, or products with embedded American optionality, a rigorous understanding of the early exercise boundary can offer useful intuition beyond what standard pricing tools provide.
 
