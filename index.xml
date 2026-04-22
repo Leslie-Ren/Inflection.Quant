@@ -42,7 +42,7 @@ replication.&lt;/p&gt;</description>
       <pubDate>Fri, 03 Apr 2026 00:00:00 +0000</pubDate>
       <guid>https://leslie-ren.github.io/Inflection.Quant/articles/quant-foundations/american_vs_european_options/</guid>
       <description>&lt;h2 id=&#34;why-this-matters&#34;&gt;Why This Matters&lt;/h2&gt;
-&lt;p&gt;While practitioners price American puts correctly in production systems, the deeper question of &lt;em&gt;why&lt;/em&gt; early exercise is sometimes optimal, and the precise conditions under which it occurs, is less often articulated rigorously. This article works through the argument, starting with why early exercise is never optimal for calls, and then showing, using the Black–Scholes PDE, when and why it becomes mandatory for puts.&lt;/p&gt;
+&lt;p&gt;While practitioners price American puts correctly in production systems, the deeper question of &lt;em&gt;why&lt;/em&gt; early exercise is sometimes optimal, and the precise conditions under which it occurs, is less often articulated rigorously. This article works through the argument, starting with why early exercise is never optimal for calls without dividend, and then showing, using the Black–Scholes PDE, when and why it becomes mandatory for puts.&lt;/p&gt;
 &lt;p&gt;For those working with options pricing, hedging, or products with embedded American optionality, a rigorous understanding of the early exercise boundary can offer useful intuition beyond what standard pricing tools provide.&lt;/p&gt;</description>
     </item>
     <item>
