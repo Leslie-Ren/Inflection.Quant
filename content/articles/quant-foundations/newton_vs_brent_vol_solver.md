@@ -56,7 +56,7 @@ Newton's method is not guaranteed to converge. In practice, I've seen it converg
 
 This method is derived from a first-order Taylor expansion of the Black–Scholes price around the current volatility estimate:
 
-$$C_{\text{BS}}(\sigma + \Delta\sigma) \approx C_{\text{BS}}(\sigma) + \mathcal{V}\,\Delta\sigma$$
+$$C_{\text{BS}}(\sigma + \Delta\sigma) \approx C_{\text{BS}}(\sigma) + \mathcal{V}\Delta\sigma$$
 Here vega $\mathcal{V} = \frac{\partial C_{\text{BS}}}{\partial \sigma}$ corresponds to $f'$ in the earlier notation.
 
 This gives the Newton step:
