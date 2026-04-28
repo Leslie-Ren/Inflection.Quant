@@ -8,7 +8,7 @@ tags: ["Options", "Futures", "Derivatives", "Margining"]
 
 ## Why This Matters
 
-When I first studied options, the textbook examples were almost exclusively equity-style:
+When I first studied options, most textbook examples were equity-style:
 you pay a premium upfront, and at expiry (or whenever you choose to exercise, if the
 option is American), you receive the payoff. That framing stuck with me for a long time.
 
