@@ -6,8 +6,24 @@
     <description>Recent content on Inflection Quant Lab</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 16 Apr 2026 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 23 Apr 2026 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://leslie-ren.github.io/Inflection.Quant/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Futures-Style Margined Options: The Absence of Early Exercise Premium</title>
+      <link>https://leslie-ren.github.io/Inflection.Quant/articles/quant-foundations/future_style_margining_options/</link>
+      <pubDate>Thu, 23 Apr 2026 00:00:00 +0000</pubDate>
+      <guid>https://leslie-ren.github.io/Inflection.Quant/articles/quant-foundations/future_style_margining_options/</guid>
+      <description>&lt;h2 id=&#34;why-this-matters&#34;&gt;Why This Matters&lt;/h2&gt;
+&lt;p&gt;When I first studied options, the textbook examples were almost exclusively equity-style:
+you pay a premium upfront, and at expiry (or whenever you choose to exercise, if the
+option is American), you receive the payoff. That framing stuck with me for a long time.&lt;/p&gt;
+&lt;p&gt;When I started working on commodity derivatives, I encountered a different world. Many
+options in commodity markets are traded under futures-style margining. No premium
+changes hands at inception, and instead the option is margined daily like a futures
+contract. This is common across a wide range of exchange-traded products: options on WTI
+crude oil futures at the CME, options on Henry Hub natural gas futures, options on corn
+and wheat futures, and options on carbon emissions futures, to name a few.&lt;/p&gt;</description>
+    </item>
     <item>
       <title>From Option Prices to the Shape of Returns: A Model-Free Construction of Volatility, Skewness and Kurtosis</title>
       <link>https://leslie-ren.github.io/Inflection.Quant/articles/quant-foundations/vol_skewness_kurtosis/</link>
