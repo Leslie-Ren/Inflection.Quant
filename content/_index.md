@@ -4,14 +4,13 @@ draft: false
 ---
 
 
-## From Quant Ideas to Practical Understanding
+## A Quant's Attempt to Make Sense of Things
 
-I work in quantitative finance and started this site to write about topics I find 
-interesting: mostly around how theoretical models are built and how they hold up in practice. 
-When I read academic papers, I sometimes find it hard to see the intuition behind the 
-formulas. But shorter articles often skip the technical details I want to see. I am 
-trying to find a middle ground: keeping the rigor, but explaining the ideas behind it. 
-Writing is also how I learn, and I hope some of it is useful to others.
+I work in quantitative finance and started this site to explore how pricing models and risk frameworks behave when theory meets real market structure.
+
+When I read textbooks and academic papers, I sometimes find it hard to see the intuition behind the formulas. At the same time, shorter articles often skip the technical details I want to see. I try to bridge that gap by keeping the mathematical framework intact while focusing on the ideas behind it.
+
+Writing is also how I learn. Most of these notes begin as attempts to resolve my own confusion about a concept, and I hope some of it is useful to others.
 
 ---
 
