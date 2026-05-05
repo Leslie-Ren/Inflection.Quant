@@ -3,10 +3,34 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://leslie-ren.github.io/Inflection.Quant/</loc>
-    <lastmod>2026-04-23T00:00:00+00:00</lastmod>
+    <lastmod>2026-04-28T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://leslie-ren.github.io/Inflection.Quant/articles/</loc>
-    <lastmod>2026-04-23T00:00:00+00:00</lastmod>
+    <lastmod>2026-04-28T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://leslie-ren.github.io/Inflection.Quant/tags/feynman-kac/</loc>
+    <lastmod>2026-04-28T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://leslie-ren.github.io/Inflection.Quant/articles/quant-foundations/feynmam_kac/</loc>
+    <lastmod>2026-04-28T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://leslie-ren.github.io/Inflection.Quant/tags/monte-carlo/</loc>
+    <lastmod>2026-04-28T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://leslie-ren.github.io/Inflection.Quant/tags/pdes/</loc>
+    <lastmod>2026-04-28T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://leslie-ren.github.io/Inflection.Quant/articles/quant-foundations/</loc>
+    <lastmod>2026-04-28T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://leslie-ren.github.io/Inflection.Quant/tags/risk-neutral-pricing/</loc>
+    <lastmod>2026-04-28T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://leslie-ren.github.io/Inflection.Quant/tags/stochastic-processes/</loc>
+    <lastmod>2026-04-28T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://leslie-ren.github.io/Inflection.Quant/tags/</loc>
+    <lastmod>2026-04-28T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://leslie-ren.github.io/Inflection.Quant/tags/derivatives/</loc>
     <lastmod>2026-04-23T00:00:00+00:00</lastmod>
@@ -21,12 +45,6 @@
     <lastmod>2026-04-23T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://leslie-ren.github.io/Inflection.Quant/tags/options/</loc>
-    <lastmod>2026-04-23T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://leslie-ren.github.io/Inflection.Quant/articles/quant-foundations/</loc>
-    <lastmod>2026-04-23T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://leslie-ren.github.io/Inflection.Quant/tags/</loc>
     <lastmod>2026-04-23T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://leslie-ren.github.io/Inflection.Quant/articles/quant-foundations/vol_skewness_kurtosis/</loc>
