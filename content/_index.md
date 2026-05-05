@@ -31,6 +31,7 @@ interpretations, and conclusions are my own.*
 
 ### Get in Touch
 
-I enjoy questions and discussions. Feel free to reach out.
+If something resonates, or you think I have got something wrong, I would genuinely like
+to hear from you.
 
 → [inflection.quant@gmail.com](mailto:inflection.quant@gmail.com)
