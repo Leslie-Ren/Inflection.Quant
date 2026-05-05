@@ -123,12 +123,12 @@ behind Feynman-Kac.
 
 Let $X_t$ be a stochastic process under measure $\mathbb{Q}$ defined by:
 
-$$dX = \mu(X, t) \, dt + \sigma(X, t) \, dW^{\mathbb{Q}}$$
+$$dX = \mu(X, t) dt + \sigma(X, t) dW^{\mathbb{Q}}$$
 
 Consider the function $u(x, t)$ defined as the stochastic expectation:
 
 $$u(x, t) = \mathbb{E}^{\mathbb{Q}}\left[e^{-\int_t^T r(X_s, s)\,ds}
-g(X_T) \,\middle|\, X_t = x\right]$$
+g(X_T) \middle| X_t = x\right]$$
 
 and the PDE:
 
@@ -207,13 +207,7 @@ satisfies:
 $$\frac{\partial V}{\partial t} + \frac{1}{2}\sigma^2 F^2
 \frac{\partial^2 V}{\partial F^2} - rV = 0, \quad V(F, T) = g(F)$$
 
-This is exactly the Black-Scholes PDE. The two approaches are not just compatible in
-the cases we can solve by hand. They are guaranteed to produce the same function for
-any well-posed diffusion model, whether or not an analytical solution exists. In
-simple models like Black-Scholes this feels like a technicality, but in more complex
-models such as stochastic volatility or local volatility, where neither approach has a
-closed form, Feynman-Kac is the only way to know the equivalence holds. Without it,
-we are relying on hope. With it, the equivalence is guaranteed rather than assumed.
+This is exactly the Black-Scholes PDE. The two approaches are not just compatible in the cases we can solve by hand. They are guaranteed to produce the same function for any well-posed diffusion model, whether or not an analytical solution exists. In simple models like Black-Scholes this equivalence can feel almost unnecessary, but in more complex models such as stochastic volatility settings, where closed-form solutions are no longer available, Feynman-Kac provides the rigorous link that ensures the PDE formulation and the expectation formulation remain consistent representations of the same quantity.
 
 ---
 
