@@ -177,7 +177,7 @@ is a local martingale under $\mathbb{P}$. This follows from Itô's lemma: applyi
 is therefore a local martingale. Under standard integrability conditions, this process is in fact a true martingale[^1], so its expectation remains constant: $\mathbb{E}^{\mathbb{P}}[Z_T] = Z_0 = 1$.
 
 [^1]: Under the Novikov condition
-$\mathbb{E}^{\mathbb{P}}\left[\exp\left(\frac{1}{2}\int_0^T\theta_t^2\,dt\right)\right] < \infty$,
+$\mathbb{E}^{\mathbb{P}}\left[\exp\left(\frac{1}{2}\int_0^T\theta_t^2dt\right)\right] < \infty$,
 $Z_t$ is a true martingale rather than merely a local martingale. A local martingale
 has zero drift locally but may fail to have constant expectation globally. The
 Novikov condition rules this out and ensures $\mathbb{E}^{\mathbb{P}}[Z_T] = Z_0 = 1$

@@ -4,7 +4,7 @@ draft: false
 ---
 
 
-## A Quant's Attempt to Make Sense of Things
+## A Quant Exploring Intuition in Models
 
 I work in quantitative finance and started this site to explore how pricing models and risk frameworks behave when theory meets real market structure.
 
