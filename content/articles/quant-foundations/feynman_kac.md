@@ -150,7 +150,7 @@ and $g$; we assume these are satisfied throughout.
 |---|---|
 | Drift $\mu \frac{\partial u}{\partial x}$ | Drift of $X_t$ |
 | Diffusion $\frac{1}{2}\sigma^2 \frac{\partial^2 u}{\partial x^2}$ | Diffusion of $X_t$ |
-| Discounting $-r u$ | Discount factor $e^{-\int_t^T r \, ds}$ inside the expectation |
+| Discounting $-r u$ | Discount factor $e^{-\int_t^T rds}$ inside the expectation |
 | Terminal condition $u(x, T) = g(x)$ | Payoff function $g(X_T)$ |
 
 ---
@@ -231,4 +231,4 @@ structure of the problem.
 
 Both the PDE and Monte Carlo perspectives assume a fixed underlying random evolution and differ only in how that evolution is computed. The PDE approach propagates structure deterministically, while Monte Carlo propagates it through sampled paths. Feynman–Kac tells us these are not competing methods but two representations of the same object.
 
-This naturally leads to another question: we are computing expectations over paths, so why should we be committed to a single way of assigning probabilities to those paths in the first place? In many problems, the same physical or financial system can be described with different probabilistic weightings of the same trajectories, and some of these representations make computation or analysis significantly simpler than others. Understanding how such reweightings can change the apparent dynamics without changing the value of expectations is the subject of Girsanov’s theorem, which I will discuss in the next article.
+This naturally leads to another question: we are computing expectations over paths, so why should we be committed to a single way of assigning probabilities to those paths in the first place? In many problems, the same physical or financial system can be described with different probabilistic weightings of the same trajectories, and some of these representations make computation or analysis significantly simpler than others. Understanding how such reweightings can change the apparent dynamics without changing the value of expectations is the subject of Girsanov’s theorem, which I will discuss in the [next article]({{< relref "girsanov.md" >}}).
