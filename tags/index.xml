@@ -6,8 +6,43 @@
     <description>Recent content in Tags on Inflection Quant Lab</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 28 Apr 2026 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 06 May 2026 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://leslie-ren.github.io/Inflection.Quant/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Change of Measure</title>
+      <link>https://leslie-ren.github.io/Inflection.Quant/tags/change-of-measure/</link>
+      <pubDate>Wed, 06 May 2026 00:00:00 +0000</pubDate>
+      <guid>https://leslie-ren.github.io/Inflection.Quant/tags/change-of-measure/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Girsanov</title>
+      <link>https://leslie-ren.github.io/Inflection.Quant/tags/girsanov/</link>
+      <pubDate>Wed, 06 May 2026 00:00:00 +0000</pubDate>
+      <guid>https://leslie-ren.github.io/Inflection.Quant/tags/girsanov/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Radon-Nikodym Derivative</title>
+      <link>https://leslie-ren.github.io/Inflection.Quant/tags/radon-nikodym-derivative/</link>
+      <pubDate>Wed, 06 May 2026 00:00:00 +0000</pubDate>
+      <guid>https://leslie-ren.github.io/Inflection.Quant/tags/radon-nikodym-derivative/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Risk-Neutral Pricing</title>
+      <link>https://leslie-ren.github.io/Inflection.Quant/tags/risk-neutral-pricing/</link>
+      <pubDate>Wed, 06 May 2026 00:00:00 +0000</pubDate>
+      <guid>https://leslie-ren.github.io/Inflection.Quant/tags/risk-neutral-pricing/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Stochastic Processes</title>
+      <link>https://leslie-ren.github.io/Inflection.Quant/tags/stochastic-processes/</link>
+      <pubDate>Wed, 06 May 2026 00:00:00 +0000</pubDate>
+      <guid>https://leslie-ren.github.io/Inflection.Quant/tags/stochastic-processes/</guid>
+      <description></description>
+    </item>
     <item>
       <title>Feynman-Kac</title>
       <link>https://leslie-ren.github.io/Inflection.Quant/tags/feynman-kac/</link>
@@ -27,20 +62,6 @@
       <link>https://leslie-ren.github.io/Inflection.Quant/tags/pdes/</link>
       <pubDate>Tue, 28 Apr 2026 00:00:00 +0000</pubDate>
       <guid>https://leslie-ren.github.io/Inflection.Quant/tags/pdes/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Risk-Neutral Pricing</title>
-      <link>https://leslie-ren.github.io/Inflection.Quant/tags/risk-neutral-pricing/</link>
-      <pubDate>Tue, 28 Apr 2026 00:00:00 +0000</pubDate>
-      <guid>https://leslie-ren.github.io/Inflection.Quant/tags/risk-neutral-pricing/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Stochastic Processes</title>
-      <link>https://leslie-ren.github.io/Inflection.Quant/tags/stochastic-processes/</link>
-      <pubDate>Tue, 28 Apr 2026 00:00:00 +0000</pubDate>
-      <guid>https://leslie-ren.github.io/Inflection.Quant/tags/stochastic-processes/</guid>
       <description></description>
     </item>
     <item>
