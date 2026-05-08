@@ -4,7 +4,7 @@ draft: false
 ---
 
 
-## A Quant Exploring Intuition in Models
+## A Quant Digging for Intuition Behind the Formulas
 
 I work in quantitative finance and started this site to explore how pricing models and risk frameworks behave when theory meets real market structure.
 
