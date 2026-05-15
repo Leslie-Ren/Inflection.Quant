@@ -18,7 +18,7 @@ Writing is how I learn. I keep the mathematical framework intact because rigour 
 
 **Quantitative Finance Concepts**  
 The math behind models: stochastic processes, derivatives pricing, and risk modelling. 
-Most articles start from why the idea matters, then build the intuition and mathematics from concrete examples.
+Most articles start from why the idea matters, then build the intuition from concrete examples.
 
 **Practical Industry Insights**  
 General lessons and principles from working with quant systems in practice: the model choices, the edge 
