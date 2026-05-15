@@ -10,7 +10,7 @@ I work in quantitative finance and started this site to write about pricing mode
 
 When I read textbooks and academic papers, I sometimes find it hard to see the intuition behind the formulas. At the same time, shorter articles often skip the technical details I want to see. This site is my effort to bridge that gap without losing either side.
 
-Writing is how I learn. I keep the mathematical framework intact because rigour is what gives me real comfort with a concept. But working with these models in practice taught me that the formula is never the whole story. The ideas behind it are what carry over to real problem solving. These notes are my attempt to find both.
+Writing is how I learn. I keep the mathematical framework intact because rigour is what gives me real comfort with a concept. But working with models in practice taught me that the formula is never the whole story. The ideas behind it are what carry over to real problem solving. These notes are my attempt to find both.
 
 ---
 
@@ -18,7 +18,7 @@ Writing is how I learn. I keep the mathematical framework intact because rigour 
 
 **Quantitative Finance Concepts**  
 The math behind models: stochastic processes, derivatives pricing, and risk modelling. 
-I try to write the explanations I wish I had when I was learning these topics.
+Most articles start from why the idea matters, then build the intuition and mathematics from concrete examples.
 
 **Practical Industry Insights**  
 General lessons and principles from working with quant systems in practice: the model choices, the edge 
