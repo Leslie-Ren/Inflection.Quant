@@ -191,7 +191,7 @@ $$
 
 The drift reflects the funding differential between the two economies: holding foreign currency earns $r_f$ instead of $r_d$, so the exchange rate must compensate through its drift under domestic pricing.
 
-A key question is what object should play the role of numéraire in FX. Although $X_t$ enters directly into pricing problems, it is not itself a traded wealth process. Holding foreign currency is not static: it accrues interest at the foreign short rate $r_f$. Any self-financing position in foreign currency therefore grows like a money market account. This means the natural tradable benchmark is not $X_t$ alone, but the foreign money market account expressed in domestic currency:
+Before adopting the FX measure, it is worth being precise about what the numéraire is in this setting. Although $X_t$ enters directly into pricing problems, it is not itself a traded wealth process. Holding foreign currency is not static: it accrues interest at the foreign short rate $r_f$. Any self-financing position in foreign currency therefore grows like a money market account. This means the natural tradable benchmark is not $X_t$ alone, but the foreign money market account expressed in domestic currency:
 $$
 N_t = X_t e^{r_f t}
 $$
