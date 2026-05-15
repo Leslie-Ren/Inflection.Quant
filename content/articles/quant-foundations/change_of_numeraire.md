@@ -182,7 +182,7 @@ The stochastic annuity disappears into the measure change, leaving a plain optio
  
 ### The FX Measure
 
-In the equity world, there is one currency and one risk-free rate. In FX, there are two, and any valuation across currencies necessarily introduces an exchange rate. Working directly under $\mathbb{Q}^d$ therefore becomes cumbersome.
+In the equity world, there is one currency and one risk-free rate. In FX, there are two, and any valuation across currencies must explicitly account for the exchange rate.
 
 Let $X_t$ be the spot rate (domestic per foreign). Under the domestic risk-neutral measure $\mathbb{Q}^d$:
 $$
@@ -198,11 +198,10 @@ $$
 
 This distinction is important. Using $X_t$ alone ignores the carry from holding foreign cash and therefore does not correspond to any replicable trading strategy.
 
-The practical benefit of adopting the FX numéraire is that pricing becomes structurally simpler when payoffs naturally align with this choice of numéraire. Instead of carrying the interest rate differential through every expectation under $\mathbb{Q}^d$, it is absorbed into the measure itself. What remains is a cleaner decomposition between FX risk and the underlying payoff structure. The real power of this perspective becomes more visible in multi-currency derivatives, where FX interacts directly with foreign underlyings. These products, in particular quanto and composite structures, will be the focus of the next article.
+Adopting the FX measure does not simplify the computation for most multi-currency derivatives. In practice, quantos and composites are still priced under $\mathbb{Q}^d$. What the FX measure clarifies is the structure: it makes explicit how FX carry enters pricing through the numéraire, separating the funding differential from the underlying risk.
 
 ---
 ## Conclusion
-Pricing is not tied to a single measure but is a choice of representation, and the optimal numéraire is the one that matches the structure of the payoff. The exchange option, the forward measure, and the annuity measure all illustrate the same principle from different angles: the measure change does not alter the answer, it reveals structure the risk-neutral measure keeps hidden. In the next article we apply this framework to currency converted derivatives, where the choice of numéraire becomes not just convenient but essential.
-
+Pricing is not tied to a single measure but is a choice of representation: every numéraire change preserves the price while altering how the problem is expressed. For the exchange option, the forward measure, and the annuity measure, embedding the structure of the payoff into the numéraire dissolves the complexity into the measure change itself. The FX measure illustrates that the same principle does not always deliver computational simplicity, but it remains a useful lens for understanding how carry and correlation enter multi-currency pricing.
 
 
