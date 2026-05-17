@@ -179,8 +179,14 @@ this in the American options section:
 
 $$V(F_t, t) > \text{Intrinsic Value}(F_t) \quad \text{for all } t < T$$
 
-The strict inequality holds by a simple no-arbitrage argument for the lower bound, plus an intuitive observation for the strictness. First, $V$ can never fall below intrinsic value. If it did, one could buy the option and immediately exercise it for a riskless profit. Second, $V$ must be strictly greater than intrinsic value as long as time and volatility remain, because the option holder benefits from any further favourable move in $F_T$ before expiry, while being fully protected against unfavourable moves by the
-payoff floor at zero. This asymmetry, unlimited upside participation and truncated downside, always commands a strictly positive premium above intrinsic value.
+The strict inequality holds by a simple no-arbitrage argument for the lower bound, plus an 
+intuitive observation for the strictness. First, $V$ can never fall below intrinsic value. 
+If it did, one could buy the option and immediately exercise it for a riskless profit. Second, 
+$V$ must be strictly greater than intrinsic value as long as time and volatility remain, 
+because the option holder benefits from any further favourable move in $F_T$ before expiry, 
+while being fully protected against unfavourable moves by the payoff floor at zero. This 
+asymmetry between favourable participation and downside protection always commands a strictly 
+positive premium above intrinsic value whenever $F_t > 0$.
 
 #### Comparing the Two Worlds
 
@@ -268,9 +274,10 @@ intrinsic value $\max(K - F_m, 0)$ through futures assignment.
 
 From the no-arbitrage argument established in the previous section:
 
-$$V_m > \max(K - F_m, 0) \quad \text{for all } m<n$$
+$$V_m > \max(K - F_m, 0) \quad  \text{for all } m \lt n$$
 
-The exercise payoff row in the table is therefore always $< 0$.There is never a reason to exercise early, so the American feature
+
+The exercise payoff row in the table is therefore always $< 0$ as long as $F_m >0$ .There is never a reason to exercise early, so the American feature
 has no value. Although we have used a put option to illustrate the mechanics, the same argument holds symmetrically for call options.
 
 $$\boxed{V^{\text{American, futures-style}} = V^{\text{European, futures-style}}}$$
