@@ -3,7 +3,7 @@ title: "The Measure We Choose: How Numéraires Simplify Pricing"
 date: 2026-05-12
 draft: false
 math: true
-tags: ["Girsanov", "Change of Measure", "Radon-Nikodym derivative", "Risk-Neutral Pricing", "Stochastic Processes"]
+tags: ["Numéraires", "Girsanov", "Change of Measure", "Radon-Nikodym derivative", "Exchange Option", "Forward Measure", "Annuity Measure"]
 ---
 
 ## Why This Matters

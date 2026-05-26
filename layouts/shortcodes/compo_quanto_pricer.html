@@ -1,0 +1,406 @@
+<style>
+  .cq-wrap { font-family: inherit; font-size: 14px; color: var(--primary); }
+  .cq-card { background: var(--entry); border: 1px solid var(--border); border-radius: 8px; padding: 1rem 1.25rem; margin-bottom: 14px; }
+  .cq-section-title { font-size: 11px; font-weight: 600; color: var(--secondary); text-transform: uppercase; letter-spacing: 0.05em; margin: 0 0 12px; }
+  .cq-grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .cq-grid3 { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 8px; }
+  .cq-grid4 { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 8px; }
+  .cq-metric { background: var(--theme); border: 1px solid var(--border); border-radius: 6px; padding: 10px 12px; }
+  .cq-metric-label { font-size: 11px; color: var(--secondary); margin: 0 0 4px; }
+  .cq-metric-value { font-size: 18px; font-weight: 600; margin: 0; color: var(--primary); }
+  .cq-param-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+  .cq-param-label { font-size: 13px; color: var(--secondary); width: 210px; flex-shrink: 0; }
+  .cq-param-val { font-size: 13px; font-weight: 600; min-width: 62px; text-align: right; color: var(--primary); }
+  .cq-param-row input[type=range] { flex: 1; accent-color: var(--primary); }
+  .cq-divider { border: none; border-top: 1px solid var(--border); margin: 14px 0; }
+  .cq-note { font-size: 11px; color: var(--secondary); margin-top: 8px; font-family: monospace; line-height: 1.7; }
+  .cq-verdict { border-radius: 6px; padding: 10px 14px; margin-top: 12px; display: flex; justify-content: space-between; align-items: center; border: 1px solid var(--border); border-left-width: 4px; background: var(--theme); gap: 12px; }
+  .cq-verdict-text { font-size: 14px; font-weight: 600; color: var(--primary); white-space: nowrap; }
+  .cq-verdict-reason { font-size: 12px; color: var(--secondary); text-align: right; }
+  .cq-tabs { display: flex; gap: 0; margin-bottom: -1px; position: relative; z-index: 1; }
+  .cq-tab { padding: 8px 18px; font-size: 13px; font-weight: 500; cursor: pointer; border: 1px solid var(--border); border-bottom: none; border-radius: 6px 6px 0 0; background: var(--theme); color: var(--secondary); user-select: none; margin-right: 4px; }
+  .cq-tab.active { background: var(--entry); color: var(--primary); border-bottom: 1px solid var(--entry); }
+  .cq-tab-content { display: none; background: var(--entry); border: 1px solid var(--border); border-radius: 0 8px 8px 8px; padding: 1.25rem; margin-bottom: 14px; }
+  .cq-tab-content.active { display: block; }
+</style>
+
+<div class="cq-wrap">
+
+  <div class="cq-card">
+    <p class="cq-section-title">Market inputs</p>
+    <div class="cq-param-row">
+      <span class="cq-param-label">WTI futures price F_0 (USD/bbl)</span>
+      <input type="range" min="50" max="120" value="75" step="1" id="cq_f0">
+      <span class="cq-param-val" id="cq_f0_v">$75</span>
+    </div>
+    <div class="cq-param-row">
+      <span class="cq-param-label">USD/CAD spot X_0 (CAD per USD)</span>
+      <input type="range" min="1.20" max="1.50" value="1.36" step="0.01" id="cq_x0">
+      <span class="cq-param-val" id="cq_x0_v">1.36</span>
+    </div>
+    <div class="cq-param-row">
+      <span class="cq-param-label">Fixed FX rate X̄ (quanto, CAD per USD)</span>
+      <input type="range" min="1.20" max="1.50" value="1.36" step="0.01" id="cq_xbar">
+      <span class="cq-param-val" id="cq_xbar_v">1.36</span>
+    </div>
+    <div class="cq-param-row">
+      <span class="cq-param-label">Moneyness (% of adjusted forward)</span>
+      <input type="range" min="80" max="105" value="100" step="1" id="cq_mon">
+      <span class="cq-param-val" id="cq_mon_v">100% (ATM)</span>
+    </div>
+    <hr class="cq-divider">
+    <p class="cq-section-title">Volatility &amp; correlation</p>
+    <div class="cq-param-row">
+      <span class="cq-param-label">WTI vol σ_F</span>
+      <input type="range" min="15" max="50" value="30" step="1" id="cq_vol_f">
+      <span class="cq-param-val" id="cq_vol_f_v">30%</span>
+    </div>
+    <div class="cq-param-row">
+      <span class="cq-param-label">USD/CAD vol σ_X</span>
+      <input type="range" min="4" max="15" value="8" step="0.5" id="cq_vol_x">
+      <span class="cq-param-val" id="cq_vol_x_v">8%</span>
+    </div>
+    <div class="cq-param-row">
+      <span class="cq-param-label">Correlation ρ (F, X)</span>
+      <input type="range" min="-0.80" max="0.20" value="-0.45" step="0.05" id="cq_rho">
+      <span class="cq-param-val" id="cq_rho_v">−0.45</span>
+    </div>
+    <hr class="cq-divider">
+    <p class="cq-section-title">Rates &amp; tenor</p>
+    <div class="cq-param-row">
+      <span class="cq-param-label">Domestic rate r_d (CAD)</span>
+      <input type="range" min="2" max="6" value="3.75" step="0.25" id="cq_rd">
+      <span class="cq-param-val" id="cq_rd_v">3.75%</span>
+    </div>
+    <div class="cq-param-row">
+      <span class="cq-param-label">Foreign rate r_f (USD)</span>
+      <input type="range" min="2" max="6" value="4.50" step="0.25" id="cq_rf">
+      <span class="cq-param-val" id="cq_rf_v">4.50%</span>
+    </div>
+    <div class="cq-param-row">
+      <span class="cq-param-label">Tenor (months)</span>
+      <input type="range" min="1" max="24" value="12" step="1" id="cq_tenor">
+      <span class="cq-param-val" id="cq_tenor_v">12 mo</span>
+    </div>
+  </div>
+
+  <div class="cq-tabs">
+    <div class="cq-tab active" onclick="cqTab('quanto',this)">Quanto</div>
+    <div class="cq-tab" onclick="cqTab('compo',this)">Compo</div>
+    <div class="cq-tab" onclick="cqTab('compare',this)">Comparison</div>
+  </div>
+
+  <!-- QUANTO TAB -->
+  <div class="cq-tab-content active" id="cq_tab_quanto">
+    <p class="cq-section-title">Quanto put — payoff: X̄ · max(K − F_T, 0) in CAD</p>
+    <div class="cq-grid3" style="margin-bottom:8px;">
+      <div class="cq-metric">
+        <p class="cq-metric-label">Quanto-adjusted forward (USD/bbl)</p>
+        <p class="cq-metric-value" id="cq_q_fadj">—</p>
+      </div>
+      <div class="cq-metric">
+        <p class="cq-metric-label">Strike K (USD/bbl)</p>
+        <p class="cq-metric-value" id="cq_q_strike">—</p>
+      </div>
+      <div class="cq-metric">
+        <p class="cq-metric-label">Quanto fwd adjustment</p>
+        <p class="cq-metric-value" id="cq_q_adj_pct">—</p>
+      </div>
+    </div>
+    <div class="cq-grid3">
+      <div class="cq-metric">
+        <p class="cq-metric-label">d_1</p>
+        <p class="cq-metric-value" id="cq_q_d1">—</p>
+      </div>
+      <div class="cq-metric">
+        <p class="cq-metric-label">d_2</p>
+        <p class="cq-metric-value" id="cq_q_d2">—</p>
+      </div>
+      <div class="cq-metric">
+        <p class="cq-metric-label">Put premium (USD/bbl)</p>
+        <p class="cq-metric-value" id="cq_q_prem_usd">—</p>
+      </div>
+    </div>
+    <div class="cq-grid2" style="margin-top:8px;">
+      <div class="cq-metric">
+        <p class="cq-metric-label">Put premium in CAD (× X̄)</p>
+        <p class="cq-metric-value" id="cq_q_prem_cad">—</p>
+      </div>
+      <div class="cq-metric">
+        <p class="cq-metric-label">As % of F_0 · X̄</p>
+        <p class="cq-metric-value" id="cq_q_pct">—</p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- COMPO TAB -->
+  <div class="cq-tab-content" id="cq_tab_compo">
+    <p class="cq-section-title">Compo put — payoff: max(K − X_T · F_T, 0) in CAD</p>
+    <div class="cq-grid3" style="margin-bottom:8px;">
+      <div class="cq-metric">
+        <p class="cq-metric-label">CAD oil spot S_0 = F_0 · X_0</p>
+        <p class="cq-metric-value" id="cq_c_s0">—</p>
+      </div>
+      <div class="cq-metric">
+        <p class="cq-metric-label">CAD oil forward S_0^fwd</p>
+        <p class="cq-metric-value" id="cq_c_fwd">—</p>
+      </div>
+      <div class="cq-metric">
+        <p class="cq-metric-label">Strike K (CAD/bbl)</p>
+        <p class="cq-metric-value" id="cq_c_strike">—</p>
+      </div>
+    </div>
+    <div class="cq-grid3" style="margin-bottom:8px;">
+      <div class="cq-metric">
+        <p class="cq-metric-label">Composite vol σ_compo</p>
+        <p class="cq-metric-value" id="cq_c_vol">—</p>
+      </div>
+      <div class="cq-metric">
+        <p class="cq-metric-label">d_1</p>
+        <p class="cq-metric-value" id="cq_c_d1">—</p>
+      </div>
+      <div class="cq-metric">
+        <p class="cq-metric-label">d_2</p>
+        <p class="cq-metric-value" id="cq_c_d2">—</p>
+      </div>
+    </div>
+    <div class="cq-grid3" style="margin-bottom:8px;">
+      <div class="cq-metric">
+        <p class="cq-metric-label">Put premium (CAD/bbl)</p>
+        <p class="cq-metric-value" id="cq_c_prem">—</p>
+      </div>
+      <div class="cq-metric">
+        <p class="cq-metric-label">As % of S_0</p>
+        <p class="cq-metric-value" id="cq_c_pct">—</p>
+      </div>
+      <div class="cq-metric">
+        <p class="cq-metric-label">∂σ_compo / ∂σ_X</p>
+        <p class="cq-metric-value" id="cq_c_dsig">—</p>
+      </div>
+    </div>
+    <hr class="cq-divider">
+    <p class="cq-section-title">Greeks</p>
+    <div class="cq-grid4">
+      <div class="cq-metric">
+        <p class="cq-metric-label">Delta (∂P/∂S_0)</p>
+        <p class="cq-metric-value" id="cq_g_delta">—</p>
+      </div>
+      <div class="cq-metric">
+        <p class="cq-metric-label">Vega (per 1% σ_F)</p>
+        <p class="cq-metric-value" id="cq_g_vega">—</p>
+      </div>
+      <div class="cq-metric">
+        <p class="cq-metric-label">Corr sens (per +0.1 ρ)</p>
+        <p class="cq-metric-value" id="cq_g_rho">—</p>
+      </div>
+      <div class="cq-metric">
+        <p class="cq-metric-label">FX delta (∂P/∂X_0)</p>
+        <p class="cq-metric-value" id="cq_g_fxdelta">—</p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- COMPARISON TAB -->
+  <div class="cq-tab-content" id="cq_tab_compare">
+    <p class="cq-section-title">Both premiums in CAD/bbl</p>
+    <div class="cq-grid4" style="margin-bottom:8px;">
+      <div class="cq-metric">
+        <p class="cq-metric-label">Quanto (CAD/bbl)</p>
+        <p class="cq-metric-value" id="cq_res_q">—</p>
+      </div>
+      <div class="cq-metric">
+        <p class="cq-metric-label">Compo (CAD/bbl)</p>
+        <p class="cq-metric-value" id="cq_res_c">—</p>
+      </div>
+      <div class="cq-metric">
+        <p class="cq-metric-label">Difference (Q − C)</p>
+        <p class="cq-metric-value" id="cq_res_diff">—</p>
+      </div>
+      <div class="cq-metric">
+        <p class="cq-metric-label">Cheaper by</p>
+        <p class="cq-metric-value" id="cq_res_pct">—</p>
+      </div>
+    </div>
+    <div class="cq-verdict" id="cq_verdict_row">
+      <span class="cq-verdict-text" id="cq_verdict_text"></span>
+      <span class="cq-verdict-reason" id="cq_verdict_reason"></span>
+    </div>
+    <hr class="cq-divider">
+    <p class="cq-section-title">What drives the difference</p>
+    <div class="cq-grid3">
+      <div class="cq-metric">
+        <p class="cq-metric-label">Quanto fwd adj exp(−ρσ_Fσ_X T)</p>
+        <p class="cq-metric-value" id="cq_cmp_qadj">—</p>
+      </div>
+      <div class="cq-metric">
+        <p class="cq-metric-label">Vol used: quanto (σ_F)</p>
+        <p class="cq-metric-value" id="cq_cmp_vq">—</p>
+      </div>
+      <div class="cq-metric">
+        <p class="cq-metric-label">Vol used: compo (σ_compo)</p>
+        <p class="cq-metric-value" id="cq_cmp_vc">—</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+(function(){
+  function norm(x){
+    var a1=0.254829592,a2=-0.284496736,a3=1.421413741,a4=-1.453152027,a5=1.061405429,p=0.3275911;
+    var sign=x<0?-1:1,t=1/(1+p*Math.abs(x));
+    var y=1-(((((a5*t+a4)*t)+a3)*t+a2)*t+a1)*t*Math.exp(-x*x/2);
+    return 0.5*(1+sign*y);
+  }
+  function g(id){ return document.getElementById(id); }
+  function s(id,v){ g(id).textContent=v; }
+
+  function compute(){
+    var F0    = +g('cq_f0').value;
+    var X0    = +g('cq_x0').value;
+    var Xbar  = +g('cq_xbar').value;
+    var mon   = +g('cq_mon').value/100;
+    var sF    = +g('cq_vol_f').value/100;
+    var sX    = +g('cq_vol_x').value/100;
+    var rho   = +g('cq_rho').value;
+    var rd    = +g('cq_rd').value/100;
+    var rf    = +g('cq_rf').value/100;
+    var T     = +g('cq_tenor').value/12;
+
+    // ── QUANTO PUT ──────────────────────────────────────────────────
+    // Quanto-adjusted forward: F_0 · exp(−ρ · σ_F · σ_X · T)
+    var F_adj = F0 * Math.exp(-rho * sF * sX * T);
+    var K_q   = F_adj * mon;
+    // d1 = [ln(F0/K) − ρ·σ_F·σ_X·T + ½σ_F²·T] / (σ_F·√T)
+    var d1_q  = (Math.log(F0/K_q) - rho*sF*sX*T + 0.5*sF*sF*T) / (sF*Math.sqrt(T));
+    var d2_q  = d1_q - sF*Math.sqrt(T);
+    // Put: e^{-rd·T} · [K·N(−d2) − F_adj·N(−d1)]
+    var prem_q_usd = Math.exp(-rd*T) * (K_q*norm(-d2_q) - F_adj*norm(-d1_q));
+    var prem_q_cad = prem_q_usd * Xbar;
+    var qadj_pct   = (Math.exp(-rho*sF*sX*T)-1)*100;
+
+    // ── COMPO PUT ───────────────────────────────────────────────────
+    // S_0 = F_0 · X_0 (CAD oil spot)
+    // S_0^fwd = F_0 · X_0 · exp((r_d − r_f) · T)
+    var S0     = F0 * X0;
+    var S_fwd  = F0 * X0 * Math.exp((rd - rf) * T);
+    var vc2    = sF*sF + 2*rho*sF*sX + sX*sX;
+    var s_c    = vc2 > 0 ? Math.sqrt(vc2) : 0.001;
+    var K_c    = S_fwd * mon;
+    // d1 = [ln(S0/K) + (r_d − r_f + ½σ_compo²)·T] / (σ_compo·√T)
+    var d1_c   = (Math.log(S0/K_c) + (rd - rf + 0.5*s_c*s_c)*T) / (s_c*Math.sqrt(T));
+    var d2_c   = d1_c - s_c*Math.sqrt(T);
+    // Put: e^{-rd·T} · [K·N(−d2) − S_fwd·N(−d1)]
+    var prem_c = Math.exp(-rd*T) * (K_c*norm(-d2_c) - S_fwd*norm(-d1_c));
+    var dsig_dsx = (sX + rho*sF) / s_c;
+
+    // ── GREEKS (compo) ──────────────────────────────────────────────
+    var disc   = Math.exp(-rd*T);
+    // Delta wrt S0: ∂P/∂S0 — bump S0 via X0
+    var dX     = 0.01;
+    var S0b    = F0*(X0+dX);
+    var Sfwdb  = S0b*Math.exp((rd-rf)*T);
+    var Kcb    = Sfwdb*mon;
+    var d1b    = (Math.log(S0b/Kcb)+(rd-rf+0.5*s_c*s_c)*T)/(s_c*Math.sqrt(T));
+    var d2b    = d1b - s_c*Math.sqrt(T);
+    var premb  = disc*(Kcb*norm(-d2b)-Sfwdb*norm(-d1b));
+    var fx_delta = (premb - prem_c)/dX;
+    // Vega wrt σ_F
+    var dsF    = 0.001;
+    var sc2b   = Math.sqrt(Math.max((sF+dsF)*(sF+dsF)+2*rho*(sF+dsF)*sX+sX*sX,0.000001));
+    var d1vb   = (Math.log(S0/K_c)+(rd-rf+0.5*sc2b*sc2b)*T)/(sc2b*Math.sqrt(T));
+    var d2vb   = d1vb - sc2b*Math.sqrt(T);
+    var premvb = disc*(K_c*norm(-d2vb)-S_fwd*norm(-d1vb));
+    var vega_c = (premvb - prem_c)/dsF * 0.01;
+    // Rho sensitivity (correlation)
+    var rho2   = rho+0.1;
+    var sc2r   = Math.sqrt(Math.max(sF*sF+2*rho2*sF*sX+sX*sX,0.000001));
+    var d1rb   = (Math.log(S0/K_c)+(rd-rf+0.5*sc2r*sc2r)*T)/(sc2r*Math.sqrt(T));
+    var d2rb   = d1rb - sc2r*Math.sqrt(T);
+    var premrb = disc*(K_c*norm(-d2rb)-S_fwd*norm(-d1rb));
+    var rho_sens = premrb - prem_c;
+    // Delta wrt S0 (analytical approximation via bump above = fx_delta per unit X)
+    var delta_c = fx_delta; // ∂P/∂X_0, most natural for CAD producer
+
+    // ── COMPARISON ──────────────────────────────────────────────────
+    var diff = prem_q_cad - prem_c;
+    var cpct = Math.abs(diff)/Math.max(prem_q_cad,prem_c)*100;
+
+    // ── DOM ─────────────────────────────────────────────────────────
+    // Quanto tab
+    s('cq_q_fadj',    '$'+F_adj.toFixed(2));
+    s('cq_q_strike',  '$'+K_q.toFixed(2));
+    s('cq_q_adj_pct', (qadj_pct>=0?'+':'')+qadj_pct.toFixed(2)+'%');
+    s('cq_q_d1',      d1_q.toFixed(4));
+    s('cq_q_d2',      d2_q.toFixed(4));
+    s('cq_q_prem_usd','$'+prem_q_usd.toFixed(2));
+    s('cq_q_prem_cad','C$'+prem_q_cad.toFixed(2));
+    s('cq_q_pct',     (prem_q_cad/(F0*Xbar)*100).toFixed(2)+'%');
+
+
+    // Compo tab
+    s('cq_c_s0',    'C$'+S0.toFixed(2));
+    s('cq_c_fwd',   'C$'+S_fwd.toFixed(2));
+    s('cq_c_strike','C$'+K_c.toFixed(2));
+    s('cq_c_vol',   (s_c*100).toFixed(2)+'%');
+    s('cq_c_d1',    d1_c.toFixed(4));
+    s('cq_c_d2',    d2_c.toFixed(4));
+    s('cq_c_prem',  'C$'+prem_c.toFixed(2));
+    s('cq_c_pct',   (prem_c/S0*100).toFixed(2)+'%');
+    s('cq_c_dsig',  dsig_dsx.toFixed(4));
+    s('cq_g_delta', delta_c.toFixed(3));
+    s('cq_g_vega',  'C$'+vega_c.toFixed(2));
+    s('cq_g_rho',   (rho_sens>=0?'+':'')+' C$'+rho_sens.toFixed(2));
+    s('cq_g_fxdelta',fx_delta.toFixed(3));
+
+
+    // Comparison tab
+    s('cq_res_q',    'C$'+prem_q_cad.toFixed(2));
+    s('cq_res_c',    'C$'+prem_c.toFixed(2));
+    s('cq_res_diff', (diff>=0?'+':'')+' C$'+diff.toFixed(2));
+    s('cq_res_pct',  cpct.toFixed(1)+'%');
+    s('cq_cmp_qadj', (qadj_pct>=0?'+':'')+qadj_pct.toFixed(2)+'%');
+    s('cq_cmp_vq',   (sF*100).toFixed(1)+'%');
+    s('cq_cmp_vc',   (s_c*100).toFixed(2)+'%');
+
+    var vrow = g('cq_verdict_row');
+    if(diff>0){
+      vrow.style.borderLeftColor='#22c55e';
+      s('cq_verdict_text','Compo is cheaper by C$'+Math.abs(diff).toFixed(2)+'/bbl');
+      s('cq_verdict_reason','Negative ρ reduces σ_compo to '+(s_c*100).toFixed(1)+'% vs σ_F='+(sF*100).toFixed(0)+'%');
+    } else {
+      vrow.style.borderLeftColor='#3b82f6';
+      s('cq_verdict_text','Quanto is cheaper by C$'+Math.abs(diff).toFixed(2)+'/bbl');
+      s('cq_verdict_reason','σ_compo='+(s_c*100).toFixed(1)+'% still exceeds σ_F='+(sF*100).toFixed(0)+'% — make ρ more negative to flip');
+    }
+
+    // Slider readouts
+    s('cq_f0_v',    '$'+F0);
+    s('cq_x0_v',   X0.toFixed(2));
+    s('cq_xbar_v', Xbar.toFixed(2));
+    s('cq_vol_f_v',(sF*100).toFixed(0)+'%');
+    s('cq_vol_x_v',(sX*100).toFixed(1)+'%');
+    s('cq_rho_v',  (rho<0?'−':'')+Math.abs(rho).toFixed(2));
+    s('cq_rd_v',   (rd*100).toFixed(2)+'%');
+    s('cq_rf_v',   (rf*100).toFixed(2)+'%');
+    s('cq_tenor_v',+g('cq_tenor').value+' mo');
+    var mval=+g('cq_mon').value;
+    s('cq_mon_v',  mval===100?'100% (ATM)':mval+'%');
+  }
+
+  window.cqTab = function(name,el){
+    document.querySelectorAll('.cq-tab').forEach(function(t){ t.classList.remove('active'); });
+    document.querySelectorAll('.cq-tab-content').forEach(function(t){ t.classList.remove('active'); });
+    el.classList.add('active');
+    document.getElementById('cq_tab_'+name).classList.add('active');
+  };
+
+  ['cq_f0','cq_x0','cq_xbar','cq_mon','cq_vol_f','cq_vol_x','cq_rho','cq_rd','cq_rf','cq_tenor'].forEach(function(id){
+    document.getElementById(id).addEventListener('input', compute);
+  });
+  compute();
+})();
+</script>
