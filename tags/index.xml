@@ -6,8 +6,64 @@
     <description>Recent content in Tags on Inflection Quant Lab</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 12 May 2026 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 19 May 2026 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://leslie-ren.github.io/Inflection.Quant/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Black-Scholes</title>
+      <link>https://leslie-ren.github.io/Inflection.Quant/tags/black-scholes/</link>
+      <pubDate>Tue, 19 May 2026 00:00:00 +0000</pubDate>
+      <guid>https://leslie-ren.github.io/Inflection.Quant/tags/black-scholes/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Commodities</title>
+      <link>https://leslie-ren.github.io/Inflection.Quant/tags/commodities/</link>
+      <pubDate>Tue, 19 May 2026 00:00:00 +0000</pubDate>
+      <guid>https://leslie-ren.github.io/Inflection.Quant/tags/commodities/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>FX</title>
+      <link>https://leslie-ren.github.io/Inflection.Quant/tags/fx/</link>
+      <pubDate>Tue, 19 May 2026 00:00:00 +0000</pubDate>
+      <guid>https://leslie-ren.github.io/Inflection.Quant/tags/fx/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Options</title>
+      <link>https://leslie-ren.github.io/Inflection.Quant/tags/options/</link>
+      <pubDate>Tue, 19 May 2026 00:00:00 +0000</pubDate>
+      <guid>https://leslie-ren.github.io/Inflection.Quant/tags/options/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Risk-Management</title>
+      <link>https://leslie-ren.github.io/Inflection.Quant/tags/risk-management/</link>
+      <pubDate>Tue, 19 May 2026 00:00:00 +0000</pubDate>
+      <guid>https://leslie-ren.github.io/Inflection.Quant/tags/risk-management/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Structured-Products</title>
+      <link>https://leslie-ren.github.io/Inflection.Quant/tags/structured-products/</link>
+      <pubDate>Tue, 19 May 2026 00:00:00 +0000</pubDate>
+      <guid>https://leslie-ren.github.io/Inflection.Quant/tags/structured-products/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>WTI</title>
+      <link>https://leslie-ren.github.io/Inflection.Quant/tags/wti/</link>
+      <pubDate>Tue, 19 May 2026 00:00:00 +0000</pubDate>
+      <guid>https://leslie-ren.github.io/Inflection.Quant/tags/wti/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Annuity Measure</title>
+      <link>https://leslie-ren.github.io/Inflection.Quant/tags/annuity-measure/</link>
+      <pubDate>Tue, 12 May 2026 00:00:00 +0000</pubDate>
+      <guid>https://leslie-ren.github.io/Inflection.Quant/tags/annuity-measure/</guid>
+      <description></description>
+    </item>
     <item>
       <title>Change of Measure</title>
       <link>https://leslie-ren.github.io/Inflection.Quant/tags/change-of-measure/</link>
@@ -16,10 +72,31 @@
       <description></description>
     </item>
     <item>
+      <title>Exchange Option</title>
+      <link>https://leslie-ren.github.io/Inflection.Quant/tags/exchange-option/</link>
+      <pubDate>Tue, 12 May 2026 00:00:00 +0000</pubDate>
+      <guid>https://leslie-ren.github.io/Inflection.Quant/tags/exchange-option/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Forward Measure</title>
+      <link>https://leslie-ren.github.io/Inflection.Quant/tags/forward-measure/</link>
+      <pubDate>Tue, 12 May 2026 00:00:00 +0000</pubDate>
+      <guid>https://leslie-ren.github.io/Inflection.Quant/tags/forward-measure/</guid>
+      <description></description>
+    </item>
+    <item>
       <title>Girsanov</title>
       <link>https://leslie-ren.github.io/Inflection.Quant/tags/girsanov/</link>
       <pubDate>Tue, 12 May 2026 00:00:00 +0000</pubDate>
       <guid>https://leslie-ren.github.io/Inflection.Quant/tags/girsanov/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Numéraires</title>
+      <link>https://leslie-ren.github.io/Inflection.Quant/tags/num%C3%A9raires/</link>
+      <pubDate>Tue, 12 May 2026 00:00:00 +0000</pubDate>
+      <guid>https://leslie-ren.github.io/Inflection.Quant/tags/num%C3%A9raires/</guid>
       <description></description>
     </item>
     <item>
@@ -32,14 +109,14 @@
     <item>
       <title>Risk-Neutral Pricing</title>
       <link>https://leslie-ren.github.io/Inflection.Quant/tags/risk-neutral-pricing/</link>
-      <pubDate>Tue, 12 May 2026 00:00:00 +0000</pubDate>
+      <pubDate>Wed, 06 May 2026 00:00:00 +0000</pubDate>
       <guid>https://leslie-ren.github.io/Inflection.Quant/tags/risk-neutral-pricing/</guid>
       <description></description>
     </item>
     <item>
       <title>Stochastic Processes</title>
       <link>https://leslie-ren.github.io/Inflection.Quant/tags/stochastic-processes/</link>
-      <pubDate>Tue, 12 May 2026 00:00:00 +0000</pubDate>
+      <pubDate>Wed, 06 May 2026 00:00:00 +0000</pubDate>
       <guid>https://leslie-ren.github.io/Inflection.Quant/tags/stochastic-processes/</guid>
       <description></description>
     </item>
@@ -83,13 +160,6 @@
       <link>https://leslie-ren.github.io/Inflection.Quant/tags/margining/</link>
       <pubDate>Thu, 23 Apr 2026 00:00:00 +0000</pubDate>
       <guid>https://leslie-ren.github.io/Inflection.Quant/tags/margining/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Options</title>
-      <link>https://leslie-ren.github.io/Inflection.Quant/tags/options/</link>
-      <pubDate>Thu, 23 Apr 2026 00:00:00 +0000</pubDate>
-      <guid>https://leslie-ren.github.io/Inflection.Quant/tags/options/</guid>
       <description></description>
     </item>
     <item>

@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>Options on Inflection Quant Lab</title>
-    <link>https://leslie-ren.github.io/Inflection.Quant/tags/options/</link>
-    <description>Recent content in Options on Inflection Quant Lab</description>
+    <title>Risk-Management on Inflection Quant Lab</title>
+    <link>https://leslie-ren.github.io/Inflection.Quant/tags/risk-management/</link>
+    <description>Recent content in Risk-Management on Inflection Quant Lab</description>
     <generator>Hugo</generator>
     <language>en-us</language>
     <lastBuildDate>Tue, 19 May 2026 00:00:00 +0000</lastBuildDate>
-    <atom:link href="https://leslie-ren.github.io/Inflection.Quant/tags/options/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://leslie-ren.github.io/Inflection.Quant/tags/risk-management/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Quanto and Compo Commodity Options: FX&#39;s Hidden Role in Pricing and Risk</title>
       <link>https://leslie-ren.github.io/Inflection.Quant/articles/quant-foundations/quanto_and_compo/</link>
@@ -15,22 +15,6 @@
       <guid>https://leslie-ren.github.io/Inflection.Quant/articles/quant-foundations/quanto_and_compo/</guid>
       <description>&lt;h2 id=&#34;why-this-matters&#34;&gt;Why This Matters&lt;/h2&gt;
 &lt;p&gt;Many of the world&amp;rsquo;s most actively traded commodities are priced in USD, yet end investors and corporates often operate in other currencies. A Canadian oil producer hedging output, a European airline managing jet fuel costs, or an Asian sovereign wealth fund allocating to commodity exposure all face the same underlying issue: commodity risk does not exist in isolation from FX risk. The standard approach is to hedge the commodity leg with USD-denominated futures or swaps and manage FX separately through forwards or options. This works, but it treats the two risks as independent. Quanto and compo options take a different approach by packaging both risks into a single instrument, but the way each handles FX risk has consequences for pricing and hedging that are easy to overlook.&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>Futures-Style Margined Options: The Absence of Early Exercise Premium</title>
-      <link>https://leslie-ren.github.io/Inflection.Quant/articles/quant-foundations/future_style_margining_options/</link>
-      <pubDate>Thu, 23 Apr 2026 00:00:00 +0000</pubDate>
-      <guid>https://leslie-ren.github.io/Inflection.Quant/articles/quant-foundations/future_style_margining_options/</guid>
-      <description>&lt;h2 id=&#34;why-this-matters&#34;&gt;Why This Matters&lt;/h2&gt;
-&lt;p&gt;When I first studied options, most textbook examples were equity-style:
-you pay a premium upfront, and at expiry (or whenever you choose to exercise, if the
-option is American), you receive the payoff. That framing stuck with me for a long time.&lt;/p&gt;
-&lt;p&gt;When I started working on commodity derivatives, I encountered a different world. Many
-options in commodity markets are traded under futures-style margining. No premium
-changes hands at inception, and instead the option is margined daily like a futures
-contract. This is common across a wide range of exchange-traded products: options on WTI
-crude oil futures at the CME, options on Henry Hub natural gas futures, options on corn
-and wheat futures, and options on carbon emissions futures, to name a few.&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>
