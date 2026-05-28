@@ -7,9 +7,9 @@ tags: ["options", "commodities", "FX", "structured-products", "risk-management",
 ---
 ## Why This Matters
  
-Many of the world's most actively traded commodities are priced in USD, yet end investors and corporates often operate in other currencies. A Canadian oil producer hedging output, a European airline managing jet fuel costs, or an Asian sovereign wealth fund allocating to commodity exposure all face the same underlying issue: commodity risk does not exist in isolation from FX risk. The standard approach is to hedge the commodity leg with USD-denominated futures or swaps and manage FX separately through forwards or options. This works, but it treats the two risks as independent. Quanto and compo options take a different approach by packaging both risks into a single instrument, but the way each handles FX risk has consequences for pricing and hedging that are easy to overlook.
+Many of the world's most actively traded commodities are priced in USD, yet end investors and corporates often operate in other currencies. A Canadian oil producer hedging output, a European airline managing jet fuel costs, or an Asian sovereign wealth fund allocating to commodity exposure all face the same underlying issue: commodity risk does not exist in isolation from FX risk. The standard approach is to hedge the commodity leg with USD-denominated futures or swaps and manage FX separately through forwards or options. This works, but it treats the two risks as independent. Quanto and compo options take a different approach by packaging both risks into a single instrument, but the way each handles FX risk creates some pricing and hedging subtleties that I think are easy to miss.
 
-This article works through both structures using WTI/CAD as a concrete example and focuses on a few practical questions:
+This article works through both structures using WTI/CAD as an example and focuses on a few practical questions:
  
 > - Why does the quanto adjustment exist and what drives its magnitude?
 > - How do FX volatility and correlation enter the pricing of each structure, and why do they enter differently?
@@ -200,15 +200,15 @@ This is positive only when $\sigma_X > -\rho\,\sigma_F$. When $\rho$ is negative
 
 ### Currency of Exposure
 
-The most fundamental question is what currency the participant's exposure actually lives in. A Canadian producer or refiner whose budget constraint is a CAD breakeven price is asking "is oil above C$\$130$?" rather than "is oil above \$100 USD?". For that participant the compo is the natural fit: the strike is set directly in their decision currency and the exercise decision aligns with their actual P&L. The quanto can hedge the same oil exposure but the exercise is made in USD terms, introducing a mismatch against a CAD budget that the participant must then manage separately. Conversely, a fund reporting in CAD whose mandate is pure commodity attribution — where currency overlay is tracked separately — benefits from the quanto's fixed conversion rate, which removes USD/CAD as a P&L variable entirely and keeps the oil attribution clean.
+The most fundamental question is what currency the participant's exposure actually lives in. A Canadian producer or refiner whose budget constraint is a CAD breakeven price is asking "is oil above C$\$130$?" rather than "is oil above \$100 USD?". For that participant the compo is the natural fit: the strike is set directly in their decision currency and the exercise decision aligns with their actual P&L. The quanto can hedge the same oil exposure but the exercise is made in USD terms, introducing a mismatch against a CAD budget that the participant must then manage separately. Conversely, a fund reporting in CAD whose mandate is pure commodity attribution benefits from the quanto's fixed conversion rate, which removes USD/CAD as a P&L variable entirely and keeps the oil attribution clean.
 
 ### Relative Cost
 
-Once the currency question is settled, cost becomes the next consideration, and neither structure is universally cheaper. At $\rho = 0$ the compo tends to be more expensive because it embeds FX risk directly into the payoff, raising the total volatility $\sigma_{compo}$. But as $\rho$ becomes more negative, the cross term in $\sigma_{compo}$ works in the buyer's favour and the compo cheapens relative to the quanto. For WTI/CAD specifically, where $\rho$ is meaningfully negative and $\sigma_F$ is substantially larger than $\sigma_X$, the composite vol is considerably below what a naive sum of the two vols would suggest, and the premium gap between the two structures narrows more than intuition implies. The exact crossover depends on the interplay between the compo vol reduction and the quanto forward adjustment $F_0^*$, and participants who are indifferent between the two payoff structures should price both under current market inputs before deciding.
+Once the currency question is settled, cost becomes the next consideration, and neither structure is universally cheaper. At $\rho = 0$ the compo tends to be more expensive because it embeds FX risk directly into the payoff, raising the total volatility $\sigma_{compo}$. But as $\rho$ becomes more negative, the cross term in $\sigma_{compo}$ works in the buyer's favour, and for WTI/CAD where $\rho$ is meaningfully negative and $\sigma_F$ is substantially larger than $\sigma_X$, the compo can be cheaper than the quanto. How much cheaper depends on the current level of correlation. The crossover point where the compo premium falls below the quanto premium depends on the interplay between the compo vol reduction and the quanto forward adjustment $F_0^*$, and participants who are indifferent between the two payoff structures should price both under current market inputs before deciding.
+ 
 
 ### Operational Complexity
-
-Operational simplicity favours the quanto, particularly for corporate treasuries and smaller counterparties. A quanto can be independently valued with a single vol input and a standard Black formula. A compo requires $\sigma_F$, $\sigma_X$, and $\rho$, where $\rho$ has no liquid market quote and must be estimated historically — a treasury without a dedicated quant function will struggle to independently mark the position, creating dependence on the dealer and weakening their negotiating position on unwinds. Beyond valuation, the cross-gamma and correlation risks discussed in the next section mean dealers charge a wider bid-offer spread on the compo, which partially offsets any premium saving from the lower composite vol and should be factored into the all-in cost comparison.
+Operational simplicity favours the quanto, particularly for corporate treasuries and smaller counterparties. Both structures require $\sigma_F$, $\sigma_X$, and $\rho$, none of which are directly observable. But in the quanto, $\rho$ enters only through the drift adjustment in $F_0^*$, and once that adjusted forward is computed the valuation reduces to a standard single-underlying Black formula. In the compo, $\rho$ enters $\sigma_{compo}$ directly and the sensitivity of the option value to correlation is more immediate and material, making independent marking harder for a treasury without a dedicated quant function. Beyond valuation, the cross-gamma and correlation risks discussed in the next section mean dealers may charge a wider bid-offer spread on the compo, which partially offsets any premium saving from the lower composite vol and should be factored into the all-in cost comparison.
 
 The pricer below allows direct comparison of both structures under user-specified inputs. The hedging section that follows explains how dealers manage each once the trade is on.
 
@@ -219,7 +219,7 @@ The pricer below allows direct comparison of both structures under user-specifie
  
 ## Hedging Each Structure
  
-Understanding which structure fits a given exposure is only half the picture. Once a dealer has sold either instrument, the more operationally demanding question is how to manage the risk through the life of the trade. The two structures present meaningfully different hedging problems, and the differences run deeper than a simple comparison of Greeks.
+Understanding which structure fits a given exposure is only half the picture. Once a dealer has sold either instrument, the more operationally demanding question is how to manage the risk through the life of the trade. The two structures present meaningfully different hedging problems.
  
 **Hedging the Quanto**
  
@@ -240,10 +240,9 @@ instrument and the currency of the liability.
  
 The more subtle risk in the quanto is correlation between WTI returns and USD/CAD returns.
 Correlation enters the pricing formula through the drift of the oil forward under the CAD
-measure, and the dealer who sold the call carries residual exposure to shifts in this
+measure, and the dealer who sold the option carries residual exposure to shifts in this
 parameter. This is difficult to hedge because correlation is not directly traded. Pure
-correlation products such as covariance swaps exist but are illiquid and are not generally available
-for the WTI/CAD pair specifically. In practice dealers manage correlation exposure within
+correlation products such as covariance swaps exist but are often illiquid in the commoidty/FX market. In practice dealers manage correlation exposure within
 book limits, accepting that residual exposure will sit on the book as a managed risk.
 The sensitivity is relatively contained, however, because correlation enters only through
 the drift adjustment rather than through the volatility of the underlying itself.
@@ -262,8 +261,8 @@ at inception.
 On the volatility side, both WTI vol and FX vol enter $\sigma_{compo}$, so the dealer
 carries independent vega in each. WTI vega is hedged with WTI options, and FX vega with
 USD/CAD options. As discussed in the pricing section, the sign of FX vega depends on
-$\sigma_X + \rho\sigma_F$. For WTI/CAD where $\rho < 0$, this quantity is typically
-negative, meaning the dealer who sold the call is long rather than short FX vega. Dealers
+$\sigma_X + \rho\sigma_F$. For WTI/CAD where $\rho < 0$, this quantity can be
+negative, meaning the dealer who sold the option is long rather than short FX vega. Dealers
 must verify this sign before structuring the USD/CAD options overlay, as the
 positive-correlation intuition would produce a hedge in the wrong direction.
  
@@ -272,9 +271,9 @@ $\sigma_{compo}$ directly rather than just the drift. The instinctive view is th
 who sold a call is short correlation, since higher $\rho$ increases $\sigma_{compo}$ and
 raises the option value. But this reasoning imports a positive-correlation assumption
 silently. For WTI/CAD where $\rho$ is negative, a move toward more positive correlation
-does hurt the dealer, but the practically relevant scenario is a further decline in
-correlation, which reduces $\sigma_{compo}$ and benefits them. The direction of concern
-is asymmetric around zero and depends on where $\rho$ currently sits. As with the quanto,
+does hurt the dealer, while a further decline in correlation reduces $\sigma_{compo}$ and
+benefits them. The direction of the exposure is not fixed: it depends on where $\rho$
+currently sits and which way it moves. As with the quanto,
 residual correlation risk is carried on the book and priced into the spread at inception.
 
 
@@ -286,7 +285,7 @@ residual correlation risk is carried on the book and priced into the spread at i
 | FX hedge | USD/CAD forward for P&L translation only; not a risk-factor hedge | USD/CAD forward as risk-factor delta hedge; notional scales with WTI forward |
 | Cross-gamma | None | Cannot be fully hedged with vanilla instruments; treated as cost of carry and priced into the spread |
 | WTI vega | WTI options | WTI options |
-| FX vega | Negligible; enters only via $F_0^*$ | USD/CAD options; sign of exposure determined by $\sigma_X + \rho\sigma_F$; long vega for WTI/CAD |
+| FX vega | Negligible; enters only via $F_0^*$ | USD/CAD options; sign of exposure determined by $\sigma_X + \rho\sigma_F$ |
 | Correlation risk | Via drift; relatively contained | Via $\sigma_{compo}$; more material; sign depends on level of $\rho$ |
 | Correlation hedge | Residual book risk; priced into spread | Residual book risk; priced into spread |
 | Overall complexity | Moderate | Higher; two coupled dynamic hedges |
