@@ -7,7 +7,7 @@ tags: ["options", "commodities", "FX", "structured-products", "risk-management",
 ---
 ## Why This Matters
  
-Many of the world's most actively traded commodities are priced in USD, yet end investors and corporates often operate in other currencies. A Canadian oil producer hedging output, a European airline managing jet fuel costs, or an Asian sovereign wealth fund allocating to commodity exposure all face the same underlying issue: commodity risk does not exist in isolation from FX risk. The standard approach is to hedge the commodity leg with USD-denominated futures or swaps and manage FX separately through forwards or options. This works, but it treats the two risks as independent. Quanto and compo options take a different approach by packaging both risks into a single instrument, but the way each handles FX risk creates some pricing and hedging subtleties that I think are easy to miss.
+Many of the world's most actively traded commodities are priced in USD, yet end investors and corporates often operate in other currencies. A Canadian oil producer hedging output, a European airline managing jet fuel costs, or an Asian sovereign wealth fund allocating to commodity exposure all face the same underlying issue: commodity risk does not exist in isolation from FX risk. The standard approach is to hedge the commodity leg with USD-denominated futures or swaps and manage FX separately through forwards or options. This works, but it treats the two risks as independent. Quanto and compo options take a different approach by packaging both risks into a single instrument, but the way each handles FX risk creates some pricing and hedging subtleties that I find are easy to miss.
 
 This article works through both structures using WTI/CAD as an example and focuses on a few practical questions:
  
@@ -62,14 +62,14 @@ Since measure change only adds a drift and leaves quadratic covariation unchange
 
 $$dW_F^{CAD}\,dW_X^{CAD} = \rho\,dt$$
  
-Since our payoffs are denominated in CAD, we need to express $F$ under $\mathbb{Q}^{CAD}$ rather than $\mathbb{Q}^{USD}$. The key result is that under $\mathbb{Q}^{CAD}$, $F$ is no longer driftless but acquires a drift of $-\rho\,\sigma_F\,\sigma_X$, known as the quanto adjustment. This drift arises entirely from the correlation between $F$ and $X$ and would vanish if the two were independent. See [this article]({{< relref "change_of_numeraire.md" >}}) for the general change-of-numeraire framework.
+Since our payoffs are denominated in CAD, we need to express $F$ under $\mathbb{Q}^{CAD}$ rather than $\mathbb{Q}^{USD}$. The key result is that under $\mathbb{Q}^{CAD}$, $F$ is no longer driftless but acquires a drift of $-\rho\,\sigma_F\,\sigma_X$, known as the quanto adjustment. This drift arises entirely from the correlation between $F$ and $X$ and would vanish if the two were independent.
 
 The derivation below shows how this drift emerges from the Radon-Nikodym derivative linking the two measures. Readers comfortable with the result can skip ahead to the next section.
 
 <details>
 <summary>Derivation: measure change from $\mathbb{Q}^{USD}$ to $\mathbb{Q}^{CAD}$</summary>
 
-To move from $\mathbb{Q}^{USD}$ to $\mathbb{Q}^{CAD}$ we need the Radon-Nikodym derivative linking the two measures. The USD and CAD risk-neutral measures are both obtained by discounting with their respective money market accounts, and the exchange rate X connects them. The Radon-Nikodym derivative is proportional to the ratio of the USD and CAD numeraires expressed in a common currency:
+To move from $\mathbb{Q}^{USD}$ to $\mathbb{Q}^{CAD}$ we need the Radon-Nikodym derivative linking the two measures (See [this article]({{< relref "change_of_numeraire.md" >}}) for the general change-of-numeraire framework). The USD and CAD risk-neutral measures are both obtained by discounting with their respective money market accounts, and the exchange rate X connects them. The Radon-Nikodym derivative is proportional to the ratio of the USD and CAD numeraires expressed in a common currency:
 
 $$\frac{d\mathbb{Q}^{USD}}{d\mathbb{Q}^{CAD}}\bigg|_T = \frac{X_T / X_0}{e^{(r_d - r_f)T}}$$
 
@@ -111,7 +111,7 @@ The drift $-\rho\,\sigma_F\,\sigma_X$ is the quanto adjustment. It is a direct c
  
 ## The Quanto Adjustment: Why It Exists
 
-Although the quanto adjustment $-\rho\,\sigma_F\,\sigma_X$ emerges naturally from the measure change derivation above, it is worth building an intuition for why it exists and why its magnitude takes the form it does. The hedging argument provides a clean economic explanation.
+Although the quanto adjustment $-\rho\,\sigma_F\,\sigma_X$ emerges naturally from the measure change derivation, it is worth building an intuition for why it exists and why its magnitude takes the form it does. The hedging argument provides a clean economic explanation.
 
 Consider a bank that has sold a quanto forward to a client: at maturity the bank pays $F_T \cdot \bar{X}$ in CAD, where $\bar{X}$ is the fixed exchange rate agreed at inception. To hedge, the bank goes long a regular WTI futures contract and converts the USD proceeds at the market rate $X_T$ at maturity, receiving $F_T \cdot X_T$ in CAD.
 
@@ -152,7 +152,7 @@ where:
  
 $$d_1 = \frac{\ln(F_0^*/K) + \frac{1}{2}\sigma_F^2\,T}{\sigma_F\sqrt{T}}, \qquad d_2 = d_1 - \sigma_F\sqrt{T}$$
  
-This is simply a Black formula with the oil forward replaced by $F_0^*$. The vol input is $\sigma_F$ alone: FX volatility enters only through the correlation term absorbed into $F_0^*$, and a larger negative covariance results in a higher adjusted forward and a higher call value.
+This is simply a Black formula with the oil future price replaced by $F_0^*$. The vol input is $\sigma_F$ alone: FX volatility enters only through the correlation term absorbed into $F_0^*$, and a larger negative covariance results in a higher adjusted forward and a higher call value.
  
 ---
  
@@ -186,13 +186,13 @@ where:
 
 $$d_1^c = \frac{\ln(S_0^{fwd}/K) + \frac{1}{2}\sigma_{compo}^2\, T}{\sigma_{compo}\sqrt{T}}, \qquad d_2^c = d_1^c - \sigma_{compo}\sqrt{T}$$
 
-This is a clean result: the compo is a standard Black call on the CAD-denominated oil forward, with a composite vol that blends oil vol, FX vol, and their covariance. FX volatility enters quadratically, unlike through the drift as in the quanto. 
+The compo is a standard Black call on the CAD-denominated oil forward, with a composite vol that blends oil vol, FX vol, and their covariance. FX volatility enters quadratically, unlike through the drift as in the quanto. 
 
 While it may seem that a higher FX vol always increases the compo vol, this is not always the case. Taking the derivative of $\sigma_{compo}$ with respect to $\sigma_X$:
 
 $$\frac{\partial\,\sigma_{compo}}{\partial\,\sigma_X} = \frac{\sigma_X + \rho\,\sigma_F}{\sigma_{compo}}$$
 
-This is positive only when $\sigma_X > -\rho\,\sigma_F$. When $\rho$ is negative, increasing $\sigma_X$ can decrease $\sigma_{compo}$ because the negative cross term $2\rho\,\sigma_F\,\sigma_X$ grows in magnitude faster than the $\sigma_X^2$ term. Intuitively, when $\rho < 0$, oil and FX move in opposite directions, and large FX moves increasingly offset the oil moves in CAD terms. In the limit of very large $\sigma_X$ and very negative $\rho$, the FX leg almost perfectly hedges the oil leg and $S_T$ barely moves at all. The compo option can therefore be cheaper than a plain oil option when correlation is sufficiently negative, reflecting the natural hedge between oil and CAD that was discussed in the quanto adjustment section.
+This is positive only when $\sigma_X > -\rho\,\sigma_F$. When $\rho$ is negative, increasing $\sigma_X$ can decrease $\sigma_{compo}$ because the negative cross term $2\rho\,\sigma_F\,\sigma_X$ grows in magnitude faster than the $\sigma_X^2$ term. Intuitively, when $\rho < 0$, oil and FX move in opposite directions, and large FX moves increasingly offset the oil moves in CAD terms. In an extreme case of large $\sigma_X$ and very negative $\rho$, the FX leg almost perfectly hedges the oil leg and $S_T$ barely moves at all. The compo option can therefore be cheaper than a plain oil option when correlation is sufficiently negative, reflecting the natural hedge between oil and CAD that was discussed in the quanto adjustment section.
  
 ---
  
@@ -200,11 +200,11 @@ This is positive only when $\sigma_X > -\rho\,\sigma_F$. When $\rho$ is negative
 
 ### Currency of Exposure
 
-The most fundamental question is what currency the participant's exposure actually lives in. A Canadian producer or refiner whose budget constraint is a CAD breakeven price is asking "is oil above C$\$130$?" rather than "is oil above \$100 USD?". For that participant the compo is the natural fit: the strike is set directly in their decision currency and the exercise decision aligns with their actual P&L. The quanto can hedge the same oil exposure but the exercise is made in USD terms, introducing a mismatch against a CAD budget that the participant must then manage separately. Conversely, a fund reporting in CAD whose mandate is pure commodity attribution benefits from the quanto's fixed conversion rate, which removes USD/CAD as a P&L variable entirely and keeps the oil attribution clean.
+The most fundamental question is what currency the participant's exposure actually lives in. A Canadian producer or refiner whose budget constraint is a CAD breakeven price is asking "is oil above C$\$130$?" rather than "is oil above \$100 USD?". For that participant the compo is the natural fit: the strike is set directly in their decision currency and the exercise decision aligns with their actual P&L. The quanto can hedge the same oil exposure but the exercise is made in USD terms, introducing a mismatch against a CAD budget that the participant must then manage separately. Conversely, a fund reporting in CAD whose mandate is pure commodity exposure benefits from the quanto's fixed conversion rate, which removes USD/CAD as a P&L variable entirely and keeps the oil attribution clean.
 
 ### Relative Cost
 
-Once the currency question is settled, cost becomes the next consideration, and neither structure is universally cheaper. At $\rho = 0$ the compo tends to be more expensive because it embeds FX risk directly into the payoff, raising the total volatility $\sigma_{compo}$. But as $\rho$ becomes more negative, the cross term in $\sigma_{compo}$ works in the buyer's favour, and for WTI/CAD where $\rho$ is meaningfully negative and $\sigma_F$ is substantially larger than $\sigma_X$, the compo can be cheaper than the quanto. How much cheaper depends on the current level of correlation. The crossover point where the compo premium falls below the quanto premium depends on the interplay between the compo vol reduction and the quanto forward adjustment $F_0^*$, and participants who are indifferent between the two payoff structures should price both under current market inputs before deciding.
+Once the currency question is settled, cost becomes the next consideration, and neither structure is universally cheaper. At $\rho = 0$ the compo tends to be more expensive because it embeds FX risk directly into the payoff, raising the total volatility $\sigma_{compo}$. But as $\rho$ becomes more negative, the cross term in $\sigma_{compo}$ works in the buyer's favour, and for WTI/CAD where $\rho$ is meaningfully negative and $\sigma_F$ is substantially larger than $\sigma_X$, the compo can be cheaper than the quanto. The crossover point where the compo premium falls below the quanto premium depends on the interplay between the compo vol reduction and the quanto forward adjustment $F_0^*$, and participants who are indifferent between the two payoff structures should price both under current market inputs before deciding.
  
 
 ### Operational Complexity
@@ -226,7 +226,7 @@ Understanding which structure fits a given exposure is only half the picture. On
 The quanto call has only one source of price risk: the level of WTI. Because the exchange
 rate is fixed contractually, USD/CAD is not a risk factor and the dealer runs no FX delta.
 The delta hedge is therefore a straightforward position in WTI futures, sized to the
-Black delta evaluated at the quanto-adjusted forward rather than the outright forward.
+Black delta evaluated at the quanto-adjusted forward.
 As WTI moves, the futures position is rebalanced in the usual way.
  
 Although there is no FX delta, a USD/CAD forward is still required for currency
@@ -285,7 +285,7 @@ residual correlation risk is carried on the book and priced into the spread at i
 | FX hedge | USD/CAD forward for P&L translation only; not a risk-factor hedge | USD/CAD forward as risk-factor delta hedge; notional scales with WTI forward |
 | Cross-gamma | None | Cannot be fully hedged with vanilla instruments; treated as cost of carry and priced into the spread |
 | WTI vega | WTI options | WTI options |
-| FX vega | Negligible; enters only via $F_0^*$ | USD/CAD options; sign of exposure determined by $\sigma_X + \rho\sigma_F$ |
+| FX vega | Enters only via $F_0^*$; less material than WTI vega for short-dated trades, but grows with tenor and correlation  | USD/CAD options; sign of exposure determined by $\sigma_X + \rho\sigma_F$ |
 | Correlation risk | Via drift; relatively contained | Via $\sigma_{compo}$; more material; sign depends on level of $\rho$ |
 | Correlation hedge | Residual book risk; priced into spread | Residual book risk; priced into spread |
 | Overall complexity | Moderate | Higher; two coupled dynamic hedges |
