@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>Monte-Carlo on Inflection Quant Lab</title>
-    <link>https://leslie-ren.github.io/Inflection.Quant/tags/monte-carlo/</link>
-    <description>Recent content in Monte-Carlo on Inflection Quant Lab</description>
+    <title>Numerical-Methods on Inflection Quant Lab</title>
+    <link>https://leslie-ren.github.io/Inflection.Quant/tags/numerical-methods/</link>
+    <description>Recent content in Numerical-Methods on Inflection Quant Lab</description>
     <generator>Hugo</generator>
     <language>en-us</language>
     <lastBuildDate>Sat, 30 May 2026 00:00:00 +0000</lastBuildDate>
-    <atom:link href="https://leslie-ren.github.io/Inflection.Quant/tags/monte-carlo/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://leslie-ren.github.io/Inflection.Quant/tags/numerical-methods/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Monte Carlo Variance Reduction: What We Average, and How We Sample</title>
       <link>https://leslie-ren.github.io/Inflection.Quant/articles/quant-foundations/mc_variance_reduction/</link>
@@ -15,18 +15,6 @@
       <guid>https://leslie-ren.github.io/Inflection.Quant/articles/quant-foundations/mc_variance_reduction/</guid>
       <description>&lt;h2 id=&#34;why-this-matters&#34;&gt;Why This Matters&lt;/h2&gt;
 &lt;p&gt;In the article on the &lt;a href=&#34;../../Inflection.Quant/articles/quant-foundations/feynman_kac/&#34;&gt;Feynman-Kac theorem&lt;/a&gt;, we saw that the price of a derivative can be expressed equivalently as the solution to a deterministic PDE or as the expectation of a discounted payoff under the risk-neutral measure. This gives us two complementary numerical approaches to pricing. For low-dimensional problems with smooth payoffs, finite difference methods on the PDE side are efficient and accurate. For high-dimensional problems, path-dependent payoffs, or models where the PDE is hard to derive, Monte Carlo (MC) on the expectation side becomes the natural choice.&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>How Randomness Solves a Deterministic Equation: An Intuitive Look at the Feynman–Kac Theorem</title>
-      <link>https://leslie-ren.github.io/Inflection.Quant/articles/quant-foundations/feynman_kac/</link>
-      <pubDate>Tue, 28 Apr 2026 00:00:00 +0000</pubDate>
-      <guid>https://leslie-ren.github.io/Inflection.Quant/articles/quant-foundations/feynman_kac/</guid>
-      <description>&lt;h2 id=&#34;why-this-matters&#34;&gt;Why This Matters&lt;/h2&gt;
-&lt;p&gt;The first time I encountered the Feynman-Kac theorem, I found it fascinating but
-unintuitive. The theorem claims that a deterministic PDE and the expectation of
-a stochastic process are two representations of the same object. A PDE is smooth and
-deterministic. A stochastic expectation involves randomness, probability measures, and
-averaging over infinitely many paths. How could these be the same thing? I understood the steps of the proof, but I still didn’t have a clear intuition for why this equivalence should exist.&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>

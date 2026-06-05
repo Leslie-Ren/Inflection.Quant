@@ -6,8 +6,64 @@
     <description>Recent content in Tags on Inflection Quant Lab</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 19 May 2026 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 30 May 2026 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://leslie-ren.github.io/Inflection.Quant/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Monte-Carlo</title>
+      <link>https://leslie-ren.github.io/Inflection.Quant/tags/monte-carlo/</link>
+      <pubDate>Sat, 30 May 2026 00:00:00 +0000</pubDate>
+      <guid>https://leslie-ren.github.io/Inflection.Quant/tags/monte-carlo/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Numerical-Methods</title>
+      <link>https://leslie-ren.github.io/Inflection.Quant/tags/numerical-methods/</link>
+      <pubDate>Sat, 30 May 2026 00:00:00 +0000</pubDate>
+      <guid>https://leslie-ren.github.io/Inflection.Quant/tags/numerical-methods/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Options</title>
+      <link>https://leslie-ren.github.io/Inflection.Quant/tags/options/</link>
+      <pubDate>Sat, 30 May 2026 00:00:00 +0000</pubDate>
+      <guid>https://leslie-ren.github.io/Inflection.Quant/tags/options/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Variance-Reduction</title>
+      <link>https://leslie-ren.github.io/Inflection.Quant/tags/variance-reduction/</link>
+      <pubDate>Sat, 30 May 2026 00:00:00 +0000</pubDate>
+      <guid>https://leslie-ren.github.io/Inflection.Quant/tags/variance-reduction/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Brownian Bridge</title>
+      <link>https://leslie-ren.github.io/Inflection.Quant/tags/brownian-bridge/</link>
+      <pubDate>Thu, 28 May 2026 00:00:00 +0000</pubDate>
+      <guid>https://leslie-ren.github.io/Inflection.Quant/tags/brownian-bridge/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Brownian Motion</title>
+      <link>https://leslie-ren.github.io/Inflection.Quant/tags/brownian-motion/</link>
+      <pubDate>Thu, 28 May 2026 00:00:00 +0000</pubDate>
+      <guid>https://leslie-ren.github.io/Inflection.Quant/tags/brownian-motion/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Conditional Expectation</title>
+      <link>https://leslie-ren.github.io/Inflection.Quant/tags/conditional-expectation/</link>
+      <pubDate>Thu, 28 May 2026 00:00:00 +0000</pubDate>
+      <guid>https://leslie-ren.github.io/Inflection.Quant/tags/conditional-expectation/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Survival Probability</title>
+      <link>https://leslie-ren.github.io/Inflection.Quant/tags/survival-probability/</link>
+      <pubDate>Thu, 28 May 2026 00:00:00 +0000</pubDate>
+      <guid>https://leslie-ren.github.io/Inflection.Quant/tags/survival-probability/</guid>
+      <description></description>
+    </item>
     <item>
       <title>Black-Scholes</title>
       <link>https://leslie-ren.github.io/Inflection.Quant/tags/black-scholes/</link>
@@ -27,13 +83,6 @@
       <link>https://leslie-ren.github.io/Inflection.Quant/tags/fx/</link>
       <pubDate>Tue, 19 May 2026 00:00:00 +0000</pubDate>
       <guid>https://leslie-ren.github.io/Inflection.Quant/tags/fx/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Options</title>
-      <link>https://leslie-ren.github.io/Inflection.Quant/tags/options/</link>
-      <pubDate>Tue, 19 May 2026 00:00:00 +0000</pubDate>
-      <guid>https://leslie-ren.github.io/Inflection.Quant/tags/options/</guid>
       <description></description>
     </item>
     <item>
@@ -125,13 +174,6 @@
       <link>https://leslie-ren.github.io/Inflection.Quant/tags/feynman-kac/</link>
       <pubDate>Tue, 28 Apr 2026 00:00:00 +0000</pubDate>
       <guid>https://leslie-ren.github.io/Inflection.Quant/tags/feynman-kac/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Monte Carlo</title>
-      <link>https://leslie-ren.github.io/Inflection.Quant/tags/monte-carlo/</link>
-      <pubDate>Tue, 28 Apr 2026 00:00:00 +0000</pubDate>
-      <guid>https://leslie-ren.github.io/Inflection.Quant/tags/monte-carlo/</guid>
       <description></description>
     </item>
     <item>
@@ -286,13 +328,6 @@
       <link>https://leslie-ren.github.io/Inflection.Quant/tags/brennersubrahmanyam-approximation/</link>
       <pubDate>Thu, 26 Mar 2026 00:00:00 +0000</pubDate>
       <guid>https://leslie-ren.github.io/Inflection.Quant/tags/brennersubrahmanyam-approximation/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Brownian Motion</title>
-      <link>https://leslie-ren.github.io/Inflection.Quant/tags/brownian-motion/</link>
-      <pubDate>Thu, 26 Mar 2026 00:00:00 +0000</pubDate>
-      <guid>https://leslie-ren.github.io/Inflection.Quant/tags/brownian-motion/</guid>
       <description></description>
     </item>
     <item>

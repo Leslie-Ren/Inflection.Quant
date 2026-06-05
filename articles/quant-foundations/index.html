@@ -163,6 +163,32 @@ document.addEventListener("DOMContentLoaded", function() {
 
 <article class="post-entry"> 
   <header class="entry-header">
+    <h2 class="entry-hint-parent">Monte Carlo Variance Reduction: What We Average, and How We Sample
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>Why This Matters In the article on the Feynman-Kac theorem, we saw that the price of a derivative can be expressed equivalently as the solution to a deterministic PDE or as the expectation of a discounted payoff under the risk-neutral measure. This gives us two complementary numerical approaches to pricing. For low-dimensional problems with smooth payoffs, finite difference methods on the PDE side are efficient and accurate. For high-dimensional problems, path-dependent payoffs, or models where the PDE is hard to derive, Monte Carlo (MC) on the expectation side becomes the natural choice.
+...</p>
+  </div>
+  <footer class="entry-footer"><span title='2026-05-30 00:00:00 +0000 UTC'>May 30, 2026</span></footer>
+  <a class="entry-link" aria-label="post link to Monte Carlo Variance Reduction: What We Average, and How We Sample" href="https://leslie-ren.github.io/Inflection.Quant/articles/quant-foundations/mc_variance_reduction/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">The Brownian Bridge: What Brownian Motion Looks Like When You Know the Endpoints
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>Why This Matters In my earlier article on Brownian motion, I worked through the forward view: a process starting at a known value, diffusing into an uncertain future. Sometimes we know more than just the starting point. We also know where the process ended up, and we want to characterise the path in between. The object that answers this is the Brownian bridge: a Brownian motion conditioned on its terminal value.
+...</p>
+  </div>
+  <footer class="entry-footer"><span title='2026-05-28 00:00:00 +0000 UTC'>May 28, 2026</span></footer>
+  <a class="entry-link" aria-label="post link to The Brownian Bridge: What Brownian Motion Looks Like When You Know the Endpoints" href="https://leslie-ren.github.io/Inflection.Quant/articles/quant-foundations/brownian_bridge/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
     <h2 class="entry-hint-parent">Quanto and Compo Commodity Options: FX&#39;s Hidden Role in Pricing and Risk
     </h2>
   </header>
@@ -268,19 +294,12 @@ For those working with options pricing, hedging, or products with embedded Ameri
   <footer class="entry-footer"><span title='2026-04-03 00:00:00 +0000 UTC'>April 3, 2026</span></footer>
   <a class="entry-link" aria-label="post link to Early Exercise of American Options: Call Equivalence and the Put Premium" href="https://leslie-ren.github.io/Inflection.Quant/articles/quant-foundations/american_vs_european_options/"></a>
 </article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">Brownian Motion: From Random Walks to Option Prices
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>Why This Matters Brownian motion, the mathematical model underlying everything from stock prices to heat diffusion, has one of its most elegant properties: the variance of its position at time $t$ grows linearly with time. Not $t^2$, not $\sqrt{t}$, but exactly $t$. This seemingly abstract fact has a concrete consequence in financial markets: under the idealised conditions of an at-the-money option with zero rates, it is precisely why option prices scale with $\sqrt{T}$ rather than $T$, a direct fingerprint of Brownian motion inside Black-Scholes. Understanding why requires looking at both physical observations and the mathematical construction of Brownian motion.
-...</p>
-  </div>
-  <footer class="entry-footer"><span title='2026-03-26 00:00:00 +0000 UTC'>March 26, 2026</span></footer>
-  <a class="entry-link" aria-label="post link to Brownian Motion: From Random Walks to Option Prices" href="https://leslie-ren.github.io/Inflection.Quant/articles/quant-foundations/understanding_brownian_motion/"></a>
-</article>
+<footer class="page-footer">
+  <nav class="pagination">
+    <a class="next" href="https://leslie-ren.github.io/Inflection.Quant/articles/quant-foundations/page/2/">Next&nbsp;&nbsp;»
+    </a>
+  </nav>
+</footer>
     </main>
     
 <footer class="footer">

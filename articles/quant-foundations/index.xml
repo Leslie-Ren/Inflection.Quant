@@ -6,8 +6,24 @@
     <description>Recent content in Quant Fundamentals on Inflection Quant Lab</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 19 May 2026 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 30 May 2026 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://leslie-ren.github.io/Inflection.Quant/articles/quant-foundations/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Monte Carlo Variance Reduction: What We Average, and How We Sample</title>
+      <link>https://leslie-ren.github.io/Inflection.Quant/articles/quant-foundations/mc_variance_reduction/</link>
+      <pubDate>Sat, 30 May 2026 00:00:00 +0000</pubDate>
+      <guid>https://leslie-ren.github.io/Inflection.Quant/articles/quant-foundations/mc_variance_reduction/</guid>
+      <description>&lt;h2 id=&#34;why-this-matters&#34;&gt;Why This Matters&lt;/h2&gt;
+&lt;p&gt;In the article on the &lt;a href=&#34;../../Inflection.Quant/articles/quant-foundations/feynman_kac/&#34;&gt;Feynman-Kac theorem&lt;/a&gt;, we saw that the price of a derivative can be expressed equivalently as the solution to a deterministic PDE or as the expectation of a discounted payoff under the risk-neutral measure. This gives us two complementary numerical approaches to pricing. For low-dimensional problems with smooth payoffs, finite difference methods on the PDE side are efficient and accurate. For high-dimensional problems, path-dependent payoffs, or models where the PDE is hard to derive, Monte Carlo (MC) on the expectation side becomes the natural choice.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>The Brownian Bridge: What Brownian Motion Looks Like When You Know the Endpoints</title>
+      <link>https://leslie-ren.github.io/Inflection.Quant/articles/quant-foundations/brownian_bridge/</link>
+      <pubDate>Thu, 28 May 2026 00:00:00 +0000</pubDate>
+      <guid>https://leslie-ren.github.io/Inflection.Quant/articles/quant-foundations/brownian_bridge/</guid>
+      <description>&lt;h2 id=&#34;why-this-matters&#34;&gt;Why This Matters&lt;/h2&gt;
+&lt;p&gt;In my earlier article on &lt;a href=&#34;../../Inflection.Quant/articles/quant-foundations/understanding_brownian_motion/&#34;&gt;Brownian motion&lt;/a&gt;, I worked through the forward view: a process starting at a known value, diffusing into an uncertain future. Sometimes we know more than just the starting point. We also know where the process ended up, and we want to characterise the path in between. The object that answers this is the Brownian bridge: a Brownian motion conditioned on its terminal value.&lt;/p&gt;</description>
+    </item>
     <item>
       <title>Quanto and Compo Commodity Options: FX&#39;s Hidden Role in Pricing and Risk</title>
       <link>https://leslie-ren.github.io/Inflection.Quant/articles/quant-foundations/quanto_and_compo/</link>
