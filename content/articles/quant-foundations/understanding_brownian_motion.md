@@ -13,13 +13,11 @@ Brownian motion, the mathematical model underlying everything from stock prices 
 
 ## Physical Motivation
 
-Brownian motion was first observed by Robert Brown in 1827 as the erratic motion of pollen particles in water. Later, Einstein (1905) quantified it, showing that a particle's mean squared displacement grows proportionally to time:
+Brownian motion was first observed by Robert Brown in 1827 as the erratic motion of microscopic particles in water. Einstein (1905) quantified it, showing that a particle's mean squared displacement grows proportionally to time: 
 
-$$
-\mathbb{E}[(X(t) - X(0))^2] \sim t
-$$
+$$ \mathbb{E}[(X(t) - X(0))^2] \propto t $$
 
-Einstein's key insight was that this $\sim t$ scaling follows directly from particles receiving many small, independent random kicks — exactly the structure that the Central Limit Theorem later formalises. Because each kick is independent, their variances add, and the total variance accumulates linearly with the number of kicks, and hence with time. This linear growth — where the spread of positions increases proportionally to elapsed time, not faster — is the hallmark of diffusive motion, and it is the same additivity argument that underpins the random-walk construction below.
+Einstein's key insight was that this linear scaling follows from particles receiving many small, independent random kicks. Because the kicks are independent, their variances add, so the total variance grows linearly with the number of kicks, and hence with time. The Central Limit Theorem also tells us that the sum of many small independent kicks is approximately Gaussian, which is why the displacement of a Brownian particle is normally distributed. This linear growth in variance is the hallmark of diffusive motion, and it is the same additivity argument that drives the random-walk construction below.
 
 ---
 

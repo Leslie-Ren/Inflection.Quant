@@ -5,7 +5,7 @@ draft: false
 math: true
 tags: ["Numéraires", "Girsanov", "Change of Measure", "Radon-Nikodym derivative", "Exchange Option", "Forward Measure", "Annuity Measure"]
 ---
-
+   
 ## Why This Matters
 
 In the [article on Girsanov's Theorem]({{< relref "girsanov.md" >}}), we studied how the real-world measure $\mathbb{P}$ and the risk-neutral measure $\mathbb{Q}$ relate, and showed that switching between them amounts to reweighting paths via the Girsanov exponential. Throughout, the risk-free bond was the numéraire: the asset against which all prices were expressed. But this is a convenient choice, not a fundamental one.
