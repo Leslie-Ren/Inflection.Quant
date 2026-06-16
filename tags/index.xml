@@ -6,33 +6,61 @@
     <description>Recent content in Tags on Inflection Quant Lab</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 30 May 2026 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 09 Jun 2026 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://leslie-ren.github.io/Inflection.Quant/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Monte Carlo</title>
-      <link>https://leslie-ren.github.io/Inflection.Quant/tags/monte-carlo/</link>
-      <pubDate>Sat, 30 May 2026 00:00:00 +0000</pubDate>
-      <guid>https://leslie-ren.github.io/Inflection.Quant/tags/monte-carlo/</guid>
+      <title>Black-Scholes</title>
+      <link>https://leslie-ren.github.io/Inflection.Quant/tags/black-scholes/</link>
+      <pubDate>Tue, 09 Jun 2026 00:00:00 +0000</pubDate>
+      <guid>https://leslie-ren.github.io/Inflection.Quant/tags/black-scholes/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Finite-Difference</title>
+      <link>https://leslie-ren.github.io/Inflection.Quant/tags/finite-difference/</link>
+      <pubDate>Tue, 09 Jun 2026 00:00:00 +0000</pubDate>
+      <guid>https://leslie-ren.github.io/Inflection.Quant/tags/finite-difference/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Heat-Equation</title>
+      <link>https://leslie-ren.github.io/Inflection.Quant/tags/heat-equation/</link>
+      <pubDate>Tue, 09 Jun 2026 00:00:00 +0000</pubDate>
+      <guid>https://leslie-ren.github.io/Inflection.Quant/tags/heat-equation/</guid>
       <description></description>
     </item>
     <item>
       <title>Numerical-Methods</title>
       <link>https://leslie-ren.github.io/Inflection.Quant/tags/numerical-methods/</link>
-      <pubDate>Sat, 30 May 2026 00:00:00 +0000</pubDate>
+      <pubDate>Tue, 09 Jun 2026 00:00:00 +0000</pubDate>
       <guid>https://leslie-ren.github.io/Inflection.Quant/tags/numerical-methods/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Pde</title>
+      <link>https://leslie-ren.github.io/Inflection.Quant/tags/pde/</link>
+      <pubDate>Tue, 09 Jun 2026 00:00:00 +0000</pubDate>
+      <guid>https://leslie-ren.github.io/Inflection.Quant/tags/pde/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Monte Carlo</title>
+      <link>https://leslie-ren.github.io/Inflection.Quant/tags/monte-carlo/</link>
+      <pubDate>Tue, 02 Jun 2026 00:00:00 +0000</pubDate>
+      <guid>https://leslie-ren.github.io/Inflection.Quant/tags/monte-carlo/</guid>
       <description></description>
     </item>
     <item>
       <title>Options</title>
       <link>https://leslie-ren.github.io/Inflection.Quant/tags/options/</link>
-      <pubDate>Sat, 30 May 2026 00:00:00 +0000</pubDate>
+      <pubDate>Tue, 02 Jun 2026 00:00:00 +0000</pubDate>
       <guid>https://leslie-ren.github.io/Inflection.Quant/tags/options/</guid>
       <description></description>
     </item>
     <item>
       <title>Variance-Reduction</title>
       <link>https://leslie-ren.github.io/Inflection.Quant/tags/variance-reduction/</link>
-      <pubDate>Sat, 30 May 2026 00:00:00 +0000</pubDate>
+      <pubDate>Tue, 02 Jun 2026 00:00:00 +0000</pubDate>
       <guid>https://leslie-ren.github.io/Inflection.Quant/tags/variance-reduction/</guid>
       <description></description>
     </item>
@@ -62,13 +90,6 @@
       <link>https://leslie-ren.github.io/Inflection.Quant/tags/survival-probability/</link>
       <pubDate>Thu, 28 May 2026 00:00:00 +0000</pubDate>
       <guid>https://leslie-ren.github.io/Inflection.Quant/tags/survival-probability/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Black-Scholes</title>
-      <link>https://leslie-ren.github.io/Inflection.Quant/tags/black-scholes/</link>
-      <pubDate>Tue, 19 May 2026 00:00:00 +0000</pubDate>
-      <guid>https://leslie-ren.github.io/Inflection.Quant/tags/black-scholes/</guid>
       <description></description>
     </item>
     <item>

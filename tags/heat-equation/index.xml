@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Heat-Equation on Inflection Quant Lab</title>
+    <link>https://leslie-ren.github.io/Inflection.Quant/tags/heat-equation/</link>
+    <description>Recent content in Heat-Equation on Inflection Quant Lab</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 09 Jun 2026 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://leslie-ren.github.io/Inflection.Quant/tags/heat-equation/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Finite Difference Methods: Marching Forward or Solving Together</title>
+      <link>https://leslie-ren.github.io/Inflection.Quant/articles/quant-foundations/fdm/</link>
+      <pubDate>Tue, 09 Jun 2026 00:00:00 +0000</pubDate>
+      <guid>https://leslie-ren.github.io/Inflection.Quant/articles/quant-foundations/fdm/</guid>
+      <description>&lt;h2 id=&#34;why-this-matters&#34;&gt;Why This Matters&lt;/h2&gt;
+&lt;p&gt;A derivative price can be computed two equivalent ways: as a risk-neutral expectation, or as the solution of a PDE. This is the &lt;a href=&#34;../../Inflection.Quant/articles/quant-foundations/feynman_kac/&#34;&gt;Feynman-Kac result&lt;/a&gt;, which I explored in the earlier article. Monte Carlo is the natural way to handle the expectation, and the &lt;a href=&#34;../../Inflection.Quant/articles/quant-foundations/mc_variance_reduction/&#34;&gt;previous article&lt;/a&gt; worked through techniques for making it more efficient. Here I want to look at the other side, where the price is the solution of a PDE and we solve it on a grid.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

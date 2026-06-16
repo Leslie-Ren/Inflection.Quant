@@ -6,12 +6,12 @@
     <description>Recent content in Monte Carlo on Inflection Quant Lab</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 30 May 2026 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 02 Jun 2026 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://leslie-ren.github.io/Inflection.Quant/tags/monte-carlo/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Monte Carlo Variance Reduction: What We Average, and How We Sample</title>
       <link>https://leslie-ren.github.io/Inflection.Quant/articles/quant-foundations/mc_variance_reduction/</link>
-      <pubDate>Sat, 30 May 2026 00:00:00 +0000</pubDate>
+      <pubDate>Tue, 02 Jun 2026 00:00:00 +0000</pubDate>
       <guid>https://leslie-ren.github.io/Inflection.Quant/articles/quant-foundations/mc_variance_reduction/</guid>
       <description>&lt;h2 id=&#34;why-this-matters&#34;&gt;Why This Matters&lt;/h2&gt;
 &lt;p&gt;In the article on the &lt;a href=&#34;../../Inflection.Quant/articles/quant-foundations/feynman_kac/&#34;&gt;Feynman-Kac theorem&lt;/a&gt;, we saw that the price of a derivative can be expressed equivalently as the solution to a deterministic PDE or as the expectation of a discounted payoff under the risk-neutral measure. This gives us two complementary numerical approaches to pricing. For low-dimensional problems with smooth payoffs, finite difference methods on the PDE side are efficient and accurate. For high-dimensional problems, path-dependent payoffs, or models where the PDE is hard to derive, Monte Carlo (MC) on the expectation side becomes the natural choice.&lt;/p&gt;</description>
