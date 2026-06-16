@@ -1,6 +1,6 @@
 ---
 title: "Monte Carlo Variance Reduction: What We Average, and How We Sample"
-date: 2026-05-30
+date: 2026-06-02
 draft: false
 math: true
 tags: ["monte-carlo", "variance-reduction", "options", "numerical-methods"]
