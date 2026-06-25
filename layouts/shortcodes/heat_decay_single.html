@@ -1,0 +1,139 @@
+<div id="heat-decay-single">
+  <style>
+    #heat-decay-single {
+      --ink: #1a2332;
+      --muted: #6b7688;
+      --hair: #d4dae3;
+      --rigid: #1f6f8b;
+      --bg: #fbfcfd;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      color: var(--ink);
+      max-width: 520px;
+      margin: 0 auto;
+      background: var(--bg);
+      border: 1px solid var(--hair);
+      border-radius: 4px;
+      padding: 22px 24px 18px;
+      box-sizing: border-box;
+    }
+    #heat-decay-single * { box-sizing: border-box; }
+    #heat-decay-single h4 {
+      margin: 0 0 2px;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.01em;
+    }
+    #heat-decay-single .sub {
+      margin: 0 0 10px;
+      font-size: 11.5px;
+      color: var(--muted);
+      line-height: 1.35;
+    }
+    #heat-decay-single svg { width: 100%; height: auto; display: block; }
+    #heat-decay-single .axis { stroke: var(--hair); stroke-width: 1; }
+    #heat-decay-single .ghost { fill: none; stroke-width: 1; opacity: 0.28; stroke: var(--rigid); }
+    #heat-decay-single .curve { fill: none; stroke-width: 2.4; stroke: var(--rigid); }
+    #heat-decay-single .controls {
+      margin-top: 14px;
+      padding-top: 14px;
+      border-top: 1px solid var(--hair);
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    #heat-decay-single .controls label {
+      font-size: 12px;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+    #heat-decay-single input[type=range] {
+      flex: 1;
+      accent-color: var(--ink);
+      cursor: pointer;
+    }
+    #heat-decay-single .tval {
+      font-variant-numeric: tabular-nums;
+      font-size: 12px;
+      color: var(--ink);
+      min-width: 58px;
+      text-align: right;
+    }
+    #heat-decay-single .caption {
+      margin: 12px 0 0;
+      font-size: 11.5px;
+      color: var(--muted);
+      line-height: 1.45;
+    }
+  </style>
+
+  <h4>A single mode cooling</h4>
+  <p class="sub">The shape stays fixed; only its height changes. Every point loses heat in the same proportion.</p>
+  <svg viewBox="0 0 460 200" id="svg-single" aria-label="A single sine mode decaying while holding its shape"></svg>
+
+  <div class="controls">
+    <label for="single-slider">Time</label>
+    <input type="range" id="single-slider" min="0" max="100" value="0" />
+    <span class="tval" id="single-readout">t = 0.00</span>
+  </div>
+
+  <p class="caption">Drag to advance time. The faint outline marks the starting profile; the bold curve is the profile now. It shrinks toward the axis without shifting its peak or changing its form.</p>
+
+  <script>
+    (function () {
+      var root = document.getElementById("heat-decay-single");
+      var svg = root.querySelector("#svg-single");
+      var slider = root.querySelector("#single-slider");
+      var readout = root.querySelector("#single-readout");
+
+      var W = 460, H = 200, padL = 24, padR = 16, padB = 24;
+      var x0 = padL, x1 = W - padR;
+      var yBase = H - padB;
+      var ampPix = 132;
+      var N = 140;
+      var L = Math.PI;
+      var kappa = 1.0;
+      var tMax = 0.42;
+
+      function xpix(i) { return x0 + (x1 - x0) * (i / N); }
+      function ypix(val) { return yBase - val * ampPix; }
+      function decay(n, t) { return Math.exp(-kappa * n * n * t); }
+      function profile(x, t) { return decay(1, t) * Math.sin(x); }
+
+      var ns = "http://www.w3.org/2000/svg";
+      var ax = document.createElementNS(ns, "line");
+      ax.setAttribute("class", "axis");
+      ax.setAttribute("x1", x0); ax.setAttribute("y1", yBase);
+      ax.setAttribute("x2", x1); ax.setAttribute("y2", yBase);
+      svg.appendChild(ax);
+
+      function pathData(t) {
+        var d = "";
+        for (var i = 0; i <= N; i++) {
+          var x = L * (i / N);
+          var v = profile(x, t);
+          d += (i === 0 ? "M" : "L") + xpix(i).toFixed(2) + "," + ypix(v).toFixed(2) + " ";
+        }
+        return d.trim();
+      }
+
+      var ghost = document.createElementNS(ns, "path");
+      ghost.setAttribute("class", "ghost");
+      ghost.setAttribute("d", pathData(0));
+      svg.appendChild(ghost);
+
+      var curve = document.createElementNS(ns, "path");
+      curve.setAttribute("class", "curve");
+      svg.appendChild(curve);
+
+      function render() {
+        var s = +slider.value;
+        var t = tMax * (s / 100);
+        curve.setAttribute("d", pathData(t));
+        readout.textContent = "t = " + t.toFixed(2);
+      }
+
+      slider.addEventListener("input", render);
+      render();
+    })();
+  </script>
+</div>

@@ -1,0 +1,157 @@
+<div id="ortho-fig">
+  <style>
+    #ortho-fig {
+      --ink: #1a2332;
+      --muted: #6b7688;
+      --hair: #d4dae3;
+      --mode1: #1f6f8b;
+      --mode2: #c44e3d;
+      --prod: #5a4a82;
+      --pos: rgba(90, 74, 130, 0.18);
+      --neg: rgba(196, 78, 61, 0.16);
+      --bg: #fbfcfd;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      color: var(--ink);
+      max-width: 620px;
+      margin: 0 auto;
+      background: var(--bg);
+      border: 1px solid var(--hair);
+      border-radius: 4px;
+      padding: 22px 24px 18px;
+      box-sizing: border-box;
+    }
+    #ortho-fig * { box-sizing: border-box; }
+    #ortho-fig h4 { margin: 0 0 2px; font-size: 13px; font-weight: 600; }
+    #ortho-fig .sub { margin: 0 0 12px; font-size: 11.5px; color: var(--muted); line-height: 1.4; }
+    #ortho-fig svg { width: 100%; height: auto; display: block; }
+    #ortho-fig .axis { stroke: var(--hair); stroke-width: 1; }
+    #ortho-fig .curve { fill: none; stroke-width: 2.2; }
+    #ortho-fig .c1 { stroke: var(--mode1); }
+    #ortho-fig .c2 { stroke: var(--mode2); }
+    #ortho-fig .cp { stroke: var(--prod); stroke-width: 2.4; }
+    #ortho-fig .legend { display: flex; gap: 18px; flex-wrap: wrap; margin: 4px 0 10px; font-size: 11.5px; }
+    #ortho-fig .legend span { display: inline-flex; align-items: center; gap: 6px; color: var(--ink); }
+    #ortho-fig .swatch { width: 14px; height: 3px; border-radius: 2px; display: inline-block; }
+    #ortho-fig .label { font-size: 11px; fill: var(--muted); }
+    #ortho-fig .caption { margin: 10px 0 0; font-size: 11.5px; color: var(--muted); line-height: 1.45; }
+    #ortho-fig .area-note { display: flex; gap: 18px; font-size: 11px; color: var(--muted); margin-top: 8px; }
+    #ortho-fig .area-note span { display: inline-flex; align-items: center; gap: 6px; }
+    #ortho-fig .box { width: 12px; height: 12px; border-radius: 2px; display: inline-block; }
+  </style>
+
+  <h4>Why two sine modes are perpendicular</h4>
+  <p class="sub">The product of sin(&pi;x) and sin(2&pi;x) is positive over some stretches and negative over others. The two areas are equal, so they cancel: the integral is zero.</p>
+
+  <div class="legend">
+    <span><i class="swatch" style="background:var(--mode1)"></i> sin(&pi;x)</span>
+    <span><i class="swatch" style="background:var(--mode2)"></i> sin(2&pi;x)</span>
+    <span><i class="swatch" style="background:var(--prod)"></i> product</span>
+  </div>
+
+  <svg viewBox="0 0 560 260" id="ortho-svg" aria-label="Two sine modes and their product, with positive and negative areas of the product shaded"></svg>
+
+  <div class="area-note">
+    <span><i class="box" style="background:var(--pos)"></i> positive area</span>
+    <span><i class="box" style="background:var(--neg)"></i> negative area</span>
+    <span id="net-readout" style="margin-left:auto; font-variant-numeric:tabular-nums;"></span>
+  </div>
+
+  <p class="caption">The product curve sits above the axis where the two modes share a sign and below where they differ. Summing it across the rod, the shaded regions above and below the axis exactly offset, which is what the integral evaluating to zero means.</p>
+
+  <script>
+    (function () {
+      var svg = document.getElementById("ortho-svg");
+      var ns = "http://www.w3.org/2000/svg";
+      var W = 560, H = 260, padL = 28, padR = 14, padT = 14, padB = 24;
+      var x0 = padL, x1 = W - padR;
+      var yMid = (H - padB + padT) / 2;
+      var amp = (H - padB - padT) / 2 * 0.92;
+      var N = 400, L = 1.0;
+
+      function xp(x) { return x0 + (x1 - x0) * (x / L); }
+      function yp(v) { return yMid - v * amp; }
+
+      function mode1(x) { return Math.sin(Math.PI * x / L); }
+      function mode2(x) { return Math.sin(2 * Math.PI * x / L); }
+      function prod(x) { return mode1(x) * mode2(x); }
+
+      // shaded product area (positive and negative) as filled polygons to the axis
+      function areaPath(sign) {
+        var d = "", started = false, posArea = 0;
+        // build piecewise polygons where sign matches
+        var pts = [];
+        for (var i = 0; i <= N; i++) {
+          var x = L * i / N, v = prod(x);
+          pts.push([x, v]);
+        }
+        // construct fill region clipped to sign
+        var segs = [];
+        var cur = null;
+        for (var j = 0; j < pts.length; j++) {
+          var v2 = pts[j][1];
+          var ok = sign > 0 ? v2 >= 0 : v2 < 0;
+          if (ok) {
+            if (!cur) cur = [];
+            cur.push(pts[j]);
+          } else {
+            if (cur && cur.length > 1) segs.push(cur);
+            cur = null;
+          }
+        }
+        if (cur && cur.length > 1) segs.push(cur);
+        var path = "";
+        segs.forEach(function (seg) {
+          path += "M" + xp(seg[0][0]).toFixed(1) + "," + yp(0).toFixed(1) + " ";
+          seg.forEach(function (p) { path += "L" + xp(p[0]).toFixed(1) + "," + yp(p[1]).toFixed(1) + " "; });
+          path += "L" + xp(seg[seg.length - 1][0]).toFixed(1) + "," + yp(0).toFixed(1) + " Z ";
+        });
+        return path;
+      }
+
+      function curve(fn, cls) {
+        var d = "";
+        for (var i = 0; i <= N; i++) {
+          var x = L * i / N;
+          d += (i === 0 ? "M" : "L") + xp(x).toFixed(1) + "," + yp(fn(x)).toFixed(1) + " ";
+        }
+        var p = document.createElementNS(ns, "path");
+        p.setAttribute("class", "curve " + cls);
+        p.setAttribute("d", d.trim());
+        svg.appendChild(p);
+      }
+
+      // shaded areas first (behind curves)
+      var posFill = document.createElementNS(ns, "path");
+      posFill.setAttribute("d", areaPath(1));
+      posFill.setAttribute("fill", "var(--pos)");
+      posFill.setAttribute("stroke", "none");
+      svg.appendChild(posFill);
+
+      var negFill = document.createElementNS(ns, "path");
+      negFill.setAttribute("d", areaPath(-1));
+      negFill.setAttribute("fill", "var(--neg)");
+      negFill.setAttribute("stroke", "none");
+      svg.appendChild(negFill);
+
+      // axis
+      var ax = document.createElementNS(ns, "line");
+      ax.setAttribute("class", "axis");
+      ax.setAttribute("x1", x0); ax.setAttribute("y1", yp(0));
+      ax.setAttribute("x2", x1); ax.setAttribute("y2", yp(0));
+      svg.appendChild(ax);
+
+      // curves
+      curve(mode1, "c1");
+      curve(mode2, "c2");
+      curve(prod, "cp");
+
+      // numeric net area readout
+      var net = 0, dx = L / N;
+      for (var i = 0; i < N; i++) {
+        var xm = L * (i + 0.5) / N;
+        net += prod(xm) * dx;
+      }
+      document.getElementById("net-readout").textContent = "net = " + net.toFixed(3);
+    })();
+  </script>
+</div>

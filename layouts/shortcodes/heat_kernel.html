@@ -1,0 +1,115 @@
+<div id="heat-kernel">
+  <style>
+    #heat-kernel {
+      --ink: #1a2332;
+      --muted: #6b7688;
+      --hair: #d4dae3;
+      --curve: #1f6f8b;
+      --bg: #fbfcfd;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      color: var(--ink);
+      max-width: 520px;
+      margin: 0 auto;
+      background: var(--bg);
+      border: 1px solid var(--hair);
+      border-radius: 4px;
+      padding: 22px 24px 18px;
+      box-sizing: border-box;
+    }
+    #heat-kernel * { box-sizing: border-box; }
+    #heat-kernel h4 { margin: 0 0 2px; font-size: 13px; font-weight: 600; }
+    #heat-kernel .sub { margin: 0 0 10px; font-size: 11.5px; color: var(--muted); line-height: 1.4; }
+    #heat-kernel svg { width: 100%; height: auto; display: block; }
+    #heat-kernel .axis { stroke: var(--hair); stroke-width: 1; }
+    #heat-kernel .ghost { fill: none; stroke: var(--curve); stroke-width: 1; opacity: 0.28; }
+    #heat-kernel .curve { fill: none; stroke: var(--curve); stroke-width: 2.6; }
+    #heat-kernel .fillc { fill: var(--curve); opacity: 0.07; stroke: none; }
+    #heat-kernel .controls { margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--hair); display: flex; align-items: center; gap: 14px; }
+    #heat-kernel .controls label { font-size: 12px; color: var(--muted); white-space: nowrap; }
+    #heat-kernel input[type=range] { flex: 1; accent-color: var(--ink); cursor: pointer; }
+    #heat-kernel .tval { font-variant-numeric: tabular-nums; font-size: 12px; color: var(--ink); min-width: 64px; text-align: right; }
+    #heat-kernel .caption { margin: 10px 0 0; font-size: 11.5px; color: var(--muted); line-height: 1.45; }
+  </style>
+
+  <h4>Heat spreading from a point</h4>
+  <p class="sub">All the heat starts at one spot. As time passes it spreads outward as a Gaussian, widening and flattening while the total heat stays fixed.</p>
+
+  <svg viewBox="0 0 480 220" id="hk-svg" aria-label="A Gaussian heat profile spreading and flattening over time"></svg>
+
+  <div class="controls">
+    <label for="hk-slider">Time</label>
+    <input type="range" id="hk-slider" min="0" max="100" value="8" />
+    <span class="tval" id="hk-readout"></span>
+  </div>
+
+  <p class="caption">Drag to advance time. The faint curve marks the earliest profile. The peak falls as the curve broadens; the area underneath, the total heat, never changes.</p>
+
+  <script>
+    (function () {
+      var svg = document.getElementById("hk-svg");
+      var slider = document.getElementById("hk-slider");
+      var readout = document.getElementById("hk-readout");
+      var ns = "http://www.w3.org/2000/svg";
+
+      var W = 480, H = 220, padL = 22, padR = 14, padT = 16, padB = 24;
+      var x0 = padL, x1 = W - padR;
+      var yBase = H - padB;
+      var Npts = 240;
+      var kappa = 1.0;
+      var xHalf = 4.0;                 // plot x in [-xHalf, xHalf]
+      var tMin = 0.05, tMax = 2.0;
+      // vertical scale: tallest curve is at tMin, peak = 1/sqrt(4 pi kappa tMin)
+      var peakMax = 1 / Math.sqrt(4 * Math.PI * kappa * tMin);
+      var ampPix = (yBase - padT) / (peakMax * 1.05);
+
+      function xp(x) { return x0 + (x1 - x0) * (x + xHalf) / (2 * xHalf); }
+      function yp(v) { return yBase - v * ampPix; }
+      function kernel(x, t) { return Math.exp(-x*x / (4*kappa*t)) / Math.sqrt(4*Math.PI*kappa*t); }
+
+      // axis
+      var ax = document.createElementNS(ns, "line");
+      ax.setAttribute("class", "axis");
+      ax.setAttribute("x1", x0); ax.setAttribute("y1", yp(0));
+      ax.setAttribute("x2", x1); ax.setAttribute("y2", yp(0));
+      svg.appendChild(ax);
+
+      function pathData(t, close) {
+        var d = "";
+        for (var i = 0; i <= Npts; i++) {
+          var x = -xHalf + 2*xHalf * i / Npts;
+          d += (i === 0 ? "M" : "L") + xp(x).toFixed(2) + "," + yp(kernel(x, t)).toFixed(2) + " ";
+        }
+        if (close) {
+          d += "L" + xp(xHalf).toFixed(2) + "," + yp(0).toFixed(2) + " ";
+          d += "L" + xp(-xHalf).toFixed(2) + "," + yp(0).toFixed(2) + " Z";
+        }
+        return d.trim();
+      }
+
+      // ghost at earliest time
+      var ghost = document.createElementNS(ns, "path");
+      ghost.setAttribute("class", "ghost");
+      ghost.setAttribute("d", pathData(tMin, false));
+      svg.appendChild(ghost);
+
+      var fill = document.createElementNS(ns, "path");
+      fill.setAttribute("class", "fillc");
+      svg.appendChild(fill);
+
+      var curve = document.createElementNS(ns, "path");
+      curve.setAttribute("class", "curve");
+      svg.appendChild(curve);
+
+      function render() {
+        var s = +slider.value;
+        var t = tMin + (tMax - tMin) * (s / 100);
+        curve.setAttribute("d", pathData(t, false));
+        fill.setAttribute("d", pathData(t, true));
+        readout.textContent = "t = " + t.toFixed(2);
+      }
+
+      slider.addEventListener("input", render);
+      render();
+    })();
+  </script>
+</div>

@@ -1,0 +1,128 @@
+<div id="uniform-decay">
+  <style>
+    #uniform-decay {
+      --ink: #1a2332;
+      --muted: #6b7688;
+      --hair: #d4dae3;
+      --sum: #1f6f8b;
+      --comp: #c44e3d;
+      --bg: #fbfcfd;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      color: var(--ink);
+      max-width: 560px;
+      margin: 0 auto;
+      background: var(--bg);
+      border: 1px solid var(--hair);
+      border-radius: 4px;
+      padding: 22px 24px 18px;
+      box-sizing: border-box;
+    }
+    #uniform-decay * { box-sizing: border-box; }
+    #uniform-decay h4 { margin: 0 0 2px; font-size: 13px; font-weight: 600; }
+    #uniform-decay .sub { margin: 0 0 10px; font-size: 11.5px; color: var(--muted); line-height: 1.4; }
+    #uniform-decay svg { width: 100%; height: auto; display: block; }
+    #uniform-decay .axis { stroke: var(--hair); stroke-width: 1; }
+    #uniform-decay .comp { fill: none; stroke: var(--comp); stroke-width: 1; opacity: 0.4; }
+    #uniform-decay .sum { fill: none; stroke: var(--sum); stroke-width: 2.6; }
+    #uniform-decay .legend { display: flex; gap: 18px; margin: 2px 0 10px; font-size: 11.5px; }
+    #uniform-decay .legend span { display: inline-flex; align-items: center; gap: 6px; }
+    #uniform-decay .swatch { width: 14px; height: 3px; border-radius: 2px; display: inline-block; }
+    #uniform-decay .controls { margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--hair); display: flex; align-items: center; gap: 14px; }
+    #uniform-decay .controls label { font-size: 12px; color: var(--muted); white-space: nowrap; }
+    #uniform-decay input[type=range] { flex: 1; accent-color: var(--ink); cursor: pointer; }
+    #uniform-decay .tval { font-variant-numeric: tabular-nums; font-size: 12px; color: var(--ink); min-width: 64px; text-align: right; }
+    #uniform-decay .caption { margin: 10px 0 0; font-size: 11.5px; color: var(--muted); line-height: 1.45; }
+  </style>
+
+  <h4>A uniform profile relaxing to a half-sine</h4>
+  <p class="sub">The flat start is a sum of sines (faint). The sharper ones decay fastest, so within a short time only the slowest sine survives and the rod settles into a single arch.</p>
+
+  <div class="legend">
+    <span><i class="swatch" style="background:var(--sum)"></i> temperature u(x,t)</span>
+    <span><i class="swatch" style="background:var(--comp);opacity:0.5"></i> sine components</span>
+  </div>
+
+  <svg viewBox="0 0 480 220" id="ud-svg" aria-label="A uniform temperature profile decaying into a half-sine, shown as a sum of sine components"></svg>
+
+  <div class="controls">
+    <label for="ud-slider">Time</label>
+    <input type="range" id="ud-slider" min="0" max="100" value="0" />
+    <span class="tval" id="ud-readout"></span>
+  </div>
+
+  <p class="caption">Drag to advance time. Each faint curve is one odd term of the series; the bold curve is their sum, the actual temperature. The sharper sines vanish almost at once, leaving the smooth slowest one.</p>
+
+  <script>
+    (function () {
+      var svg = document.getElementById("ud-svg");
+      var slider = document.getElementById("ud-slider");
+      var readout = document.getElementById("ud-readout");
+      var ns = "http://www.w3.org/2000/svg";
+
+      var W = 480, H = 220, padL = 22, padR = 14, padT = 16, padB = 24;
+      var x0 = padL, x1 = W - padR;
+      var yBase = H - padB;
+      var Npts = 240, L = 1.0, kappa = 1.0;
+      var u0 = 1.0;
+      var Nterms = 40;            // terms summed for the bold curve (accurate flat top at t=0)
+      var Nshow = 4;              // how many components to draw faintly (n=1,3,5,7)
+      var tMax = 0.060;
+      var tMin = 0.002;           // start just past 0 so the truncated series is already smooth
+      var ampPix = (yBase - padT) / 1.30;   // headroom for the 4/pi fundamental peak
+
+      function xp(x) { return x0 + (x1 - x0) * (x / L); }
+      function yp(v) { return yBase - v * ampPix; }
+
+      function coeff(n) { return (4 * u0 / Math.PI) / n; } // n odd
+      function decay(n, t) { return Math.exp(-kappa * Math.pow(n * Math.PI / L, 2) * t); }
+      function term(n, x, t) { return coeff(n) * Math.sin(n * Math.PI * x / L) * decay(n, t); }
+
+      // axis
+      var ax = document.createElementNS(ns, "line");
+      ax.setAttribute("class", "axis");
+      ax.setAttribute("x1", x0); ax.setAttribute("y1", yp(0));
+      ax.setAttribute("x2", x1); ax.setAttribute("y2", yp(0));
+      svg.appendChild(ax);
+
+      // component paths (odd n) + sum path
+      var compPaths = [];
+      var shown = 0;
+      for (var n = 1; shown < Nshow; n += 2) {
+        var p = document.createElementNS(ns, "path");
+        p.setAttribute("class", "comp");
+        svg.appendChild(p);
+        compPaths.push({ n: n, el: p });
+        shown++;
+      }
+      var sumPath = document.createElementNS(ns, "path");
+      sumPath.setAttribute("class", "sum");
+      svg.appendChild(sumPath);
+
+      function pathFor(fn, t) {
+        var d = "";
+        for (var i = 0; i <= Npts; i++) {
+          var x = L * i / Npts;
+          d += (i === 0 ? "M" : "L") + xp(x).toFixed(2) + "," + yp(fn(x, t)).toFixed(2) + " ";
+        }
+        return d.trim();
+      }
+
+      function render() {
+        var s = +slider.value;
+        var t = tMin + (tMax - tMin) * (s / 100);
+        compPaths.forEach(function (c) {
+          c.el.setAttribute("d", pathFor(function (x, tt) { return term(c.n, x, tt); }, t));
+        });
+        sumPath.setAttribute("d", pathFor(function (x, tt) {
+          var acc = 0;
+          for (var n = 1; n < 2 * Nterms; n += 2) acc += term(n, x, tt);
+          return acc;
+        }, t));
+        readout.textContent = "t = " + t.toFixed(3);
+      }
+
+      slider.addEventListener("input", render);
+      render();
+    })();
+  </script>
+</div>
