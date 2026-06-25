@@ -6,13 +6,48 @@
     <description>Recent content in Tags on Inflection Quant Lab</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 09 Jun 2026 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 16 Jun 2026 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://leslie-ren.github.io/Inflection.Quant/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Black-Scholes</title>
       <link>https://leslie-ren.github.io/Inflection.Quant/tags/black-scholes/</link>
-      <pubDate>Tue, 09 Jun 2026 00:00:00 +0000</pubDate>
+      <pubDate>Tue, 16 Jun 2026 00:00:00 +0000</pubDate>
       <guid>https://leslie-ren.github.io/Inflection.Quant/tags/black-scholes/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Characteristic-Function</title>
+      <link>https://leslie-ren.github.io/Inflection.Quant/tags/characteristic-function/</link>
+      <pubDate>Tue, 16 Jun 2026 00:00:00 +0000</pubDate>
+      <guid>https://leslie-ren.github.io/Inflection.Quant/tags/characteristic-function/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Fourier-Transform</title>
+      <link>https://leslie-ren.github.io/Inflection.Quant/tags/fourier-transform/</link>
+      <pubDate>Tue, 16 Jun 2026 00:00:00 +0000</pubDate>
+      <guid>https://leslie-ren.github.io/Inflection.Quant/tags/fourier-transform/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Heat-Equation</title>
+      <link>https://leslie-ren.github.io/Inflection.Quant/tags/heat-equation/</link>
+      <pubDate>Tue, 16 Jun 2026 00:00:00 +0000</pubDate>
+      <guid>https://leslie-ren.github.io/Inflection.Quant/tags/heat-equation/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Heston</title>
+      <link>https://leslie-ren.github.io/Inflection.Quant/tags/heston/</link>
+      <pubDate>Tue, 16 Jun 2026 00:00:00 +0000</pubDate>
+      <guid>https://leslie-ren.github.io/Inflection.Quant/tags/heston/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Pde</title>
+      <link>https://leslie-ren.github.io/Inflection.Quant/tags/pde/</link>
+      <pubDate>Tue, 16 Jun 2026 00:00:00 +0000</pubDate>
+      <guid>https://leslie-ren.github.io/Inflection.Quant/tags/pde/</guid>
       <description></description>
     </item>
     <item>
@@ -23,24 +58,10 @@
       <description></description>
     </item>
     <item>
-      <title>Heat-Equation</title>
-      <link>https://leslie-ren.github.io/Inflection.Quant/tags/heat-equation/</link>
-      <pubDate>Tue, 09 Jun 2026 00:00:00 +0000</pubDate>
-      <guid>https://leslie-ren.github.io/Inflection.Quant/tags/heat-equation/</guid>
-      <description></description>
-    </item>
-    <item>
       <title>Numerical-Methods</title>
       <link>https://leslie-ren.github.io/Inflection.Quant/tags/numerical-methods/</link>
       <pubDate>Tue, 09 Jun 2026 00:00:00 +0000</pubDate>
       <guid>https://leslie-ren.github.io/Inflection.Quant/tags/numerical-methods/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Pde</title>
-      <link>https://leslie-ren.github.io/Inflection.Quant/tags/pde/</link>
-      <pubDate>Tue, 09 Jun 2026 00:00:00 +0000</pubDate>
-      <guid>https://leslie-ren.github.io/Inflection.Quant/tags/pde/</guid>
       <description></description>
     </item>
     <item>

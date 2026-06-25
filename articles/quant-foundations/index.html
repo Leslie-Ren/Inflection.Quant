@@ -151,6 +151,11 @@ document.addEventListener("DOMContentLoaded", function() {
                     <span>Articles</span>
                 </a>
             </li>
+            <li>
+                <a href="https://leslie-ren.github.io/Inflection.Quant/search/" title="Search">
+                    <span>Search</span>
+                </a>
+            </li>
         </ul>
     </nav>
 </header>
@@ -160,6 +165,20 @@ document.addEventListener("DOMContentLoaded", function() {
     Quant Fundamentals
   </h1>
 </header>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">Fourier Transform: The Leap into Frequency
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>Why This Matters The previous article on finite difference methods solved the heat equation by brute force: lay down a grid, step it through time, let the solution emerge step by step. It works, and for many pricing problems it is the practical choice. But can we instead solve the equation analytically?
+For a class of PDEs, the heat equation among them, we can. The idea is to stop viewing a function as a shape over space and instead see it as a combination of frequencies. That change of view is the Fourier transform. In this article, we explore it on the heat equation, where the diffusion structure shows through without the variable coefficients of Black-Scholes to clutter it, and then turn to its application in option pricing, where it works even when the distribution of prices has no closed form.
+...</p>
+  </div>
+  <footer class="entry-footer"><span title='2026-06-16 00:00:00 +0000 UTC'>June 16, 2026</span></footer>
+  <a class="entry-link" aria-label="post link to Fourier Transform: The Leap into Frequency" href="https://leslie-ren.github.io/Inflection.Quant/articles/quant-foundations/fourier_transform/"></a>
+</article>
 
 <article class="post-entry"> 
   <header class="entry-header">
@@ -279,19 +298,6 @@ That leads to a more basic question. Instead of imposing a parametric model and 
   </div>
   <footer class="entry-footer"><span title='2026-04-16 00:00:00 +0000 UTC'>April 16, 2026</span></footer>
   <a class="entry-link" aria-label="post link to From Option Prices to the Shape of Returns: A Model-Free Construction of Volatility, Skewness and Kurtosis" href="https://leslie-ren.github.io/Inflection.Quant/articles/quant-foundations/vol_skewness_kurtosis/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">Solving for Implied Volatility: Newton&#39;s Method vs Brent&#39;s Method
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>Why This Matters I started writing about calibrating a full volatility surface and realised it first requires a clear understanding of a simpler problem: solving for implied vol from a single option price. At its core, this is a root-finding problem: given a market price, we need to find the volatility that makes the model match that price. Once framed this way, the question becomes how to solve this nonlinear problem efficiently and reliably.
-...</p>
-  </div>
-  <footer class="entry-footer"><span title='2026-04-09 00:00:00 +0000 UTC'>April 9, 2026</span></footer>
-  <a class="entry-link" aria-label="post link to Solving for Implied Volatility: Newton&#39;s Method vs Brent&#39;s Method" href="https://leslie-ren.github.io/Inflection.Quant/articles/quant-foundations/newton_vs_brent_vol_solver/"></a>
 </article>
 <footer class="page-footer">
   <nav class="pagination">

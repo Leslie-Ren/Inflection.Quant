@@ -6,8 +6,17 @@
     <description>Recent content on Inflection Quant Lab</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 09 Jun 2026 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 16 Jun 2026 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://leslie-ren.github.io/Inflection.Quant/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Fourier Transform: The Leap into Frequency</title>
+      <link>https://leslie-ren.github.io/Inflection.Quant/articles/quant-foundations/fourier_transform/</link>
+      <pubDate>Tue, 16 Jun 2026 00:00:00 +0000</pubDate>
+      <guid>https://leslie-ren.github.io/Inflection.Quant/articles/quant-foundations/fourier_transform/</guid>
+      <description>&lt;h2 id=&#34;why-this-matters&#34;&gt;Why This Matters&lt;/h2&gt;
+&lt;p&gt;The previous article on &lt;a href=&#34;./Inflection.Quant/articles/quant-foundations/fdm/&#34;&gt;finite difference methods&lt;/a&gt; solved the heat equation by brute force: lay down a grid, step it through time, let the solution emerge step by step. It works, and for many pricing problems it is the practical choice. But can we instead solve the equation analytically?&lt;/p&gt;
+&lt;p&gt;For a class of PDEs, the heat equation among them, we can. The idea is to stop viewing a function as a shape over space and instead see it as a combination of frequencies. That change of view is the Fourier transform. In this article, we explore it on the heat equation, where the diffusion structure shows through without the variable coefficients of Black-Scholes to clutter it, and then turn to its application in option pricing, where it works even when the distribution of prices has no closed form.&lt;/p&gt;</description>
+    </item>
     <item>
       <title>Finite Difference Methods: Marching Forward or Solving Together</title>
       <link>https://leslie-ren.github.io/Inflection.Quant/articles/quant-foundations/fdm/</link>
