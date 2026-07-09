@@ -1,0 +1,33 @@
+<div class="butterfly-payoff-fig">
+<div id="butterflyPayoffPlot" style="width:100%;height:300px;"></div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/plotly.js-dist-min@2.35.2/plotly.min.js"></script>
+<script>
+(function(){
+  var D = {x:[50.0, 60.0, 70.0, 80.0, 90.0], y:[0, 0, 10.0, 0, 0], K:70.0, dK:10.0};
+  var css = getComputedStyle(document.documentElement);
+  function v(n,f){var x=css.getPropertyValue(n).trim();return x||f;}
+  var ink   = v('--primary','#1d1e20');
+  var muted = v('--secondary','#6b6b6b');
+  var grid  = v('--border','#e5e5e5');
+  var accent = '#e34948';
+  var trace = {
+    x: D.x, y: D.y, mode:'lines', type:'scatter',
+    line:{color:accent, width:2.5, shape:'linear'},
+    fill:'tozeroy', fillcolor:'rgba(227,73,74,0.10)',
+    hovertemplate:'S = %{x:.0f}<br>payoff %{y:.1f}<extra></extra>'
+  };
+  var layout = {
+    margin:{l:48,r:16,t:14,b:44},
+    paper_bgcolor:'rgba(0,0,0,0)', plot_bgcolor:'rgba(0,0,0,0)',
+    font:{color:ink, family:'inherit', size:13},
+    xaxis:{title:{text:'underlying at expiry'}, gridcolor:grid, zeroline:false, linecolor:grid,
+      color:muted, tickvals:[D.K-D.dK, D.K, D.K+D.dK],
+      ticktext:['K − ΔK','K','K + ΔK']},
+    yaxis:{title:{text:'payoff'}, gridcolor:grid, zeroline:true, zerolinecolor:grid,
+      linecolor:grid, color:muted, tickvals:[0, D.dK], ticktext:['0','ΔK'], rangemode:'tozero'},
+    hovermode:'closest', showlegend:false
+  };
+  Plotly.newPlot('butterflyPayoffPlot', [trace], layout, {displayModeBar:false, responsive:true});
+})();
+</script>
