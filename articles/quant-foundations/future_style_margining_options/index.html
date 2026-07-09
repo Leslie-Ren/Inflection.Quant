@@ -82,8 +82,9 @@ and wheat futures, and options on carbon emissions futures, to name a few.">
 </script><script>
 document.addEventListener("DOMContentLoaded", function() {
   window.MathJax = {
+    loader: {load: ['[tex]/boldsymbol']},
     tex: {
-      packages: ['base', 'ams'],
+      packages: ['base', 'ams', 'newcommand', 'require', 'autoload', 'configmacros', 'boldsymbol'],
       inlineMath: [['$', '$'], ['\\(', '\\)']],
       displayMath: [['$$','$$'], ['\\[','\\]']]
     },

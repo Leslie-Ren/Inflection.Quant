@@ -77,8 +77,9 @@ Many quant ideas are conceptually strong but challenging to implement in practic
 </script><script>
 document.addEventListener("DOMContentLoaded", function() {
   window.MathJax = {
+    loader: {load: ['[tex]/boldsymbol']},
     tex: {
-      packages: ['base', 'ams'],
+      packages: ['base', 'ams', 'newcommand', 'require', 'autoload', 'configmacros', 'boldsymbol'],
       inlineMath: [['$', '$'], ['\\(', '\\)']],
       displayMath: [['$$','$$'], ['\\[','\\]']]
     },

@@ -74,8 +74,9 @@ Many of the world&rsquo;s most actively traded commodities are priced in USD, ye
 </script><script>
 document.addEventListener("DOMContentLoaded", function() {
   window.MathJax = {
+    loader: {load: ['[tex]/boldsymbol']},
     tex: {
-      packages: ['base', 'ams'],
+      packages: ['base', 'ams', 'newcommand', 'require', 'autoload', 'configmacros', 'boldsymbol'],
       inlineMath: [['$', '$'], ['\\(', '\\)']],
       displayMath: [['$$','$$'], ['\\[','\\]']]
     },

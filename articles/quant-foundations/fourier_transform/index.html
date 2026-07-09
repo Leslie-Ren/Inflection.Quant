@@ -75,8 +75,9 @@ For a class of PDEs, the heat equation among them, we can. The idea is to stop v
 </script><script>
 document.addEventListener("DOMContentLoaded", function() {
   window.MathJax = {
+    loader: {load: ['[tex]/boldsymbol']},
     tex: {
-      packages: ['base', 'ams'],
+      packages: ['base', 'ams', 'newcommand', 'require', 'autoload', 'configmacros', 'boldsymbol'],
       inlineMath: [['$', '$'], ['\\(', '\\)']],
       displayMath: [['$$','$$'], ['\\[','\\]']]
     },

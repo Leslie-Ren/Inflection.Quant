@@ -74,8 +74,9 @@ In my earlier article on Brownian motion, I worked through the forward view: a p
 </script><script>
 document.addEventListener("DOMContentLoaded", function() {
   window.MathJax = {
+    loader: {load: ['[tex]/boldsymbol']},
     tex: {
-      packages: ['base', 'ams'],
+      packages: ['base', 'ams', 'newcommand', 'require', 'autoload', 'configmacros', 'boldsymbol'],
       inlineMath: [['$', '$'], ['\\(', '\\)']],
       displayMath: [['$$','$$'], ['\\[','\\]']]
     },
