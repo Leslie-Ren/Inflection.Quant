@@ -169,6 +169,20 @@ document.addEventListener("DOMContentLoaded", function() {
 
 <article class="post-entry"> 
   <header class="entry-header">
+    <h2 class="entry-hint-parent">Forward and Backward Kolmogorov PDEs: An Intuitive Look at Their Duality
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>Why This Matters Most practitioners have seen the Black-Scholes PDE. It is a backward equation, closely related to the backward Kolmogorov PDE: fix a payoff at maturity, and the PDE propagates its value back to today.
+There is also a forward equation, which may be less familiar. The backward equation has current spot and current time as its variables and takes the payoff as a terminal condition. The forward equation instead propagates a probability density forward from today, with the terminal value of the underlying and the maturity as its variables. This is the Fokker-Planck equation.
+...</p>
+  </div>
+  <footer class="entry-footer"><span title='2026-07-14 00:00:00 +0000 UTC'>July 14, 2026</span></footer>
+  <a class="entry-link" aria-label="post link to Forward and Backward Kolmogorov PDEs: An Intuitive Look at Their Duality" href="https://leslie-ren.github.io/Inflection.Quant/articles/quant-foundations/forward_backward_pde/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
     <h2 class="entry-hint-parent">Fourier Transform: The Leap into Frequency
     </h2>
   </header>
@@ -285,20 +299,6 @@ When I started working on commodity derivatives, I encountered a different world
   </div>
   <footer class="entry-footer"><span title='2026-04-23 00:00:00 +0000 UTC'>April 23, 2026</span></footer>
   <a class="entry-link" aria-label="post link to Futures-Style Margined Options: The Absence of Early Exercise Premium" href="https://leslie-ren.github.io/Inflection.Quant/articles/quant-foundations/future_style_margining_options/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">From Option Prices to the Shape of Returns: A Model-Free Construction of Volatility, Skewness and Kurtosis
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>Why This Matters Most of my early intuition about options came from the Black-Scholes model, which is clean and widely used. But once I started working with real option data, it becomes clear that the Black-Scholes assumption of a lognormal distribution is too restrictive. For a given maturity, the implied volatility is not constant across strikes, and its shape suggests asymmetry and heavy tails in the risk-neutral distribution.
-That leads to a more basic question. Instead of imposing a parametric model and calibrating its parameters, is there a way to extract volatility, skewness, and kurtosis directly from option prices in a model-free way? This is where the Bakshi, Kapadia, and Madan (2003) framework becomes useful. Their key idea is that smooth payoff functions can be represented as a continuum of vanilla options across strikes. In this view, volatility, skewness, and kurtosis are not model assumptions or calibration outputs. They are quantities that can be recovered from market prices through static option replication.
-...</p>
-  </div>
-  <footer class="entry-footer"><span title='2026-04-16 00:00:00 +0000 UTC'>April 16, 2026</span></footer>
-  <a class="entry-link" aria-label="post link to From Option Prices to the Shape of Returns: A Model-Free Construction of Volatility, Skewness and Kurtosis" href="https://leslie-ren.github.io/Inflection.Quant/articles/quant-foundations/vol_skewness_kurtosis/"></a>
 </article>
 <footer class="page-footer">
   <nav class="pagination">

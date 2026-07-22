@@ -6,8 +6,43 @@
     <description>Recent content in Tags on Inflection Quant Lab</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 26 Jun 2026 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 14 Jul 2026 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://leslie-ren.github.io/Inflection.Quant/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Duality</title>
+      <link>https://leslie-ren.github.io/Inflection.Quant/tags/duality/</link>
+      <pubDate>Tue, 14 Jul 2026 00:00:00 +0000</pubDate>
+      <guid>https://leslie-ren.github.io/Inflection.Quant/tags/duality/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Dupire</title>
+      <link>https://leslie-ren.github.io/Inflection.Quant/tags/dupire/</link>
+      <pubDate>Tue, 14 Jul 2026 00:00:00 +0000</pubDate>
+      <guid>https://leslie-ren.github.io/Inflection.Quant/tags/dupire/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Fokker-Planck</title>
+      <link>https://leslie-ren.github.io/Inflection.Quant/tags/fokker-planck/</link>
+      <pubDate>Tue, 14 Jul 2026 00:00:00 +0000</pubDate>
+      <guid>https://leslie-ren.github.io/Inflection.Quant/tags/fokker-planck/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Kolmogorov Equations</title>
+      <link>https://leslie-ren.github.io/Inflection.Quant/tags/kolmogorov-equations/</link>
+      <pubDate>Tue, 14 Jul 2026 00:00:00 +0000</pubDate>
+      <guid>https://leslie-ren.github.io/Inflection.Quant/tags/kolmogorov-equations/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Local Volatility</title>
+      <link>https://leslie-ren.github.io/Inflection.Quant/tags/local-volatility/</link>
+      <pubDate>Tue, 14 Jul 2026 00:00:00 +0000</pubDate>
+      <guid>https://leslie-ren.github.io/Inflection.Quant/tags/local-volatility/</guid>
+      <description></description>
+    </item>
     <item>
       <title>Black-Scholes</title>
       <link>https://leslie-ren.github.io/Inflection.Quant/tags/black-scholes/</link>
@@ -100,7 +135,7 @@
       <description></description>
     </item>
     <item>
-      <title>Monte Carlo</title>
+      <title>Monte-Carlo</title>
       <link>https://leslie-ren.github.io/Inflection.Quant/tags/monte-carlo/</link>
       <pubDate>Tue, 02 Jun 2026 00:00:00 +0000</pubDate>
       <guid>https://leslie-ren.github.io/Inflection.Quant/tags/monte-carlo/</guid>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Local Volatility on Inflection Quant Lab</title>
+    <link>https://leslie-ren.github.io/Inflection.Quant/tags/local-volatility/</link>
+    <description>Recent content in Local Volatility on Inflection Quant Lab</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 14 Jul 2026 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://leslie-ren.github.io/Inflection.Quant/tags/local-volatility/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Forward and Backward Kolmogorov PDEs: An Intuitive Look at Their Duality</title>
+      <link>https://leslie-ren.github.io/Inflection.Quant/articles/quant-foundations/forward_backward_pde/</link>
+      <pubDate>Tue, 14 Jul 2026 00:00:00 +0000</pubDate>
+      <guid>https://leslie-ren.github.io/Inflection.Quant/articles/quant-foundations/forward_backward_pde/</guid>
+      <description>&lt;h2 id=&#34;why-this-matters&#34;&gt;Why This Matters&lt;/h2&gt;
+&lt;p&gt;Most practitioners have seen the Black-Scholes PDE. It is a backward equation, closely related to the backward Kolmogorov PDE: fix a payoff at maturity, and the PDE propagates its value back to today.&lt;/p&gt;
+&lt;p&gt;There is also a forward equation, which may be less familiar. The backward equation has current spot and current time as its variables and takes the payoff as a terminal condition. The forward equation instead propagates a probability density forward from today, with the terminal value of the underlying and the maturity as its variables. This is the Fokker-Planck equation.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>
