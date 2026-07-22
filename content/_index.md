@@ -6,7 +6,7 @@ draft: false
 
 ## A Quant Digging for Intuition Behind the Formulas
 
-My name is Leslie Ren. I work in quantitative finance and started this site to write about pricing models, risk frameworks, and the gap between how I learned them and how they behave in practice.
+I work in quantitative finance and started this site to write about pricing models, risk frameworks, and the gap between how I learned them and how they behave in practice.
 
 When I read textbooks and academic papers, I sometimes find it hard to see the intuition behind the formulas. At the same time, shorter articles often skip the technical details I want to see. This site is my effort to bridge that gap.
 
