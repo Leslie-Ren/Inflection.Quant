@@ -319,7 +319,7 @@ and the risk-neutral transition density $p(S, T \mid S_0, t_0)$ satisfies the Fo
 
 ## A Closing Reflection
 
-In the continuous-time, continuous-space case, we assumed a diffusion process and arrived at the backward and forward PDEs. Once more, Feynman-Kac shows up: the random process and the deterministic PDE are two sides of the same object. We have seen it resurface repeatedly, such as in the [Fourier article](fourier_transform.md), where the heat kernel turned out to be the transition density of a diffusion. Each time it appears in a different form, and each time it is the same bridge between the random and the deterministic.
+In the continuous-time, continuous-space case, we assumed a diffusion process and arrived at the backward and forward PDEs. Once more, Feynman-Kac shows up: the random process and the deterministic PDE are two sides of the same object. We have seen it resurface repeatedly, such as in the [Fourier article]({{< relref "fourier_transform.md" >}}), where the heat kernel turned out to be the transition density of a diffusion. Each time it appears in a different form, and each time it is the same bridge between the random and the deterministic.
 
 ## Appendix A: Deriving the Forward Equation Directly from the Density's Evolution
 
