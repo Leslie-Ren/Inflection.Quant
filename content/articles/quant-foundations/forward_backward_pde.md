@@ -8,15 +8,15 @@ tags: ["kolmogorov equations", "fokker-planck", "duality", "local volatility", "
 
 ## Why This Matters
 
-Most practitioners have seen the Black-Scholes PDE. It is a backward equation, closely related to the backward Kolmogorov PDE: fix a payoff at maturity, and the PDE propagates its value back to today.
+Most practitioners have seen the Black-Scholes PDE. It is closely related to the backward Kolmogorov PDE: fix a payoff at maturity, and the equation propagates its value back to today.
 
-There is also a forward equation, which may be less familiar. The backward equation has current spot and current time as its variables and takes the payoff as a terminal condition. The forward equation instead propagates a probability density forward from today, with the terminal value of the underlying and the maturity as its variables. This is the Fokker-Planck equation.
+There is also a forward equation, which may be less familiar. The backward equation has current spot and current time as its variables and takes the payoff as a terminal condition. The forward one instead propagates a probability density forward from today, with the terminal value of the underlying and the maturity as its variables. This is Fokker-Planck.
 
-My interest in the forward equation comes from a plan to write about the local volatility model, where the Dupire calibration formula rests on Fokker-Planck. Rather than compress the forward equation into a few lines of that article, I want to treat it properly first. This article builds an intuitive picture of the forward and backward PDE and the duality that links them. Rather than open with the derivation, we start from a simple case where time and space are both discrete.
+The forward equation underlies local volatility calibration, the fitting of a model to the entire quoted option surface, and it is what makes the Dupire formula possible. I will cover local volatility in my next article. Rather than squeeze the forward equation into a few lines there, I want to treat it properly first, building an intuitive picture of the forward and backward PDEs and the duality that links them. Instead of opening with the derivation, we begin with a simple case where time and space are both discrete.
 
 ## Discrete Time, Discrete Space
 
-Start with a finite Markov chain $X_n$. States are labeled $1, \dots, m$, and one step is described by a transition matrix $P$, where $P_{ij}$ is the probability of moving from state $i$ to state $j$ over one period. Each row sums to one. That a single matrix suffices is the Markov property: where the chain goes next depends on where it is now and nothing else, so its history can be discarded once the current state is known.
+Start with a finite Markov chain $X_n$. States are labeled $1, \dots, m$, and one step is described by a transition matrix $P$, where $P_{ij}$ is the probability of moving from state $i$ to state $j$ over one period. Each row sums to one. The Markov property says the next state depends only on the current one, not on the path taken to reach it, so the history can be discarded once the current state is known.
 
 As a concrete example, take three weather states, sun, cloud, and rain, with $P$ the one-day transition probability matrix:
 
@@ -30,7 +30,7 @@ $$
 
 Row one says a sunny day is followed by sun, cloud, or rain with probabilities $0.6$, $0.3$, $0.1$.
 
-Two natural questions can be asked of this chain. Given where it is now, what is the expected value of something that depends on where it ends? And given a distribution over where it is now, where is it likely to be later? The first is answered by a value function stepping backward from the terminal date, the second by a distribution stepping forward from today. The two equations run in opposite directions.
+Two distinct questions can be asked of this chain. Given where it is now, what is the expected value of some quantity fixed by the final state, say a payout that depends on the closing weather? And given a distribution over where it is now, where is it likely to be later? The first is answered by a value function stepping backward from the terminal date, the second by a distribution stepping forward from today. The two equations run in opposite directions.
 
 **The backward equation.** Assign a payoff to each state, so that $g(i)$ is the amount received if the chain ends in state $i$, and write $g$ for the column vector of these payoffs. The value at step $n$ is the expected payoff given where the chain is now,
 
@@ -38,16 +38,16 @@ $$
 u_n(i) = \mathbb{E}\big[g(X_N) \mid X_n = i\big].
 $$
 
-Conditioning on the first move,
+Conditioning on $X_{n+1}$, the state reached after one step,
 
 $$
 u_n(i) = \sum_j P_{ij}\, u_{n+1}(j), \qquad \text{that is} \qquad u_n = P u_{n+1}.
 $$
 
-Suppose the payoff pays $10$ on a sunny terminal day and $2$ otherwise, so $u_N = g = (10, 2, 2)^\top$. One step back,
+Suppose the payoff pays $10$ on a sunny terminal day and $1$ otherwise, so $u_N = g = (10, 1, 1)^\top$. One step back,
 
 $$
-u_{N-1} = P u_N = (6.8,\ 5.2,\ 3.6)^\top,
+u_{N-1} = P u_N = (6.4,\ 4.6,\ 2.8)^\top,
 $$
 
 the expected payoff at each state today.
@@ -58,15 +58,15 @@ $$
 \pi_{n+1}(j) = \sum_i P_{ij}\, \pi_n(i), \qquad \text{that is} \qquad \pi_{n+1} = P^\top \pi_n.
 $$
 
-Starting from a sunny day today, $\pi_0 = (1, 0, 0)^\top$, one step gives $\pi_1 = (0.6, 0.3, 0.1)^\top$, the first row of $P$, as it must.
+Starting from a sunny day today, $\pi_0 = (1, 0, 0)^\top$, one step gives $\pi_1 = (0.6, 0.3, 0.1)^\top$, the first row of $P$.
 
-**The duality.** The two updates sit side by side: the value steps through $P$,
+**The duality.** We now have the value stepping backward through $P$,
 
 $$
 u_n = P\, u_{n+1},
 $$
 
-while the distribution steps through its transpose,
+and the distribution stepping forward through its transpose,
 
 $$
 \pi_{n+1} = P^\top \pi_n.
@@ -84,51 +84,55 @@ $$
 \big(P^\top \pi_n\big)^\top u_{n+1}.
 $$
 
-The two differ only in how the product is grouped and transposed:
+The two ways lead to the same expected payoff:
 
 $$
 \pi_n^\top \big(P\, u_{n+1}\big) = \big(P^\top \pi_n\big)^\top u_{n+1}.
 $$
 
-This is the duality relationship. What follows from it is an invariance. Substituting the two update equations, each side becomes a product at a single step,
+This is the duality relationship. Substituting the two update equations, each side is now about a single step rather than mixing $n$ and $n+1$,
 
 $$
 \pi_n^\top u_n = \pi_{n+1}^\top u_{n+1},
 $$
 
-and this chains from one step to the next,
+which chains all the way through,
 
 $$
 \pi_0^\top u_0 = \pi_1^\top u_1 = \cdots = \pi_N^\top u_N.
 $$
 
-The expected payoff is the same number at every step, so it can be computed wherever it is convenient, at step 0, at step 5, or at maturity. That is what makes the forward and backward equations interchangeable as pricing methods rather than merely algebraically related.
+The expected payoff is the same number at every step, so it can be computed wherever it is convenient, at step 0, at step 5, or at maturity. This is the invariance that follows from the duality, and it is what makes the forward and backward equations interchangeable as pricing methods rather than merely algebraically related.
+
+{{< forward-backward-flows >}}
 
 ## Continuous Time, Discrete Space
 
-The Kolmogorov equations live in continuous time and continuous space. Rather than take both limits at once, we take them one at a time, starting with time. Space stays discrete, so the chain still moves among finitely many states, but transitions can now happen at any moment.
+The Kolmogorov equations live in continuous time and continuous space. We take the two continuous limits one by one, starting with time. The chain still moves among finitely many states, but transitions can now happen at any moment.
 
-In the discrete chain, $P$ was the transition matrix over a fixed period, a day in the weather example. In continuous time there is no natural period to quote probabilities over. Over a short interval, $P$ must be close to the identity, since there is little time to change states. What remains is to see how the chance of leaving a state grows with the length of the interval.
+In the discrete chain, $P$ was the transition matrix over a fixed period, a day in the weather example. In continuous time there is no natural period to quote probabilities over. During a short interval, $P$ must be close to the identity, since there is little time to change states. What remains is to see how the chance of leaving a state grows with the length of the interval.
 
-Write $f(h)$ for the probability of having left state $i$ by time $h$. Over a window of length $2h$, the chain either leaves during the first half, or it does not and then leaves during the second. By the memoryless property of the Markov chain, the chain does not track how long it has been sitting in state $i$, so the second half is governed by the same $f(h)$ as the first, giving
+Write $f(h)$ for the probability of having left state $i$ by time $h$. Over a window of length $2h$, the chain either leaves during the first half, or it does not and then leaves during the second. By the memoryless property of the Markov chain, the second half is governed by the same $f(h)$ as the first, giving
 
 $$
 f(2h) = \underbrace{f(h)}_{\text{leaves in first half}} + \underbrace{\big(1 - f(h)\big)}_{\text{survives first half}}\underbrace{f(h)}_{\text{leaves in second}} = 2f(h) - \underbrace{f(h)^2}_{\text{two departures}}.
 $$
 
-For short $h$ the quadratic term is negligible, so $f(2h) \approx 2 f(h)$: doubling the window doubles the chance. The same argument applied to any subdivision gives $f(h) \approx q\,h$ for a constant rate $q$. So the chance of leaving is proportional to the length of the interval, and
+For short $h$ the quadratic term is negligible, so $f(2h) \approx 2 f(h)$: doubling the window doubles the chance. For small $dt$ the chance of leaving is therefore linear in the length of the interval, $f(h) \approx q\,h$ for a constant rate $q$, and
 
 $$
 P = I + Q\, dt.
 $$
 
-The entries of $Q$ are exactly these rates: off the diagonal, $q_{ij} \geq 0$ is the rate of moving from $i$ to $j$, and the diagonal is minus the total rate of leaving each state, $Q_{ii} = -\sum_{j \neq i} q_{ij}$, so that $P_{ii} = 1 + Q_{ii}\, dt$ is the chance of staying. The rows of $Q$ sum to zero as the rows of $P$ sum to one.
+$Q$ is the rate matrix: off the diagonal, $q_{ij} \geq 0$ is the rate of moving from $i$ to $j$, and on the diagonal, $Q_{ii} = -\sum_{j \neq i} q_{ij}$ is the negative of the total rate of leaving $i$, so that $P_{ii} = 1 + Q_{ii}\, dt$ is the chance of staying. The rows of $Q$ sum to zero as the rows of $P$ sum to one.
 
-**The backward equation.** Substituting into the backward recursion, $u(t) = P\, u(t + dt) = (I + Q\,dt)\, u(t+dt)$, rearranging and taking $dt \to 0$ gives
+**The backward equation.** With $u(t) = P\, u(t + dt) = (I + Q\,dt)\, u(t+dt)$, rearranging and taking $dt \to 0$ gives
 
 $$
 \frac{du}{dt} = -Q u.
 $$
+
+The one-step matrix recursion $u_n = P u_{n+1}$ has become a differential equation: stepping by a full period turns into an instantaneous rate of change.
 
 **The forward equation.** With $\pi(t+dt) = P^\top \pi(t) = (I + Q^\top dt)\,\pi(t)$, the same limit gives
 
@@ -150,7 +154,7 @@ $$
 \pi^\top \big(Q\, u\big) = \big(Q^\top \pi\big)^\top u.
 $$
 
-This is the duality in continuous time, and it has a physical interpretation.
+This is the duality in continuous time. As in the discrete case, where the expected payoff could be computed two ways, here the two sides are measuring the same thing: the rate at which expected payoff changes.
 
 **The left side: the value moving, distribution fixed.** Writing out the generator against a value vector,
 
@@ -158,9 +162,9 @@ $$
 (Qu)_i = \sum_{j \neq i} q_{ij}\,(u_j - u_i),
 $$
 
-the expected rate of value gain from state $i$: each possible jump weighted by its rate and by the value it gains. Then $\pi^\top(Qu)$ averages that over where the chain is now.
+$(Qu)_i$ is the expected rate of value gain from state $i$: each possible transition weighted by its rate and by the value it gains. Then $\pi^\top(Qu)$ averages that over where the chain is now.
 
-**The right side: the distribution moving, value fixed.** $Q^\top\pi$ is the rate at which probability accumulates in each state. Pairing it with $u$ gives the rate at which expected payoff accrues as probability shifts between states.
+**The right side: the distribution moving, value fixed.** $Q^\top\pi$ is the net rate at which probability flows into each state. Multiplying it with $u$ gives the same rate of expected-payoff change as the left side, now as probability shifts between states.
 
 The consequence of the duality is that the expected payoff does not move at all. By the product rule and the two evolution equations,
 
@@ -172,15 +176,13 @@ This is the invariance in continuous time. In the discrete case the expected pay
 
 ## Continuous Time, Continuous Space
 
-Finally, let the state space also become continuous. The chain $X_n$ becomes a process $X_t$ moving on a continuum, the distribution $\pi$ becomes a density $p(x,t)$ with $p(x,t)\,dx$ the probability of being near $x$ at time $t$, and the sums over states become integrals.
-
-**The backward equation.** The value is defined as a conditional expectation,
+Finally, let the state space also become continuous. The chain $X_n$ becomes a process $X_t$ moving on a continuum, the distribution $\pi$ becomes a density $p(x,t)$ with $p(x,t)\,dx$ the probability of being near $x$ at time $t$. The value is now a function of the current state and time, defined as a conditional expectation,
 
 $$
-u(x,t) = \mathbb{E}\big[g(X_T) \mid X_t = x\big],
+u(x,t) = \mathbb{E}\big[g(X_T) \mid X_t = x\big].
 $$
 
-and conditioning on the move over $[t, t+dt]$ leaves it unchanged,
+**The backward equation.** Conditioning on $X_{t+dt}$, the value equals its own expectation an instant later,
 
 $$
 u(x,t) = \mathbb{E}\big[u(X_{t+dt}, t+dt) \mid X_t = x\big],
@@ -192,7 +194,7 @@ $$
 \mathbb{E}\big[u(X_{t+dt}, t+dt)\big] - u(x,t) = \underbrace{\mathbb{E}\big[u(X_{t+dt}, t+dt) - u(X_{t+dt}, t)\big]}_{\text{the clock advances}} + \underbrace{\mathbb{E}\big[u(X_{t+dt}, t)\big] - u(x,t)}_{\text{the state moves}},
 $$
 
-all expectations conditional on $X_t = x$. Divide by $dt$ and let $dt \to 0$. The first bracket holds the state fixed across its two terms, so it is $\partial_t u$; strictly it is $\mathbb{E}\big[\partial_t u(X_{t+dt}, t)\big]$, but $X_{t+dt} \to x$ as $dt \to 0$, so the evaluation point collapses onto $x$. The second holds time fixed at $t$ and gives the expected rate of change of the value from the state alone. The second bracket, divided by $dt$, can be denoted $Lu$: the instantaneous change of the value from the state moving. Here $L$ is the generator, the analogue of $Q$ in the discrete state case. Since the left side is zero, the backward equation takes the same form as in the discrete case,
+all expectations conditional on $X_t = x$. Divide by $dt$ and let $dt \to 0$. The first bracket holds the state fixed and varies only time, giving $\partial_t u$.[^1] The second holds time fixed and varies only the state, it's the instantaneous change in value from the state moving. Let's denote it $Lu$. Here $L$ is the generator, the analogue of $Q$ in the discrete case. Since the left side is zero, the backward equation becomes
 
 $$
 \partial_t u = -L u, \qquad L u(x,t) = \lim_{dt \to 0} \frac{\mathbb{E}\big[u(X_{t+dt}, t) \mid X_t = x\big] - u(x,t)}{dt}.
@@ -200,13 +202,15 @@ $$
 
 This is the Kolmogorov backward equation, and it holds for any continuous-time Markov process. But it is not yet a PDE: $L$ is defined by a limit, not by derivatives, and nothing so far says what operator it actually is. To get a PDE, $L$ has to be computed, and that requires committing to how the process moves.
 
+[^1]: Strictly, the first bracket gives $\mathbb{E}\big[\partial_t u(X_{t+dt}, t) \mid X_t = x\big]$, with the derivative evaluated at the random point $X_{t+dt}$. As $dt \to 0$, $X_{t+dt} \to x$, so the evaluation point collapses onto $x$ and the expectation reduces to $\partial_t u(x,t)$.
+
 **The backward PDE.** Take the process to be a diffusion,
 
 $$
 dX_t = \mu(X_t)\, dt + \sigma(X_t)\, dW_t.
 $$
 
-Apply Itô's lemma to find $du$, with $t$ held fixed so that only $X$ moves — not the full lemma, so it does not carry the $\partial_t u\,dt$ term:
+Apply Itô's lemma to find $du$. Here only $X$ moves, and $t$ is held fixed so there is no $\partial_t u\,dt$ term:
 
 $$
 du(X_t) = \Big(\mu\, \partial_x u + \tfrac{1}{2}\sigma^2 \partial_{xx} u\Big) dt + \sigma\, \partial_x u\, dW_t,
@@ -224,9 +228,11 @@ $$
 \partial_t u + \mu(x)\, \partial_x u + \tfrac{1}{2}\sigma^2(x)\, \partial_{xx} u = 0.
 $$
 
-**The forward equation.** The forward equation describes how the density evolves, $\partial_t p$. If the underlying process has a known transition density, such as a diffusion with constant drift and volatility, then $p$ is available in closed form and taking its $t$-derivative is straightforward. Here we want the general case, where the underlying process may not have a closed-form density. There are two routes to tackle the problem. The first works from the definition, tackling $\partial_t p$ directly by working out how the density evolves over a short time interval; it reaches the forward equation without reference to the backward one. This approach is more involved and is laid out in [Appendix A](#appendix-a-deriving-the-forward-equation-directly-from-the-densitys-evolution). The second takes advantage of the duality: we already have the generator $L$ from the backward equation, and the duality is what converts it into the forward equation. We follow the second route here.
+**The forward equation.** The forward equation describes how the density evolves, $\partial_t p$. If the underlying process has a known transition density, such as a diffusion with constant drift and volatility, then $p$ is available in closed form and taking its $t$-derivative is straightforward. Here we want the general case, where the underlying process may not have a closed-form density.
 
-The duality route mirrors the discrete case. There the forward equation was the transpose of the backward one, $d\pi/dt = Q^\top\pi$ against $du/dt = -Qu$, and a matrix has a transpose immediately to hand. A differential operator does not, so what we need is the analogue of that transpose: the adjoint of $L$.
+There are two routes to the forward equation. The first works from the definition, tackling $\partial_t p$ directly by working out how the density evolves over a short time interval. It takes more steps, but it is self-contained and many will find it the more intuitive of the two. [Appendix A](#appendix-a-deriving-the-forward-equation-directly-from-the-densitys-evolution) develops it in full. The second route takes advantage of the duality: we already have the generator $L$ from the backward equation, and the duality is what converts it into the forward equation. It is the shorter path, and it is the one we follow here.
+
+Recall how the duality worked in the discrete case. There the forward equation was the transpose of the backward one, $d\pi/dt = Q^\top\pi$ against $du/dt = -Qu$. Here we need to find the analogue of that transpose for the differential operator, the adjoint of $L$.
 
 Start from what the transpose meant discretely. The duality established above,
 
@@ -234,29 +240,29 @@ $$
 \pi^\top \big(Q\, u\big) = \big(Q^\top \pi\big)^\top u,
 $$
 
-is the statement that $Q$ can be moved from one side of the pairing $\pi^\top u = \sum_i \pi_i u_i$ to the other, at the cost of transposing it. Written in coordinates,
+written for a state $i$, is
 
 $$
 \sum_i (Q u)_i\, \pi_i = \sum_i u_i\, (Q^\top \pi)_i.
 $$
 
-This is not a result to prove but the definition of the transpose: $Q^\top$ is whatever reproduces the left side with the operator acting on $\pi$ instead of $u$.
+$Q^\top$ is the matrix that reproduces the left side with the operator acting on $\pi$ instead of $u$.
 
-The continuum uses the same definition with the sum replaced by an integral and the density $p$ in the role of $\pi$. So $L^*$ is defined as the operator satisfying
+The continuum uses the same definition with the sum replaced by an integral and the density $p$ in the role of $\pi$. $L^*$, the adjoint of $L$, is defined as the operator satisfying
 
 $$
 \int (L u)\, p \, dx = \int u\, (L^* p)\, dx
 $$
 
-for all suitable $u$ and $p$. This is the continuous duality, and $L^*$ is called the adjoint of $L$. With it, the forward equation is
+for all suitable $u$ and $p$. This is the continuous duality. The forward equation then follows,
 
 $$
 \partial_t p = L^* p,
 $$
 
-the exact analogue of $d\pi/dt = Q^\top\pi$ from the discrete case, with $L^*$ in place of $Q^\top$. This must hold because the expected payoff $\int u\,p\,dx$ is constant in time by definition, $\tfrac{d}{dt}\int u\,p\,dx = 0$, and pairing that invariance against the backward equation leaves $L^*$ as the only operator that can drive $p$. Here $L^*$ is still defined by a property rather than by derivatives; making it explicit is what turns the equation into a PDE.
+the exact analogue of $d\pi/dt = Q^\top\pi$ from the discrete case.
 
-To find $L^*$ explicitly, take $L = \mu(x)\,\partial_x + \tfrac12\sigma^2(x)\,\partial_{xx}$ from the backward equation and substitute it into the left side of the adjoint identity. Recovering $L^*$ is then a matter of moving the derivatives off $u$ and onto $p$ by integration by parts.
+To find $L^*$ explicitly, take $L = \mu(x)\,\partial_x + \tfrac12\sigma^2(x)\,\partial_{xx}$ from the backward equation and substitute it into the left side of the adjoint identity. $L^*$ acts on $p$, so recovering it means shifting the derivatives off $u$ and onto $p$, which integration by parts does.
 
 Take the drift term first. One integration by parts gives
 
@@ -276,9 +282,7 @@ $$
 \partial_t p = L^* p = -\partial_x\big(\mu(x) p\big) + \tfrac{1}{2}\partial_{xx}\big(\sigma^2(x) p\big).
 $$
 
-
 ### Summary
-
 
 | | Discrete time, discrete space | Continuous time, discrete space | Continuous time, continuous space |
 |---|---|---|---|
@@ -289,7 +293,7 @@ $$
 
 The transition object turns into a generator and then into a differential operator, its transpose turns into an adjoint, and the pairing that stays constant turns a sum into an integral. Backward and forward are adjoint throughout: $P$ against $P^\top$, $Q$ against $Q^\top$, and $L$ against $L^*$.
 
-## Application in Finance
+## A Glimpse at Financial Applications
 
 The most recognizable application is option pricing. Under the risk-neutral measure, a stock follows $dS_t = r S_t\, dt + \sigma S_t\, dW_t$, so the generator is
 
@@ -300,26 +304,22 @@ $$
 The value of a claim with payoff $g(S_T)$ is $V(S, t) = e^{-r(T-t)}\,\mathbb{E}[g(S_T) \mid S_t = S]$, and it satisfies the backward equation with a discounting term,
 
 $$
-\partial_t V + L V - r V = 0.
+\partial_t V = -L V + r V.
 $$
 
-This is the Black-Scholes PDE: Kolmogorov backward under the pricing measure, with the extra $-rV$ accounting for discounting. Its variables are current spot and current time, and the terminal condition is the payoff. That the pricing expectation solves this backward PDE is the content of Feynman-Kac.
+This is the Black-Scholes PDE: Kolmogorov backward under the pricing measure. Its variables are current spot and current time, and the terminal condition is the payoff.
 
-When is the forward equation the one you want? Whenever the object of interest is the density itself, as a function of where and when the underlying lands. Applying the adjoint recipe to $L$ gives
+When is the forward equation useful? Whenever the object of interest is the density itself, as a function of where and when the underlying lands. Applying the adjoint recipe to $L$ gives
 
 $$
 L^* p = -\partial_S\big(r S\, p\big) + \tfrac{1}{2}\partial_{SS}\big(\sigma^2 S^2\, p\big),
 $$
 
-and the risk-neutral transition density $p(S, T \mid S_0, t_0)$ satisfies the Fokker-Planck equation $\partial_T p = L^* p$ in the forward variables $S$ and $T$. Whenever the density is the object you need, the forward equation is the natural direction: a single forward solve produces $p(S,T)$ across all terminal states at once, so vanilla prices at every strike and maturity follow by integration against payoffs, without a separate backward solve per claim. That efficiency is what makes it the workhorse of calibration and of density recovery for risk.
+and the risk-neutral transition density $p(S, T \mid S_0, t_0)$ satisfies the Fokker-Planck equation $\partial_T p = L^* p$ in the forward variables $S$ and $T$. In contrast, the backward equation carries the current spot as a variable. But in the market the current spot is already observed, a single fixed number, not something that varies. The forward equation instead solves for the density over the terminal underlying price $S$ and the maturity $T$, and this is what matches how the market quotes option prices: $T$ runs along the maturity axis of the quoted surface directly, and the price at any strike $K$ comes from integrating the terminal density against that contract's payoff. This is what makes the forward equation the workhorse of vol calibration. In the follow-up article on local vol, we will show how the forward equation is used to derive the Dupire calibration formula.
 
-A prominent use is local volatility calibration. The call price is the density integrated against the call payoff,
+## A Closing Reflection
 
-$$
-C(K, T) = e^{-rT}\int_K^\infty (S - K)\, p(S, T)\, dS,
-$$
-
-and because $p$ evolves forward in $T$ while the payoff depends on $K$, differentiating in $K$ and $T$ turns Fokker-Planck into a relation among the strike and maturity derivatives of $C$. That relation is the Dupire formula, and it is available because the density obeys a forward equation in exactly the variables the option surface is quoted in. The full construction is the subject of a follow up article on local vol.
+In the continuous-time, continuous-space case, we assumed a diffusion process and arrived at the backward and forward PDEs. Once more, Feynman-Kac shows up: the random process and the deterministic PDE are two sides of the same object. We have seen it resurface repeatedly, such as in the [Fourier article](fourier_transform.md), where the heat kernel turned out to be the transition density of a diffusion. Each time it appears in a different form, and each time it is the same bridge between the random and the deterministic.
 
 ## Appendix A: Deriving the Forward Equation Directly from the Density's Evolution
 
@@ -365,7 +365,7 @@ $$
 \int \phi(y)\, \partial_t p(y,t)\, dy = \int \Big(\mu(x)\,\partial_x \phi(x) + \tfrac{1}{2}\sigma^2(x)\,\partial_{xx}\phi(x)\Big)\, p(x,t)\, dx.
 $$
 
-This is an integral identity, not yet the forward equation. The left integral is over the dummy variable $y$, which we rename $x$ so both sides share a variable and their integrands can be compared. To extract $\partial_t p$, we have to get rid of the $\phi$ derivatives on the right side, which is done by integration by parts: once for the drift term, twice for the diffusion term. Each pass requires $\phi$ to vanish at infinity so the boundary term drops, which is fine because $\phi$ is an arbitrary function. After $\phi$ is isolated on both sides, we get
+This is an integral identity, not yet the forward equation. The left integral is over the dummy variable $y$, which we rename $x$ so both sides share a variable and their integrands can be compared. To extract $\partial_t p$, we have to get rid of the $\phi$ derivatives on the right side, which is done by integration by parts: once for the drift term, twice for the diffusion term. Each pass requires $\phi$ to vanish at infinity so the boundary term drops, which is fine because we can impose such a condition on the arbitrary function $\phi$. After $\phi$ is isolated on both sides, we get
 
 $$
 \int \phi\, \partial_t p \, dx = \int \phi \left(-\partial_x\big(\mu p\big) + \tfrac{1}{2}\partial_{xx}\big(\sigma^2 p\big)\right) dx.
