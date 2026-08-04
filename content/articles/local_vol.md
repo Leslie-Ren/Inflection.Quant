@@ -1,7 +1,7 @@
 ---
 title: "Local Volatility: From the Implied Vol Surface to Risk-Neutral Dynamics"
 date: 2026-07-23
-draft: False
+draft: true
 math: true
 tags: []
 ---
@@ -134,3 +134,4 @@ There is also a softer failure. Far into the wings the density is nearly zero, s
 ### Precomputing the Grid
 
 Evaluating Gatheral's formula inside a Monte Carlo loop would mean recomputing derivatives at every step of every path. In practice the local vol is computed once on a grid in $(x, T)$, stored, and interpolated during pricing. The grid is chosen to cover the region the paths will actually visit, with enough resolution near the money and in maturity to keep the interpolation error below the discretization error of the scheme.
+
