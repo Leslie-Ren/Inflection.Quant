@@ -152,7 +152,7 @@ Now differentiate again. Moving $K$ to $K + dK$ changes the in-the-money probabi
 
 $$\frac{\partial^2 C}{\partial K^2} = -\,\frac{\partial}{\partial K}\mathbb{P}(F > K) = \frac{\mathbb{P}(K < F < K + dK)}{dK} = q(K).$$
 
-This identity is the Breeden-Litzenberger formula. In practice this second derivative can be approximated numerically, on a grid of strikes spaced $\Delta K$ apart, by the central difference
+This identity is the <strong id="breeden-litzenberger">Breeden-Litzenberger</strong> formula. In practice this second derivative can be approximated numerically, on a grid of strikes spaced $\Delta K$ apart, by the central difference
 
 $$q(K) \approx \frac{C(K - \Delta K) - 2\,C(K) + C(K + \Delta K)}{(\Delta K)^2}.$$
 
@@ -260,21 +260,44 @@ The main text uses the butterfly condition written in total variance and log-mon
 
 $$g(x) = \left(1 - \frac{x\,w'}{2w}\right)^2 - \frac{w'^2}{4}\left(\frac{1}{w} + \frac14\right) + \frac{w''}{2} \;\ge\; 0.$$
 
-This appendix derives it from the density condition $\partial^2 C/\partial K^2 \ge 0$ of the density section.
+This appendix derives it from the density condition $\partial^2 C/\partial K^2 \ge 0$ of the
+density section.
 
-Work in log-moneyness $x = \ln(F/K)$ and total variance $w(x) = \sigma^2(x)\,\tau$. The Black call price on the future, written with these variables, is
+Work in log-moneyness $x = \ln(F/K)$ and total variance $w(x) = \sigma^2(x)\,\tau$. The Black
+call price on the future, written with these variables, is
 
-$$C = F\left[N(d_1) - e^{-x} N(d_2)\right], \qquad d_{1,2} = -\frac{x}{\sqrt{w}} \pm \frac{\sqrt{w}}{2},$$
+$$C = F\left[N(d_1) - e^{-x} N(d_2)\right], \qquad d_{1,2} = \frac{x}{\sqrt{w}} \pm \frac{\sqrt{w}}{2},$$
 
-using $\ln(F/K) = x$ and $\sigma\sqrt\tau = \sqrt{w}$. The risk-neutral density is $q(K) = \partial^2 C/\partial K^2$, and non-negativity of $q$ is what we want to express through $w(x)$.
+using $\ln(F/K) = x$ and $\sigma\sqrt\tau = \sqrt{w}$.
 
-Changing variables from $K$ to $x$ (with $dx/dK = -1/K$) and carrying the two derivatives through, the density can be written as
+The risk-neutral density in strike is $q(K) = \partial^2 C/\partial K^2$, and non-negativity
+of $q$ is what we want to express through $w(x)$. Write $p(x)$ for the same density in
+log-moneyness. Changing variable only introduces a factor of $1/K$,
 
-$$q(K) = \frac{g(x)}{\sqrt{8\pi\,w}\;K^2}\,\exp\!\left(-\frac{d_2^2}{2}\right),$$
+$$q(K) = \frac{p(x)}{K},$$
 
-where $g(x)$ collects the terms in $w$, $w'$, and $w''$ that come out of differentiating $d_1$ and $d_2$ twice. The prefactor $\big(\sqrt{8\pi w}\,K^2\big)^{-1}\exp(-d_2^2/2)$ is strictly positive, so the sign of the density is the sign of $g(x)$. Collecting those terms gives
+which is strictly positive, so the sign is unaffected and we can work with $p(x)$ throughout.
 
-$$g(x) = \left(1 - \frac{x\,w'}{2w}\right)^2 - \frac{w'^2}{4}\left(\frac{1}{w} + \frac14\right) + \frac{w''}{2}.$$
+Because $w$ depends on $x$, each differentiation splits into a direct part and a smile part.
+Carrying both derivatives through and using $F\,n(d_1) = K\,n(d_2)$, every term collects onto
+the same Black factor, leaving
 
+$$p(x) = \frac{g(x)}{\sqrt{2\pi w}}\,\exp\!\left(-\frac{d_2^2}{2}\right),$$
 
-[^density_df]: These clean forms rely on the futures-style margining set up earlier: the quote is the undiscounted option value, so $C(K) = \mathbb{E}[(F-K)^+]$ with no discount factor. For a premium-paid option, $C(K) = e^{-r\tau}\,\mathbb{E}[(F-K)^+]$, and the discount factor carries through both derivatives, $\partial C/\partial K = -e^{-r\tau}\,\mathbb{P}(F > K)$ and $\partial^2 C/\partial K^2 = e^{-r\tau}\,q(K)$. Recovering a unit-mass density then means dividing by $e^{-r\tau}$.
+where $g(x)$ gathers the terms in $w$, $w'$, and $w''$ produced by differentiating $d_1$ and
+$d_2$. Everything multiplying $g(x)$ is strictly positive, so the density is non-negative
+exactly when
+
+$$g(x) = \left(1 - \frac{x\,w'}{2w}\right)^2 - \frac{w'^2}{4}\left(\frac{1}{w} + \frac14\right) + \frac{w''}{2} \;\ge\; 0.$$
+
+Note that $g$ measures how far the modeled density departs from the baseline: the constant-vol
+lognormal. Setting $w' = w'' = 0$ gives $g = 1$ and recovers the Black density:
+
+$$p(x) = \frac{1}{\sqrt{2\pi w}}\,\exp\!\left(-\frac{d_2^2}{2}\right).$$
+
+[^density_df]: These clean forms rely on the futures-style margining set up earlier: the quote
+is the undiscounted option value, so $C(K) = \mathbb{E}[(F-K)^+]$ with no discount factor. For
+a premium-paid option, $C(K) = e^{-r\tau}\,\mathbb{E}[(F-K)^+]$, and the discount factor
+carries through both derivatives, $\partial C/\partial K = -e^{-r\tau}\,\mathbb{P}(F > K)$ and
+$\partial^2 C/\partial K^2 = e^{-r\tau}\,q(K)$. Recovering a unit-mass density then means
+dividing by $e^{-r\tau}$.
