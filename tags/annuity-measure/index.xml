@@ -10,11 +10,11 @@
     <atom:link href="https://leslie-ren.github.io/Inflection.Quant/tags/annuity-measure/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>The Measure We Choose: How Numéraires Simplify Pricing</title>
-      <link>https://leslie-ren.github.io/Inflection.Quant/articles/quant-foundations/change_of_numeraire/</link>
+      <link>https://leslie-ren.github.io/Inflection.Quant/articles/change_of_numeraire/</link>
       <pubDate>Tue, 12 May 2026 00:00:00 +0000</pubDate>
-      <guid>https://leslie-ren.github.io/Inflection.Quant/articles/quant-foundations/change_of_numeraire/</guid>
+      <guid>https://leslie-ren.github.io/Inflection.Quant/articles/change_of_numeraire/</guid>
       <description>&lt;h2 id=&#34;why-this-matters&#34;&gt;Why This Matters&lt;/h2&gt;
-&lt;p&gt;In the &lt;a href=&#34;../../Inflection.Quant/articles/quant-foundations/girsanov/&#34;&gt;article on Girsanov&amp;rsquo;s Theorem&lt;/a&gt;, we studied how the real-world measure $\mathbb{P}$ and the risk-neutral measure $\mathbb{Q}$ relate, and showed that switching between them amounts to reweighting paths via the Girsanov exponential. Throughout, the risk-free bond was the numéraire: the asset against which all prices were expressed. But this is a convenient choice, not a fundamental one.&lt;/p&gt;
+&lt;p&gt;In the &lt;a href=&#34;../../Inflection.Quant/articles/girsanov/&#34;&gt;article on Girsanov&amp;rsquo;s Theorem&lt;/a&gt;, we studied how the real-world measure $\mathbb{P}$ and the risk-neutral measure $\mathbb{Q}$ relate, and showed that switching between them amounts to reweighting paths via the Girsanov exponential. Throughout, the risk-free bond was the numéraire: the asset against which all prices were expressed. But this is a convenient choice, not a fundamental one.&lt;/p&gt;
 &lt;p&gt;Any strictly positive self-financing wealth process can serve as a numéraire, and each choice gives a different probability measure under which asset prices, expressed in units of that numéraire, become martingales. The price of a derivative is invariant; what changes is how the problem is represented. So instead of viewing pricing as a fixed-measure expectation problem, it is often more natural to think of it as choosing the numéraire that best matches the structure of the payoff.&lt;/p&gt;</description>
     </item>
   </channel>

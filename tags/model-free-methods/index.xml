@@ -10,9 +10,9 @@
     <atom:link href="https://leslie-ren.github.io/Inflection.Quant/tags/model-free-methods/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>From Option Prices to the Shape of Returns: A Model-Free Construction of Volatility, Skewness and Kurtosis</title>
-      <link>https://leslie-ren.github.io/Inflection.Quant/articles/quant-foundations/vol_skewness_kurtosis/</link>
+      <link>https://leslie-ren.github.io/Inflection.Quant/articles/vol_skewness_kurtosis/</link>
       <pubDate>Thu, 16 Apr 2026 00:00:00 +0000</pubDate>
-      <guid>https://leslie-ren.github.io/Inflection.Quant/articles/quant-foundations/vol_skewness_kurtosis/</guid>
+      <guid>https://leslie-ren.github.io/Inflection.Quant/articles/vol_skewness_kurtosis/</guid>
       <description>&lt;h2 id=&#34;why-this-matters&#34;&gt;Why This Matters&lt;/h2&gt;
 &lt;p&gt;Most of my early intuition about options came from the Black-Scholes model, which is
 clean and widely used. But once I started working with real option data, it becomes

@@ -10,9 +10,9 @@
     <atom:link href="https://leslie-ren.github.io/Inflection.Quant/tags/derivatives/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Futures-Style Margined Options: The Absence of Early Exercise Premium</title>
-      <link>https://leslie-ren.github.io/Inflection.Quant/articles/quant-foundations/future_style_margining_options/</link>
+      <link>https://leslie-ren.github.io/Inflection.Quant/articles/future_style_margining_options/</link>
       <pubDate>Thu, 23 Apr 2026 00:00:00 +0000</pubDate>
-      <guid>https://leslie-ren.github.io/Inflection.Quant/articles/quant-foundations/future_style_margining_options/</guid>
+      <guid>https://leslie-ren.github.io/Inflection.Quant/articles/future_style_margining_options/</guid>
       <description>&lt;h2 id=&#34;why-this-matters&#34;&gt;Why This Matters&lt;/h2&gt;
 &lt;p&gt;When I first studied options, most textbook examples were equity-style:
 you pay a premium upfront, and at expiry (or whenever you choose to exercise, if the

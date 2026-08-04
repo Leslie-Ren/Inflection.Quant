@@ -10,9 +10,9 @@
     <atom:link href="https://leslie-ren.github.io/Inflection.Quant/tags/newton-raphson/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Solving for Implied Volatility: Newton&#39;s Method vs Brent&#39;s Method</title>
-      <link>https://leslie-ren.github.io/Inflection.Quant/articles/quant-foundations/newton_vs_brent_vol_solver/</link>
+      <link>https://leslie-ren.github.io/Inflection.Quant/articles/newton_vs_brent_vol_solver/</link>
       <pubDate>Thu, 09 Apr 2026 00:00:00 +0000</pubDate>
-      <guid>https://leslie-ren.github.io/Inflection.Quant/articles/quant-foundations/newton_vs_brent_vol_solver/</guid>
+      <guid>https://leslie-ren.github.io/Inflection.Quant/articles/newton_vs_brent_vol_solver/</guid>
       <description>&lt;h2 id=&#34;why-this-matters&#34;&gt;Why This Matters&lt;/h2&gt;
 &lt;p&gt;I started writing about calibrating a full volatility surface and realised it first requires a clear understanding of a simpler problem: solving for implied vol from a single option price. At its core, this is a root-finding problem: given a market price, we need to find the volatility that makes the model match that price. Once framed this way, the question becomes how to solve this nonlinear problem efficiently and reliably.&lt;/p&gt;</description>
     </item>

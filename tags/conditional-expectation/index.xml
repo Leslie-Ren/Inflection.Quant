@@ -10,11 +10,11 @@
     <atom:link href="https://leslie-ren.github.io/Inflection.Quant/tags/conditional-expectation/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>The Brownian Bridge: What Brownian Motion Looks Like When You Know the Endpoints</title>
-      <link>https://leslie-ren.github.io/Inflection.Quant/articles/quant-foundations/brownian_bridge/</link>
+      <link>https://leslie-ren.github.io/Inflection.Quant/articles/brownian_bridge/</link>
       <pubDate>Thu, 28 May 2026 00:00:00 +0000</pubDate>
-      <guid>https://leslie-ren.github.io/Inflection.Quant/articles/quant-foundations/brownian_bridge/</guid>
+      <guid>https://leslie-ren.github.io/Inflection.Quant/articles/brownian_bridge/</guid>
       <description>&lt;h2 id=&#34;why-this-matters&#34;&gt;Why This Matters&lt;/h2&gt;
-&lt;p&gt;In my earlier article on &lt;a href=&#34;../../Inflection.Quant/articles/quant-foundations/understanding_brownian_motion/&#34;&gt;Brownian motion&lt;/a&gt;, I worked through the forward view: a process starting at a known value, diffusing into an uncertain future. Sometimes we know more than just the starting point. We also know where the process ended up, and we want to characterise the path in between. The object that answers this is the Brownian bridge: a Brownian motion conditioned on its terminal value.&lt;/p&gt;</description>
+&lt;p&gt;In my earlier article on &lt;a href=&#34;../../Inflection.Quant/articles/understanding_brownian_motion/&#34;&gt;Brownian motion&lt;/a&gt;, I worked through the forward view: a process starting at a known value, diffusing into an uncertain future. Sometimes we know more than just the starting point. We also know where the process ended up, and we want to characterise the path in between. The object that answers this is the Brownian bridge: a Brownian motion conditioned on its terminal value.&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>

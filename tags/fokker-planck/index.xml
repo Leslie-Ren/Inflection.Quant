@@ -10,9 +10,9 @@
     <atom:link href="https://leslie-ren.github.io/Inflection.Quant/tags/fokker-planck/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Forward and Backward Kolmogorov PDEs: An Intuitive Look at Their Duality</title>
-      <link>https://leslie-ren.github.io/Inflection.Quant/articles/quant-foundations/forward_backward_pde/</link>
+      <link>https://leslie-ren.github.io/Inflection.Quant/articles/forward_backward_pde/</link>
       <pubDate>Tue, 14 Jul 2026 00:00:00 +0000</pubDate>
-      <guid>https://leslie-ren.github.io/Inflection.Quant/articles/quant-foundations/forward_backward_pde/</guid>
+      <guid>https://leslie-ren.github.io/Inflection.Quant/articles/forward_backward_pde/</guid>
       <description>&lt;h2 id=&#34;why-this-matters&#34;&gt;Why This Matters&lt;/h2&gt;
 &lt;p&gt;Most practitioners have seen the Black-Scholes PDE. It is closely related to the backward Kolmogorov PDE: fix a payoff at maturity, and the equation propagates its value back to today.&lt;/p&gt;
 &lt;p&gt;There is also a forward equation, which may be less familiar. The backward equation has current spot and current time as its variables and takes the payoff as a terminal condition. The forward one instead propagates a probability density forward from today, with the terminal value of the underlying and the maturity as its variables. This is Fokker-Planck.&lt;/p&gt;</description>

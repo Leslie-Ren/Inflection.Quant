@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto" data-theme="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Local Volatility: From the Implied Vol Surface to Risk-Neutral Dynamics | Inflection Quant Lab</title>
+<meta name="keywords" content="">
+<meta name="description" content="Local Volatility: From the Implied Vol Surface to Risk-Neutral Dynamics
+Why This Matters
+In the earlier article we constructed the implied volatility surface and used it primarily to price vanilla options. But a great deal of what trades is not vanilla. Products like barriers and autocallables depend on the path the underlying takes, not only where it lands.
+Suppose I price a barrier by Monte Carlo. At each step the spot sits at some level, and I need a volatility to advance it. What vol do I use? The surface gives me a vol for every strike, but simulation does not ask about strikes. It asks what volatility the spot experiences at this level, at this moment, which the surface cannot answer.">
+<meta name="author" content="">
+<link rel="canonical" href="https://leslie-ren.github.io/Inflection.Quant/articles/local_vol/">
+<link crossorigin="anonymous" href="../../Inflection.Quant/assets/css/stylesheet.199042e659bc7245f5609d333d6c044eb554a0640849bb874e1dff8eb0f57209.css" integrity="sha256-GZBC5lm8ckX1YJ0zPWwETrVUoGQISbuHTh3/jrD1cgk=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://leslie-ren.github.io/Inflection.Quant/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://leslie-ren.github.io/Inflection.Quant/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://leslie-ren.github.io/Inflection.Quant/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://leslie-ren.github.io/Inflection.Quant/apple-touch-icon.png">
+<link rel="mask-icon" href="https://leslie-ren.github.io/Inflection.Quant/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://leslie-ren.github.io/Inflection.Quant/articles/local_vol/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+                color-scheme: dark;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .toc {
+                background: var(--entry);
+            }
+        }
+
+        @media (prefers-color-scheme: light) {
+            .list::-webkit-scrollbar-thumb {
+                border-color: var(--code-bg);
+            }
+        }
+
+    </style>
+</noscript>
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else if (localStorage.getItem("pref-theme") === "light") {
+       document.querySelector("html").dataset.theme = 'light';
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else {
+        document.querySelector("html").dataset.theme = 'light';
+    }
+
+</script><script>
+document.addEventListener("DOMContentLoaded", function() {
+  window.MathJax = {
+    loader: {load: ['[tex]/boldsymbol']},
+    tex: {
+      packages: ['base', 'ams', 'newcommand', 'require', 'autoload', 'configmacros', 'boldsymbol'],
+      inlineMath: [['$', '$'], ['\\(', '\\)']],
+      displayMath: [['$$','$$'], ['\\[','\\]']]
+    },
+    options: {skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']}
+  };
+  var script = document.createElement("script");
+  script.src = "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js";
+  script.defer = true;
+  document.body.appendChild(script);
+});
+</script><meta property="og:url" content="https://leslie-ren.github.io/Inflection.Quant/articles/local_vol/">
+  <meta property="og:site_name" content="Inflection Quant Lab">
+  <meta property="og:title" content="Local Volatility: From the Implied Vol Surface to Risk-Neutral Dynamics">
+  <meta property="og:description" content="Local Volatility: From the Implied Vol Surface to Risk-Neutral Dynamics Why This Matters In the earlier article we constructed the implied volatility surface and used it primarily to price vanilla options. But a great deal of what trades is not vanilla. Products like barriers and autocallables depend on the path the underlying takes, not only where it lands.
+Suppose I price a barrier by Monte Carlo. At each step the spot sits at some level, and I need a volatility to advance it. What vol do I use? The surface gives me a vol for every strike, but simulation does not ask about strikes. It asks what volatility the spot experiences at this level, at this moment, which the surface cannot answer.">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="articles">
+    <meta property="article:published_time" content="2026-07-23T00:00:00+00:00">
+    <meta property="article:modified_time" content="2026-07-23T00:00:00+00:00">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Local Volatility: From the Implied Vol Surface to Risk-Neutral Dynamics">
+  <meta name="twitter:description" content="Local Volatility: From the Implied Vol Surface to Risk-Neutral Dynamics Why This Matters In the earlier article we constructed the implied volatility surface and used it primarily to price vanilla options. But a great deal of what trades is not vanilla. Products like barriers and autocallables depend on the path the underlying takes, not only where it lands.
+Suppose I price a barrier by Monte Carlo. At each step the spot sits at some level, and I need a volatility to advance it. What vol do I use? The surface gives me a vol for every strike, but simulation does not ask about strikes. It asks what volatility the spot experiences at this level, at this moment, which the surface cannot answer.">
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Articles",
+      "item": "https://leslie-ren.github.io/Inflection.Quant/articles/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Local Volatility: From the Implied Vol Surface to Risk-Neutral Dynamics",
+      "item": "https://leslie-ren.github.io/Inflection.Quant/articles/local_vol/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Local Volatility: From the Implied Vol Surface to Risk-Neutral Dynamics",
+  "name": "Local Volatility: From the Implied Vol Surface to Risk-Neutral Dynamics",
+  "description": "Local Volatility: From the Implied Vol Surface to Risk-Neutral Dynamics Why This Matters In the earlier article we constructed the implied volatility surface and used it primarily to price vanilla options. But a great deal of what trades is not vanilla. Products like barriers and autocallables depend on the path the underlying takes, not only where it lands.\nSuppose I price a barrier by Monte Carlo. At each step the spot sits at some level, and I need a volatility to advance it. What vol do I use? The surface gives me a vol for every strike, but simulation does not ask about strikes. It asks what volatility the spot experiences at this level, at this moment, which the surface cannot answer.\n",
+  "keywords": [
+    
+  ],
+  "articleBody": "Local Volatility: From the Implied Vol Surface to Risk-Neutral Dynamics Why This Matters In the earlier article we constructed the implied volatility surface and used it primarily to price vanilla options. But a great deal of what trades is not vanilla. Products like barriers and autocallables depend on the path the underlying takes, not only where it lands.\nSuppose I price a barrier by Monte Carlo. At each step the spot sits at some level, and I need a volatility to advance it. What vol do I use? The surface gives me a vol for every strike, but simulation does not ask about strikes. It asks what volatility the spot experiences at this level, at this moment, which the surface cannot answer.\nLocal volatility is one solution. It gives the instantaneous vol of the underlying at each level and time. This article explains how the model works, and is my exploration of four questions:\nHow should the local vols be calibrated in theory? What are the challenges of calibrating it in practice? If we price a barrier option under local volatility, how do the results differ from a constant vol, and why? Why can local volatility not be applied directly to commodities, and what adaptations does it need? Set-up Start from what we already have. Black-Scholes gives the underlying one volatility for all levels and all times,\n$$dS_t = r S_t \\, dt + \\sigma \\, S_t \\, dW_t$$and that single $\\sigma$ is exactly what leaves it unable to fit the smile. The smallest change we can make is to stop treating it as a constant:\n$$dS_t = r S_t \\, dt + \\sigma(S_t, t) \\, S_t \\, dW_t$$It remains a diffusion with a single Brownian driver, and $\\sigma(S_t, t)$ carries no randomness of its own. It is the vol the spot diffuses with at level $S$ and time $t$.\nLocal Vol Calibration and the Dupire Formula Once we know $\\sigma(S, t)$, the model is fully specified: we can simulate paths by Monte Carlo or solve the pricing PDE. The hard part is getting $\\sigma(S, t)$ in the first place.\nMy default instinct is to reuse the approach from the implied vol article. There, we guessed a volatility, priced the option, compared to the market, and iterated until the price matched. Could we do the same here? Guess $\\sigma(S, t)$, price the whole vanilla surface, compare, and adjust.\nThe trouble is that $S$ and $t$ are continuous, so every point $(S, t)$ the spot might visit needs its own volatility, and each vanilla price depends on the local vol at every point its paths pass through. The unknowns cannot be solved one at a time. Even discretized onto a grid, matching the surface by trial and error means solving for all the values together and repricing everything at each step. We need something better than guess-and-match.\nWhat the Market Already Gives Us The market does give us the implied density directly. Based on Breeden-Litzenberger, derived in the earlier article,\n$$\\frac{\\partial^2 C}{\\partial K^2}(K, T) = e^{-rT} p(K, T)$$so for every expiry we quote, we know the market implied distribution of the underlying.\nThat is not yet enough. The density at time $t$ is the result of the spot diffusing from today through every level it passed on the way, so a single density reflects the accumulated effect of local vol everywhere before $t$, not the local vol precisely at $t$. Similarly, if you know an object’s position at a single instant, you cannot infer its velocity, which is the instantaneous rate of change, and we need to take the derivative of position to get the velocity. Here if we know how the density changes with time, $\\partial p / \\partial t$, we can back out the volatility driving it.\nLuckily, we already know how $\\partial p / \\partial t$ behaves. In the forward and backward Kolmogorov article we covered how the density evolves with respect to time and derived the Fokker-Planck equation. For our diffusion it reads\n$$\\frac{\\partial p}{\\partial t} = -\\frac{\\partial}{\\partial S}\\left[ r S \\, p \\right] + \\frac{1}{2} \\frac{\\partial^2}{\\partial S^2}\\left[ \\sigma^2(S, t) S^2 p \\right]$$Linking Densities to Option Quotes Note the Fokker-Planck equation is in terms of $S$, and we have to link it to the information available from the market, which is option prices. Since the call price can be written as an integral over $S$,\n$$C(K, T) = e^{-rT} \\int_K^\\infty (S - K) \\, p(S, T) \\, dS$$multiplying Fokker-Planck by the payoff $(S - K)$ and integrating over the same range moves the whole relation into quote space. Evaluating at $t = T$, the maturity of the option we are pricing,\n$$\\int_K^\\infty (S - K) \\frac{\\partial p}{\\partial T} \\, dS = \\int_K^\\infty (S - K) \\left( -\\frac{\\partial}{\\partial S}\\left[ r S \\, p \\right] + \\frac{1}{2} \\frac{\\partial^2}{\\partial S^2}\\left[ \\sigma^2(S, T) S^2 p \\right] \\right) dS$$The left side is straightforward. Differentiate the call price with respect to $T$, then solve for the integral:\n$$\\int_K^\\infty (S - K) \\frac{\\partial p}{\\partial T} \\, dS = e^{rT} \\left( \\frac{\\partial C}{\\partial T} + r C \\right)$$The right side involves partial derivatives in $S$, so we evaluate both terms by integration by parts. Boundary terms vanish at $S = K$ because the payoff is zero there, and as $S \\to \\infty$ provided $p$ decays fast enough to suppress the polynomial growth of $S^2 p$, which holds for any density with a finite second moment.\nThe drift term takes one pass, giving\n$$\\int_K^\\infty (S - K) \\left( -\\frac{\\partial}{\\partial S}\\left[ r S p \\right] \\right) dS = r e^{rT} C - r K e^{rT} \\frac{\\partial C}{\\partial K}$$The diffusion term takes two passes, and the second collapses the integral onto the single point $S = K$, which is what isolates the local vol at one strike out of a relation that held across all levels:\n$$\\int_K^\\infty (S - K) \\cdot \\frac{1}{2} \\frac{\\partial^2}{\\partial S^2}\\left[ \\sigma^2 S^2 p \\right] dS = \\frac{1}{2} \\sigma^2(K, T) K^2 e^{rT} \\frac{\\partial^2 C}{\\partial K^2}$$Equating the two sides, the $rC$ terms cancel:\n$$\\frac{\\partial C}{\\partial T} = -r K \\frac{\\partial C}{\\partial K} + \\frac{1}{2} \\sigma^2(K, T) K^2 \\frac{\\partial^2 C}{\\partial K^2}$$Rearranged, this is the Dupire formula:\n$$\\sigma^2(K, T) = \\frac{\\dfrac{\\partial C}{\\partial T} + r K \\dfrac{\\partial C}{\\partial K}}{\\dfrac{1}{2} K^2 \\dfrac{\\partial^2 C}{\\partial K^2}}$$Beyond the derivation we just did above, why does the local variance take on such a form? I find it more intuitive to see it in discrete form:\n$$e^{rT} \\Delta C \\approx r K \\, \\Delta T \\cdot \\mathbb{Q}(S_T \u003e K) + \\frac{1}{2} \\sigma^2(K, T) K^2 \\, \\Delta T \\cdot p(K, T)$$Dupire states that the additional value of the call option from extending its maturity slightly, from $T$ to $T + \\Delta T$, is driven by two factors: how the process drifts, assuming the underlying is in the money, and the diffusion, how violently the spot moves, weighted by the density at the strike.\nDupire gives us a powerful tool to compute the local vol at every $(K, T)$ from call prices. No iteration, no joint solve needed.\nHow Local Vol is Calibrated in Practice To apply Dupire directly, we need to know how the call price changes for a small change in $K$ and $T$. That is not available from the market, since quotes are not given at continuous $K$ or $T$. But we can calculate what the call price should be if an implied vol surface is in place, which translates any $K$ and $T$ into a call price. That is exactly what the earlier implied vol article was for.\nA surface is usually displayed against strike or delta and maturity, so it might be tempting to differentiate against $K$ and $T$. But they are not the natural coordinates to view the vols in. What drives the dispersion of the price is the variance, and that variance is measured on the return rather than on the absolute price level. So the quantities the problem actually depends on are total variance and log-moneyness, and that is what we will use to derive the local vol form from the vol surface.\nWith $x = \\log(F_T/K)$ the log-moneyness and $w(x, T)$ the total implied variance, substitute the Black-Scholes formula for $C$ and apply the chain rule to convert the strike and maturity derivatives into derivatives of $x$ and $w$. We get\n$$\\sigma^2(x, T) = \\frac{\\dfrac{\\partial w}{\\partial T}}{1 - \\dfrac{x}{w}\\dfrac{\\partial w}{\\partial x} + \\dfrac{1}{4}\\left( -\\dfrac{1}{4} - \\dfrac{1}{w} + \\dfrac{x^2}{w^2} \\right)\\left( \\dfrac{\\partial w}{\\partial x} \\right)^2 + \\dfrac{1}{2}\\dfrac{\\partial^2 w}{\\partial x^2}}$$This is Dupire in Gatheral’s form, and it provides a bridge to compute the local vol from the implied vol surface. The numerator is how the total variance changes with respect to time. The denominator appears convoluted but has a simple meaning: it is the ratio of the modeled density from the implied vol surface against the baseline model, the constant vol lognormal, which is the function $g(x)$ from Appendix B of the implied vol article. When the vol is constant, $\\partial w / \\partial x$ and $\\partial^2 w / \\partial x^2$ are both zero, the denominator is $1$, and we are left with $\\sigma^2 = \\partial w / \\partial T$, which is the constant vol itself.\nTaking the Derivatives The Gatheral formula needs three derivatives of $w$, and the naive way to get them is to bump $x$ and $T$ and take finite differences. It works, but it is not the default way to do it. Differencing amplifies the noise in the implied vol fit, especially for the second derivative in the denominator. The result is a local vol grid that looks jagged even when the input surface is smooth, and the pricing model, Monte Carlo or PDE, inherits that noise.\nFor $\\partial w / \\partial x$ and $\\partial^2 w / \\partial x^2$, analytical derivatives are usually preferred, since they give a closed form on a smooth calibration. The cubic spline from the implied vol article is piecewise polynomial, so its first and second derivatives are available in closed form on each segment and are continuous across the knots by construction. Parametric models such as SSVI are also differentiable in closed form, and parametric surfaces are often the input used in practice.\nThe maturity derivative, $\\partial w / \\partial T$, works similarly. The analytical form follows from the total variance interpolation set by the implied vol model. One nuance is worth noting. If total variance is linear in $T$ at fixed $x$, the derivative is piecewise constant and undefined at the quoted expiries themselves, since the intervals on either side give different slopes. On each interval it is well defined, and since variance accumulates as an integral over time, the value assigned at an isolated point does not affect any price. The usual convention is to take the slope of the interval ahead, which leaves the local vol surface right-continuous in maturity and jumping as the simulation crosses each strip.\nThe analytical approach tells us that in order to use the implied vol surface as an input, instead of just saving the vol at all the grid points, we should store the model itself, spline coefficients or parameters, and take the derivatives from it directly. Local vol calibration still runs downstream of the implied vol fit, but what crosses between them is the model rather than a set of grid points.\nIn some settings, passing the model along is not possible. Traders may mark the surface directly, sometimes with manual adjustments, or the marking system and the calibration library may be separate enough that only a grid of vols crosses between them. In that case a surface has to be fitted to the grid before anything can be differentiated. The risk here is that the refitted model may differ from the one underlying the original marked vol surface.\nWhat the Input Surface Must Satisfy Local variance is a ratio, so it exists and is positive only when the numerator and denominator are. Both conditions are the arbitrage checks from the earlier article, arriving here as requirements rather than as diagnostics.\nThe numerator is positive when total variance is non-decreasing in maturity, which is precisely the absence of calendar arbitrage. A calendar violation produces a negative local variance and the calibration fails outright at that point.\nThe denominator is positive when the smile satisfies the butterfly condition, which is the Gatheral $g$-function test. A butterfly violation is a negative density, and dividing by it produces a negative local variance for the same reason. This is what the planted violation in the Dec 2026 strip does if it is left in.\nTwo further conditions are less visible. The surface must be twice differentiable in $x$, so a fit that is merely continuous will not do. And the wings must not grow so fast that the density loses the moments the derivation assumed, which is the condition the linear total variance extrapolation was chosen to respect.\nThere is also a softer failure. Far into the wings the density is nearly zero, so the denominator is nearly zero, and local variance becomes the ratio of two small numbers. It may stay positive while being numerically meaningless. The market has almost no information about local vol where the spot rarely goes, and no amount of care in the fit creates it.\nPrecomputing the Grid Evaluating Gatheral’s formula inside a Monte Carlo loop would mean recomputing derivatives at every step of every path. In practice the local vol is computed once on a grid in $(x, T)$, stored, and interpolated during pricing. The grid is chosen to cover the region the paths will actually visit, with enough resolution near the money and in maturity to keep the interpolation error below the discretization error of the scheme.\n",
+  "wordCount" : "2270",
+  "inLanguage": "en",
+  "datePublished": "2026-07-23T00:00:00Z",
+  "dateModified": "2026-07-23T00:00:00Z",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://leslie-ren.github.io/Inflection.Quant/articles/local_vol/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Inflection Quant Lab",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://leslie-ren.github.io/Inflection.Quant/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+<body id="top">
+    <header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://leslie-ren.github.io/Inflection.Quant/" accesskey="h" title="Inflection Quant Lab (Alt + H)">Inflection Quant Lab</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://leslie-ren.github.io/Inflection.Quant/articles/" title="Articles">
+                    <span>Articles</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://leslie-ren.github.io/Inflection.Quant/search/" title="Search (Alt &#43; /)" accesskey=/>
+                    <span>Search</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://leslie-ren.github.io/Inflection.Quant/">Home</a>&nbsp;»&nbsp;<a href="https://leslie-ren.github.io/Inflection.Quant/articles/">Articles</a></div>
+    <h1 class="post-title entry-hint-parent">
+      Local Volatility: From the Implied Vol Surface to Risk-Neutral Dynamics
+    </h1>
+    <div class="post-meta"><span title='2026-07-23 00:00:00 +0000 UTC'>July 23, 2026</span>
+
+</div>
+  </header> 
+  <div class="post-content"><h1 id="local-volatility-from-the-implied-vol-surface-to-risk-neutral-dynamics">Local Volatility: From the Implied Vol Surface to Risk-Neutral Dynamics<a hidden class="anchor" aria-hidden="true" href="#local-volatility-from-the-implied-vol-surface-to-risk-neutral-dynamics">#</a></h1>
+<h2 id="why-this-matters">Why This Matters<a hidden class="anchor" aria-hidden="true" href="#why-this-matters">#</a></h2>
+<p>In the <a href="https://leslie-ren.github.io/Inflection.Quant/articles/vol_surface_calibration/">earlier article</a> we constructed the implied volatility surface and used it primarily to price vanilla options. But a great deal of what trades is not vanilla. Products like barriers and autocallables depend on the path the underlying takes, not only where it lands.</p>
+<p>Suppose I price a barrier by Monte Carlo. At each step the spot sits at some level, and I need a volatility to advance it. What vol do I use? The surface gives me a vol for every strike, but simulation does not ask about strikes. It asks what volatility the spot experiences at this level, at this moment, which the surface cannot answer.</p>
+<p>Local volatility is one solution. It gives the instantaneous vol of the underlying at each level and time. This article explains how the model works, and is my exploration of four questions:</p>
+<ul>
+<li>How should the local vols be calibrated in theory?</li>
+<li>What are the challenges of calibrating it in practice?</li>
+<li>If we price a barrier option under local volatility, how do the results differ from a constant vol, and why?</li>
+<li>Why can local volatility not be applied directly to commodities, and what adaptations does it need?</li>
+</ul>
+<h2 id="set-up">Set-up<a hidden class="anchor" aria-hidden="true" href="#set-up">#</a></h2>
+<p>Start from what we already have. Black-Scholes gives the underlying one volatility for all levels and all times,</p>
+$$dS_t = r S_t \, dt + \sigma \, S_t \, dW_t$$<p>and that single $\sigma$ is exactly what leaves it unable to fit the smile. The smallest change we can make is to stop treating it as a constant:</p>
+$$dS_t = r S_t \, dt + \sigma(S_t, t) \, S_t \, dW_t$$<p>It remains a diffusion with a single Brownian driver, and $\sigma(S_t, t)$ carries no randomness of its own. It is the vol the spot diffuses with at level $S$ and time $t$.</p>
+<h2 id="local-vol-calibration-and-the-dupire-formula">Local Vol Calibration and the Dupire Formula<a hidden class="anchor" aria-hidden="true" href="#local-vol-calibration-and-the-dupire-formula">#</a></h2>
+<p>Once we know $\sigma(S, t)$, the model is fully specified: we can simulate paths by Monte Carlo or solve the pricing PDE. The hard part is getting $\sigma(S, t)$ in the first place.</p>
+<p>My default instinct is to reuse the approach from the implied vol article. There, we guessed a volatility, priced the option, compared to the market, and iterated until the price matched. Could we do the same here? Guess $\sigma(S, t)$, price the whole vanilla surface, compare, and adjust.</p>
+<p>The trouble is that $S$ and $t$ are continuous, so every point $(S, t)$ the spot might visit needs its own volatility, and each vanilla price depends on the local vol at every point its paths pass through. The unknowns cannot be solved one at a time. Even discretized onto a grid, matching the surface by trial and error means solving for all the values together and repricing everything at each step. We need something better than guess-and-match.</p>
+<h3 id="what-the-market-already-gives-us">What the Market Already Gives Us<a hidden class="anchor" aria-hidden="true" href="#what-the-market-already-gives-us">#</a></h3>
+<p>The market does give us the implied density directly. Based on Breeden-Litzenberger, derived <a href="https://leslie-ren.github.io/Inflection.Quant/articles/vol_surface_calibration/#breeden-litzenberger">in the earlier article</a>,</p>
+$$\frac{\partial^2 C}{\partial K^2}(K, T) = e^{-rT} p(K, T)$$<p>so for every expiry we quote, we know the market implied distribution of the underlying.</p>
+<p>That is not yet enough. The density at time $t$ is the result of the spot diffusing from today through every level it passed on the way, so a single density reflects the accumulated effect of local vol everywhere before $t$, not the local vol precisely at $t$. Similarly, if you know an object&rsquo;s position at a single instant, you cannot infer its velocity, which is the instantaneous rate of change, and we need to take the derivative of position to get the velocity. Here if we know how the density changes with time, $\partial p / \partial t$, we can back out the volatility driving it.</p>
+<p>Luckily, we already know how $\partial p / \partial t$ behaves. In the <a href="https://leslie-ren.github.io/Inflection.Quant/articles/forward_backward_pde/">forward and backward Kolmogorov article</a> we covered how the density evolves with respect to time and derived the Fokker-Planck equation. For our diffusion it reads</p>
+$$\frac{\partial p}{\partial t} = -\frac{\partial}{\partial S}\left[ r S \, p \right] + \frac{1}{2} \frac{\partial^2}{\partial S^2}\left[ \sigma^2(S, t) S^2 p \right]$$<h3 id="linking-densities-to-option-quotes">Linking Densities to Option Quotes<a hidden class="anchor" aria-hidden="true" href="#linking-densities-to-option-quotes">#</a></h3>
+<p>Note the Fokker-Planck equation is in terms of $S$, and we have to link it to the information available from the market, which is option prices. Since the call price can be written as an integral over $S$,</p>
+$$C(K, T) = e^{-rT} \int_K^\infty (S - K) \, p(S, T) \, dS$$<p>multiplying Fokker-Planck by the payoff $(S - K)$ and integrating over the same range moves the whole relation into quote space. Evaluating at $t = T$, the maturity of the option we are pricing,</p>
+$$\int_K^\infty (S - K) \frac{\partial p}{\partial T} \, dS = \int_K^\infty (S - K) \left( -\frac{\partial}{\partial S}\left[ r S \, p \right] + \frac{1}{2} \frac{\partial^2}{\partial S^2}\left[ \sigma^2(S, T) S^2 p \right] \right) dS$$<p>The left side is straightforward. Differentiate the call price with respect to $T$, then solve for the integral:</p>
+$$\int_K^\infty (S - K) \frac{\partial p}{\partial T} \, dS = e^{rT} \left( \frac{\partial C}{\partial T} + r C \right)$$<p>The right side involves partial derivatives in $S$, so we evaluate both terms by integration by parts. Boundary terms vanish at $S = K$ because the payoff is zero there, and as $S \to \infty$ provided $p$ decays fast enough to suppress the polynomial growth of $S^2 p$, which holds for any density with a finite second moment.</p>
+<p>The drift term takes one pass, giving</p>
+$$\int_K^\infty (S - K) \left( -\frac{\partial}{\partial S}\left[ r S p \right] \right) dS = r e^{rT} C - r K e^{rT} \frac{\partial C}{\partial K}$$<p>The diffusion term takes two passes, and the second collapses the integral onto the single point $S = K$, which is what isolates the local vol at one strike out of a relation that held across all levels:</p>
+$$\int_K^\infty (S - K) \cdot \frac{1}{2} \frac{\partial^2}{\partial S^2}\left[ \sigma^2 S^2 p \right] dS = \frac{1}{2} \sigma^2(K, T) K^2 e^{rT} \frac{\partial^2 C}{\partial K^2}$$<p>Equating the two sides, the $rC$ terms cancel:</p>
+$$\frac{\partial C}{\partial T} = -r K \frac{\partial C}{\partial K} + \frac{1}{2} \sigma^2(K, T) K^2 \frac{\partial^2 C}{\partial K^2}$$<p>Rearranged, this is the <strong>Dupire formula</strong>:</p>
+$$\sigma^2(K, T) = \frac{\dfrac{\partial C}{\partial T} + r K \dfrac{\partial C}{\partial K}}{\dfrac{1}{2} K^2 \dfrac{\partial^2 C}{\partial K^2}}$$<p>Beyond the derivation we just did above, why does the local variance take on such a form? I find it more intuitive to see it in discrete form:</p>
+$$e^{rT} \Delta C \approx r K \, \Delta T \cdot \mathbb{Q}(S_T > K) + \frac{1}{2} \sigma^2(K, T) K^2 \, \Delta T \cdot p(K, T)$$<p>Dupire states that the additional value of the call option from extending its maturity slightly, from $T$ to $T + \Delta T$, is driven by two factors: how the process drifts, assuming the underlying is in the money, and the diffusion, how violently the spot moves, weighted by the density at the strike.</p>
+<p>Dupire gives us a powerful tool to compute the local vol at every $(K, T)$ from call prices. No iteration, no joint solve needed.</p>
+<h2 id="how-local-vol-is-calibrated-in-practice">How Local Vol is Calibrated in Practice<a hidden class="anchor" aria-hidden="true" href="#how-local-vol-is-calibrated-in-practice">#</a></h2>
+<p>To apply Dupire directly, we need to know how the call price changes for a small change in $K$ and $T$. That is not available from the market, since quotes are not given at continuous $K$ or $T$. But we can calculate what the call price should be if an implied vol surface is in place, which translates any $K$ and $T$ into a call price. That is exactly what the earlier implied vol article was for.</p>
+<p>A surface is usually displayed against strike or delta and maturity, so it might be tempting to differentiate against $K$ and $T$. But they are not the natural coordinates to view the vols in. What drives the dispersion of the price is the variance, and that variance is measured on the return rather than on the absolute price level. So the quantities the problem actually depends on are total variance and log-moneyness, and that is what we will use to derive the local vol form from the vol surface.</p>
+<p>With $x = \log(F_T/K)$ the log-moneyness and $w(x, T)$ the total implied variance, substitute the Black-Scholes formula for $C$ and apply the chain rule to convert the strike and maturity derivatives into derivatives of $x$ and $w$. We get</p>
+$$\sigma^2(x, T) = \frac{\dfrac{\partial w}{\partial T}}{1 - \dfrac{x}{w}\dfrac{\partial w}{\partial x} + \dfrac{1}{4}\left( -\dfrac{1}{4} - \dfrac{1}{w} + \dfrac{x^2}{w^2} \right)\left( \dfrac{\partial w}{\partial x} \right)^2 + \dfrac{1}{2}\dfrac{\partial^2 w}{\partial x^2}}$$<p>This is <strong>Dupire in Gatheral&rsquo;s form</strong>, and it provides a bridge to compute the local vol from the implied vol surface. The numerator is how the total variance changes with respect to time. The denominator appears convoluted but has a simple meaning: it is the ratio of the modeled density from the implied vol surface against the baseline model, the constant vol lognormal, which is the function $g(x)$ from <a href="https://leslie-ren.github.io/Inflection.Quant/articles/vol_surface_calibration/#appendix-b-deriving-the-total-variance-butterfly-condition">Appendix B</a> of the implied vol article. When the vol is constant, $\partial w / \partial x$ and $\partial^2 w / \partial x^2$ are both zero, the denominator is $1$, and we are left with $\sigma^2 = \partial w / \partial T$, which is the constant vol itself.</p>
+<h3 id="taking-the-derivatives">Taking the Derivatives<a hidden class="anchor" aria-hidden="true" href="#taking-the-derivatives">#</a></h3>
+<p>The Gatheral formula needs three derivatives of $w$, and the naive way to get them is to bump $x$ and $T$ and take finite differences. It works, but it is not the default way to do it. Differencing amplifies the noise in the implied vol fit, especially for the second derivative in the denominator. The result is a local vol grid that looks jagged even when the input surface is smooth, and the pricing model, Monte Carlo or PDE, inherits that noise.</p>
+<p>For $\partial w / \partial x$ and $\partial^2 w / \partial x^2$, analytical derivatives are usually preferred, since they give a closed form on a smooth calibration. The cubic spline from the implied vol article is piecewise polynomial, so its first and second derivatives are available in closed form on each segment and are continuous across the knots by construction. Parametric models such as SSVI are also differentiable in closed form, and parametric surfaces are often the input used in practice.</p>
+<p>The maturity derivative, $\partial w / \partial T$, works similarly. The analytical form follows from the total variance interpolation set by the implied vol model. One nuance is worth noting. If total variance is linear in $T$ at fixed $x$, the derivative is piecewise constant and undefined at the quoted expiries themselves, since the intervals on either side give different slopes. On each interval it is well defined, and since variance accumulates as an integral over time, the value assigned at an isolated point does not affect any price. The usual convention is to take the slope of the interval ahead, which leaves the local vol surface right-continuous in maturity and jumping as the simulation crosses each strip.</p>
+<p>The analytical approach tells us that in order to use the implied vol surface as an input, instead of just saving the vol at all the grid points, we should store the model itself, spline coefficients or parameters, and take the derivatives from it directly. Local vol calibration still runs downstream of the implied vol fit, but what crosses between them is the model rather than a set of grid points.</p>
+<p>In some settings, passing the model along is not possible. Traders may mark the surface directly, sometimes with manual adjustments, or the marking system and the calibration library may be separate enough that only a grid of vols crosses between them. In that case a surface has to be fitted to the grid before anything can be differentiated. The risk here is that the refitted model may differ from the one underlying the original marked vol surface.</p>
+<h3 id="what-the-input-surface-must-satisfy">What the Input Surface Must Satisfy<a hidden class="anchor" aria-hidden="true" href="#what-the-input-surface-must-satisfy">#</a></h3>
+<p>Local variance is a ratio, so it exists and is positive only when the numerator and denominator are. Both conditions are the arbitrage checks from the earlier article, arriving here as requirements rather than as diagnostics.</p>
+<p>The numerator is positive when total variance is non-decreasing in maturity, which is precisely the absence of calendar arbitrage. A calendar violation produces a negative local variance and the calibration fails outright at that point.</p>
+<p>The denominator is positive when the smile satisfies the butterfly condition, which is the Gatheral $g$-function test. A butterfly violation is a negative density, and dividing by it produces a negative local variance for the same reason. This is what the planted violation in the Dec 2026 strip does if it is left in.</p>
+<p>Two further conditions are less visible. The surface must be twice differentiable in $x$, so a fit that is merely continuous will not do. And the wings must not grow so fast that the density loses the moments the derivation assumed, which is the condition the linear total variance extrapolation was chosen to respect.</p>
+<p>There is also a softer failure. Far into the wings the density is nearly zero, so the denominator is nearly zero, and local variance becomes the ratio of two small numbers. It may stay positive while being numerically meaningless. The market has almost no information about local vol where the spot rarely goes, and no amount of care in the fit creates it.</p>
+<h3 id="precomputing-the-grid">Precomputing the Grid<a hidden class="anchor" aria-hidden="true" href="#precomputing-the-grid">#</a></h3>
+<p>Evaluating Gatheral&rsquo;s formula inside a Monte Carlo loop would mean recomputing derivatives at every step of every path. In practice the local vol is computed once on a grid in $(x, T)$, stored, and interpolated during pricing. The grid is chosen to cover the region the paths will actually visit, with enough resolution near the money and in maturity to keep the interpolation error below the discretization error of the scheme.</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+<nav class="paginav">
+  <a class="next" href="https://leslie-ren.github.io/Inflection.Quant/articles/forward_backward_pde/">
+    <span class="title">Next »</span>
+    <br>
+    <span>Forward and Backward Kolmogorov PDEs: An Intuitive Look at Their Duality</span>
+  </a>
+</nav>
+
+
+<ul class="share-buttons">
+    <li>
+        <a target="_blank" rel="noopener noreferrer" aria-label="share Local Volatility: From the Implied Vol Surface to Risk-Neutral Dynamics on x"
+            href="https://x.com/intent/tweet/?text=Local%20Volatility%3a%20From%20the%20Implied%20Vol%20Surface%20to%20Risk-Neutral%20Dynamics&amp;url=https%3a%2f%2fleslie-ren.github.io%2fInflection.Quant%2farticles%2flocal_vol%2f&amp;hashtags=">
+            <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve" height="30px" width="30px" fill="currentColor">
+                <path
+                    d="M512 62.554 L 512 449.446 C 512 483.97 483.97 512 449.446 512 L 62.554 512 C 28.03 512 0 483.97 0 449.446 L 0 62.554 C 0 28.03 28.029 0 62.554 0 L 449.446 0 C 483.971 0 512 28.03 512 62.554 Z M 269.951 190.75 L 182.567 75.216 L 56 75.216 L 207.216 272.95 L 63.9 436.783 L 125.266 436.783 L 235.9 310.383 L 332.567 436.783 L 456 436.783 L 298.367 228.367 L 432.367 75.216 L 371.033 75.216 Z M 127.633 110 L 164.101 110 L 383.481 400.065 L 349.5 400.065 Z" />
+            </svg>
+        </a>
+    </li>
+    <li>
+        <a target="_blank" rel="noopener noreferrer" aria-label="share Local Volatility: From the Implied Vol Surface to Risk-Neutral Dynamics on linkedin"
+            href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3a%2f%2fleslie-ren.github.io%2fInflection.Quant%2farticles%2flocal_vol%2f&amp;title=Local%20Volatility%3a%20From%20the%20Implied%20Vol%20Surface%20to%20Risk-Neutral%20Dynamics&amp;summary=Local%20Volatility%3a%20From%20the%20Implied%20Vol%20Surface%20to%20Risk-Neutral%20Dynamics&amp;source=https%3a%2f%2fleslie-ren.github.io%2fInflection.Quant%2farticles%2flocal_vol%2f">
+            <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve" height="30px" width="30px" fill="currentColor">
+                <path
+                    d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-386.892,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Zm-288.985,423.278l0,-225.717l-75.04,0l0,225.717l75.04,0Zm270.539,0l0,-129.439c0,-69.333 -37.018,-101.586 -86.381,-101.586c-39.804,0 -57.634,21.891 -67.617,37.266l0,-31.958l-75.021,0c0.995,21.181 0,225.717 0,225.717l75.02,0l0,-126.056c0,-6.748 0.486,-13.492 2.474,-18.315c5.414,-13.475 17.767,-27.434 38.494,-27.434c27.135,0 38.007,20.707 38.007,51.037l0,120.768l75.024,0Zm-307.552,-334.556c-25.674,0 -42.448,16.879 -42.448,39.002c0,21.658 16.264,39.002 41.455,39.002l0.484,0c26.165,0 42.452,-17.344 42.452,-39.002c-0.485,-22.092 -16.241,-38.954 -41.943,-39.002Z" />
+            </svg>
+        </a>
+    </li>
+    <li>
+        <a target="_blank" rel="noopener noreferrer" aria-label="share Local Volatility: From the Implied Vol Surface to Risk-Neutral Dynamics on reddit"
+            href="https://reddit.com/submit?url=https%3a%2f%2fleslie-ren.github.io%2fInflection.Quant%2farticles%2flocal_vol%2f&title=Local%20Volatility%3a%20From%20the%20Implied%20Vol%20Surface%20to%20Risk-Neutral%20Dynamics">
+            <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve" height="30px" width="30px" fill="currentColor">
+                <path
+                    d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-386.892,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Zm-3.446,265.638c0,-22.964 -18.616,-41.58 -41.58,-41.58c-11.211,0 -21.361,4.457 -28.841,11.666c-28.424,-20.508 -67.586,-33.757 -111.204,-35.278l18.941,-89.121l61.884,13.157c0.756,15.734 13.642,28.29 29.56,28.29c16.407,0 29.706,-13.299 29.706,-29.701c0,-16.403 -13.299,-29.702 -29.706,-29.702c-11.666,0 -21.657,6.792 -26.515,16.578l-69.105,-14.69c-1.922,-0.418 -3.939,-0.042 -5.585,1.036c-1.658,1.073 -2.811,2.761 -3.224,4.686l-21.152,99.438c-44.258,1.228 -84.046,14.494 -112.837,35.232c-7.468,-7.164 -17.589,-11.591 -28.757,-11.591c-22.965,0 -41.585,18.616 -41.585,41.58c0,16.896 10.095,31.41 24.568,37.918c-0.639,4.135 -0.99,8.328 -0.99,12.576c0,63.977 74.469,115.836 166.33,115.836c91.861,0 166.334,-51.859 166.334,-115.836c0,-4.218 -0.347,-8.387 -0.977,-12.493c14.564,-6.47 24.735,-21.034 24.735,-38.001Zm-119.474,108.193c-20.27,20.241 -59.115,21.816 -70.534,21.816c-11.428,0 -50.277,-1.575 -70.522,-21.82c-3.007,-3.008 -3.007,-7.882 0,-10.889c3.003,-2.999 7.882,-3.003 10.885,0c12.777,12.781 40.11,17.317 59.637,17.317c19.522,0 46.86,-4.536 59.657,-17.321c3.016,-2.999 7.886,-2.995 10.885,0.008c3.008,3.011 3.003,7.882 -0.008,10.889Zm-5.23,-48.781c-16.373,0 -29.701,-13.324 -29.701,-29.698c0,-16.381 13.328,-29.714 29.701,-29.714c16.378,0 29.706,13.333 29.706,29.714c0,16.374 -13.328,29.698 -29.706,29.698Zm-160.386,-29.702c0,-16.381 13.328,-29.71 29.714,-29.71c16.369,0 29.689,13.329 29.689,29.71c0,16.373 -13.32,29.693 -29.689,29.693c-16.386,0 -29.714,-13.32 -29.714,-29.693Z" />
+            </svg>
+        </a>
+    </li>
+    <li>
+        <a target="_blank" rel="noopener noreferrer" aria-label="share Local Volatility: From the Implied Vol Surface to Risk-Neutral Dynamics on facebook"
+            href="https://facebook.com/sharer/sharer.php?u=https%3a%2f%2fleslie-ren.github.io%2fInflection.Quant%2farticles%2flocal_vol%2f">
+            <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve" height="30px" width="30px" fill="currentColor">
+                <path
+                    d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-106.468,0l0,-192.915l66.6,0l12.672,-82.621l-79.272,0l0,-53.617c0,-22.603 11.073,-44.636 46.58,-44.636l36.042,0l0,-70.34c0,0 -32.71,-5.582 -63.982,-5.582c-65.288,0 -107.96,39.569 -107.96,111.204l0,62.971l-72.573,0l0,82.621l72.573,0l0,192.915l-191.104,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Z" />
+            </svg>
+        </a>
+    </li>
+    <li>
+        <a target="_blank" rel="noopener noreferrer" aria-label="share Local Volatility: From the Implied Vol Surface to Risk-Neutral Dynamics on whatsapp"
+            href="https://api.whatsapp.com/send?text=Local%20Volatility%3a%20From%20the%20Implied%20Vol%20Surface%20to%20Risk-Neutral%20Dynamics%20-%20https%3a%2f%2fleslie-ren.github.io%2fInflection.Quant%2farticles%2flocal_vol%2f">
+            <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve" height="30px" width="30px" fill="currentColor">
+                <path
+                    d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-386.892,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Zm-58.673,127.703c-33.842,-33.881 -78.847,-52.548 -126.798,-52.568c-98.799,0 -179.21,80.405 -179.249,179.234c-0.013,31.593 8.241,62.428 23.927,89.612l-25.429,92.884l95.021,-24.925c26.181,14.28 55.659,21.807 85.658,21.816l0.074,0c98.789,0 179.206,-80.413 179.247,-179.243c0.018,-47.895 -18.61,-92.93 -52.451,-126.81Zm-126.797,275.782l-0.06,0c-26.734,-0.01 -52.954,-7.193 -75.828,-20.767l-5.441,-3.229l-56.386,14.792l15.05,-54.977l-3.542,-5.637c-14.913,-23.72 -22.791,-51.136 -22.779,-79.287c0.033,-82.142 66.867,-148.971 149.046,-148.971c39.793,0.014 77.199,15.531 105.329,43.692c28.128,28.16 43.609,65.592 43.594,105.4c-0.034,82.149 -66.866,148.983 -148.983,148.984Zm81.721,-111.581c-4.479,-2.242 -26.499,-13.075 -30.604,-14.571c-4.105,-1.495 -7.091,-2.241 -10.077,2.241c-2.986,4.483 -11.569,14.572 -14.182,17.562c-2.612,2.988 -5.225,3.364 -9.703,1.12c-4.479,-2.241 -18.91,-6.97 -36.017,-22.23c-13.314,-11.876 -22.304,-26.542 -24.916,-31.026c-2.612,-4.484 -0.279,-6.908 1.963,-9.14c2.016,-2.007 4.48,-5.232 6.719,-7.847c2.24,-2.615 2.986,-4.484 4.479,-7.472c1.493,-2.99 0.747,-5.604 -0.374,-7.846c-1.119,-2.241 -10.077,-24.288 -13.809,-33.256c-3.635,-8.733 -7.327,-7.55 -10.077,-7.688c-2.609,-0.13 -5.598,-0.158 -8.583,-0.158c-2.986,0 -7.839,1.121 -11.944,5.604c-4.105,4.484 -15.675,15.32 -15.675,37.364c0,22.046 16.048,43.342 18.287,46.332c2.24,2.99 31.582,48.227 76.511,67.627c10.685,4.615 19.028,7.371 25.533,9.434c10.728,3.41 20.492,2.929 28.209,1.775c8.605,-1.285 26.499,-10.833 30.231,-21.295c3.732,-10.464 3.732,-19.431 2.612,-21.298c-1.119,-1.869 -4.105,-2.99 -8.583,-5.232Z" />
+            </svg>
+        </a>
+    </li>
+    <li>
+        <a target="_blank" rel="noopener noreferrer" aria-label="share Local Volatility: From the Implied Vol Surface to Risk-Neutral Dynamics on telegram"
+            href="https://telegram.me/share/url?text=Local%20Volatility%3a%20From%20the%20Implied%20Vol%20Surface%20to%20Risk-Neutral%20Dynamics&amp;url=https%3a%2f%2fleslie-ren.github.io%2fInflection.Quant%2farticles%2flocal_vol%2f">
+            <svg version="1.1" xml:space="preserve" viewBox="2 2 28 28" height="30px" width="30px" fill="currentColor">
+                <path
+                    d="M26.49,29.86H5.5a3.37,3.37,0,0,1-2.47-1,3.35,3.35,0,0,1-1-2.47V5.48A3.36,3.36,0,0,1,3,3,3.37,3.37,0,0,1,5.5,2h21A3.38,3.38,0,0,1,29,3a3.36,3.36,0,0,1,1,2.46V26.37a3.35,3.35,0,0,1-1,2.47A3.38,3.38,0,0,1,26.49,29.86Zm-5.38-6.71a.79.79,0,0,0,.85-.66L24.73,9.24a.55.55,0,0,0-.18-.46.62.62,0,0,0-.41-.17q-.08,0-16.53,6.11a.59.59,0,0,0-.41.59.57.57,0,0,0,.43.52l4,1.24,1.61,4.83a.62.62,0,0,0,.63.43.56.56,0,0,0,.4-.17L16.54,20l4.09,3A.9.9,0,0,0,21.11,23.15ZM13.8,20.71l-1.21-4q8.72-5.55,8.78-5.55c.15,0,.23,0,.23.16a.18.18,0,0,1,0,.06s-2.51,2.3-7.52,6.8Z" />
+            </svg>
+        </a>
+    </li>
+    <li>
+        <a target="_blank" rel="noopener noreferrer" aria-label="share Local Volatility: From the Implied Vol Surface to Risk-Neutral Dynamics on ycombinator"
+            href="https://news.ycombinator.com/submitlink?t=Local%20Volatility%3a%20From%20the%20Implied%20Vol%20Surface%20to%20Risk-Neutral%20Dynamics&u=https%3a%2f%2fleslie-ren.github.io%2fInflection.Quant%2farticles%2flocal_vol%2f">
+            <svg version="1.1" xml:space="preserve" width="30px" height="30px" viewBox="0 0 512 512" fill="currentColor"
+                xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape">
+                <path
+                    d="M449.446 0C483.971 0 512 28.03 512 62.554L512 449.446C512 483.97 483.97 512 449.446 512L62.554 512C28.03 512 0 483.97 0 449.446L0 62.554C0 28.03 28.029 0 62.554 0L449.446 0ZM183.8767 87.9921H121.8427L230.6673 292.4508V424.0079H281.3328V292.4508L390.1575 87.9921H328.1233L256 238.2489z" />
+            </svg>
+        </a>
+    </li>
+</ul>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2026 <a href="https://leslie-ren.github.io/Inflection.Quant/">Inflection Quant Lab</a></span> · 
+
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu');
+    if (menu) {
+        
+        const scrollPosition = localStorage.getItem("menu-scroll-position");
+        if (scrollPosition) {
+            menu.scrollLeft = parseInt(scrollPosition, 10);
+        }
+        
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        const html = document.querySelector("html");
+        if (html.dataset.theme === "dark") {
+            html.dataset.theme = 'light';
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            html.dataset.theme = 'dark';
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

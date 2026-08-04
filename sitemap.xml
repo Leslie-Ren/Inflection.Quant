@@ -2,17 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://leslie-ren.github.io/Inflection.Quant/articles/quant-foundations/</loc>
-    <lastmod>2026-07-14T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://leslie-ren.github.io/Inflection.Quant/articles/quant-engineering/</loc>
-    <lastmod>2026-06-26T00:00:00+00:00</lastmod>
-  </url><url>
     <loc>https://leslie-ren.github.io/Inflection.Quant/</loc>
-    <lastmod>2026-07-14T00:00:00+00:00</lastmod>
+    <lastmod>2026-07-23T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://leslie-ren.github.io/Inflection.Quant/articles/</loc>
-    <lastmod>2026-07-14T00:00:00+00:00</lastmod>
+    <lastmod>2026-07-23T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://leslie-ren.github.io/Inflection.Quant/articles/local_vol/</loc>
+    <lastmod>2026-07-23T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://leslie-ren.github.io/Inflection.Quant/tags/duality/</loc>
     <lastmod>2026-07-14T00:00:00+00:00</lastmod>
@@ -23,7 +20,7 @@
     <loc>https://leslie-ren.github.io/Inflection.Quant/tags/fokker-planck/</loc>
     <lastmod>2026-07-14T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://leslie-ren.github.io/Inflection.Quant/articles/quant-foundations/forward_backward_pde/</loc>
+    <loc>https://leslie-ren.github.io/Inflection.Quant/articles/forward_backward_pde/</loc>
     <lastmod>2026-07-14T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://leslie-ren.github.io/Inflection.Quant/tags/kolmogorov-equations/</loc>
@@ -41,7 +38,7 @@
     <loc>https://leslie-ren.github.io/Inflection.Quant/tags/commodities/</loc>
     <lastmod>2026-06-26T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://leslie-ren.github.io/Inflection.Quant/articles/quant-engineering/vol_surface_calibration/</loc>
+    <loc>https://leslie-ren.github.io/Inflection.Quant/articles/vol_surface_calibration/</loc>
     <lastmod>2026-06-26T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://leslie-ren.github.io/Inflection.Quant/tags/implied-volatility/</loc>
@@ -59,7 +56,7 @@
     <loc>https://leslie-ren.github.io/Inflection.Quant/tags/characteristic-function/</loc>
     <lastmod>2026-06-16T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://leslie-ren.github.io/Inflection.Quant/articles/quant-foundations/fourier_transform/</loc>
+    <loc>https://leslie-ren.github.io/Inflection.Quant/articles/fourier_transform/</loc>
     <lastmod>2026-06-16T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://leslie-ren.github.io/Inflection.Quant/tags/fourier-transform/</loc>
@@ -74,7 +71,7 @@
     <loc>https://leslie-ren.github.io/Inflection.Quant/tags/pde/</loc>
     <lastmod>2026-06-16T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://leslie-ren.github.io/Inflection.Quant/articles/quant-foundations/fdm/</loc>
+    <loc>https://leslie-ren.github.io/Inflection.Quant/articles/fdm/</loc>
     <lastmod>2026-06-09T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://leslie-ren.github.io/Inflection.Quant/tags/finite-difference/</loc>
@@ -86,7 +83,7 @@
     <loc>https://leslie-ren.github.io/Inflection.Quant/tags/monte-carlo/</loc>
     <lastmod>2026-06-02T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://leslie-ren.github.io/Inflection.Quant/articles/quant-foundations/mc_variance_reduction/</loc>
+    <loc>https://leslie-ren.github.io/Inflection.Quant/articles/mc_variance_reduction/</loc>
     <lastmod>2026-06-02T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://leslie-ren.github.io/Inflection.Quant/tags/options/</loc>
@@ -107,13 +104,13 @@
     <loc>https://leslie-ren.github.io/Inflection.Quant/tags/survival-probability/</loc>
     <lastmod>2026-05-28T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://leslie-ren.github.io/Inflection.Quant/articles/quant-foundations/brownian_bridge/</loc>
+    <loc>https://leslie-ren.github.io/Inflection.Quant/articles/brownian_bridge/</loc>
     <lastmod>2026-05-28T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://leslie-ren.github.io/Inflection.Quant/tags/fx/</loc>
     <lastmod>2026-05-19T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://leslie-ren.github.io/Inflection.Quant/articles/quant-foundations/quanto_and_compo/</loc>
+    <loc>https://leslie-ren.github.io/Inflection.Quant/articles/quanto_and_compo/</loc>
     <lastmod>2026-05-19T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://leslie-ren.github.io/Inflection.Quant/tags/risk-management/</loc>
@@ -146,10 +143,10 @@
     <loc>https://leslie-ren.github.io/Inflection.Quant/tags/radon-nikodym-derivative/</loc>
     <lastmod>2026-05-12T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://leslie-ren.github.io/Inflection.Quant/articles/quant-foundations/change_of_numeraire/</loc>
+    <loc>https://leslie-ren.github.io/Inflection.Quant/articles/change_of_numeraire/</loc>
     <lastmod>2026-05-12T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://leslie-ren.github.io/Inflection.Quant/articles/quant-foundations/girsanov/</loc>
+    <loc>https://leslie-ren.github.io/Inflection.Quant/articles/girsanov/</loc>
     <lastmod>2026-05-06T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://leslie-ren.github.io/Inflection.Quant/tags/risk-neutral-pricing/</loc>
@@ -161,7 +158,7 @@
     <loc>https://leslie-ren.github.io/Inflection.Quant/tags/feynman-kac/</loc>
     <lastmod>2026-04-28T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://leslie-ren.github.io/Inflection.Quant/articles/quant-foundations/feynman_kac/</loc>
+    <loc>https://leslie-ren.github.io/Inflection.Quant/articles/feynman_kac/</loc>
     <lastmod>2026-04-28T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://leslie-ren.github.io/Inflection.Quant/tags/pdes/</loc>
@@ -173,13 +170,13 @@
     <loc>https://leslie-ren.github.io/Inflection.Quant/tags/futures/</loc>
     <lastmod>2026-04-23T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://leslie-ren.github.io/Inflection.Quant/articles/quant-foundations/future_style_margining_options/</loc>
+    <loc>https://leslie-ren.github.io/Inflection.Quant/articles/future_style_margining_options/</loc>
     <lastmod>2026-04-23T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://leslie-ren.github.io/Inflection.Quant/tags/margining/</loc>
     <lastmod>2026-04-23T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://leslie-ren.github.io/Inflection.Quant/articles/quant-foundations/vol_skewness_kurtosis/</loc>
+    <loc>https://leslie-ren.github.io/Inflection.Quant/articles/vol_skewness_kurtosis/</loc>
     <lastmod>2026-04-16T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://leslie-ren.github.io/Inflection.Quant/tags/implied-moments/</loc>
@@ -221,7 +218,7 @@
     <loc>https://leslie-ren.github.io/Inflection.Quant/tags/secant-method/</loc>
     <lastmod>2026-04-09T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://leslie-ren.github.io/Inflection.Quant/articles/quant-foundations/newton_vs_brent_vol_solver/</loc>
+    <loc>https://leslie-ren.github.io/Inflection.Quant/articles/newton_vs_brent_vol_solver/</loc>
     <lastmod>2026-04-09T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://leslie-ren.github.io/Inflection.Quant/tags/american-option/</loc>
@@ -230,7 +227,7 @@
     <loc>https://leslie-ren.github.io/Inflection.Quant/tags/blackscholes-pde/</loc>
     <lastmod>2026-04-03T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://leslie-ren.github.io/Inflection.Quant/articles/quant-foundations/american_vs_european_options/</loc>
+    <loc>https://leslie-ren.github.io/Inflection.Quant/articles/american_vs_european_options/</loc>
     <lastmod>2026-04-03T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://leslie-ren.github.io/Inflection.Quant/tags/european-option/</loc>
@@ -242,7 +239,7 @@
     <loc>https://leslie-ren.github.io/Inflection.Quant/tags/brennersubrahmanyam-approximation/</loc>
     <lastmod>2026-03-26T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://leslie-ren.github.io/Inflection.Quant/articles/quant-foundations/understanding_brownian_motion/</loc>
+    <loc>https://leslie-ren.github.io/Inflection.Quant/articles/understanding_brownian_motion/</loc>
     <lastmod>2026-03-26T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://leslie-ren.github.io/Inflection.Quant/tags/option-price/</loc>

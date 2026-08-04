@@ -1,0 +1,991 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto" data-theme="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Quanto and Compo Commodity Options: FX&#39;s Hidden Role in Pricing and Risk | Inflection Quant Lab</title>
+<meta name="keywords" content="options, commodities, FX, structured-products, risk-management, WTI, Black-Scholes">
+<meta name="description" content="Why This Matters
+Many of the world&rsquo;s most actively traded commodities are priced in USD, yet end investors and corporates often operate in other currencies. A Canadian oil producer hedging output, a European airline managing jet fuel costs, or an Asian sovereign wealth fund allocating to commodity exposure all face the same underlying issue: commodity risk does not exist in isolation from FX risk. The standard approach is to hedge the commodity leg with USD-denominated futures or swaps and manage FX separately through forwards or options. This works, but it treats the two risks as independent. Quanto and compo options take a different approach by packaging both risks into a single instrument, but the way each handles FX risk creates some pricing and hedging subtleties that I find are easy to miss.">
+<meta name="author" content="">
+<link rel="canonical" href="https://leslie-ren.github.io/Inflection.Quant/articles/quanto_and_compo/">
+<link crossorigin="anonymous" href="../../Inflection.Quant/assets/css/stylesheet.199042e659bc7245f5609d333d6c044eb554a0640849bb874e1dff8eb0f57209.css" integrity="sha256-GZBC5lm8ckX1YJ0zPWwETrVUoGQISbuHTh3/jrD1cgk=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://leslie-ren.github.io/Inflection.Quant/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://leslie-ren.github.io/Inflection.Quant/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://leslie-ren.github.io/Inflection.Quant/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://leslie-ren.github.io/Inflection.Quant/apple-touch-icon.png">
+<link rel="mask-icon" href="https://leslie-ren.github.io/Inflection.Quant/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://leslie-ren.github.io/Inflection.Quant/articles/quanto_and_compo/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+                color-scheme: dark;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .toc {
+                background: var(--entry);
+            }
+        }
+
+        @media (prefers-color-scheme: light) {
+            .list::-webkit-scrollbar-thumb {
+                border-color: var(--code-bg);
+            }
+        }
+
+    </style>
+</noscript>
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else if (localStorage.getItem("pref-theme") === "light") {
+       document.querySelector("html").dataset.theme = 'light';
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else {
+        document.querySelector("html").dataset.theme = 'light';
+    }
+
+</script><script>
+document.addEventListener("DOMContentLoaded", function() {
+  window.MathJax = {
+    loader: {load: ['[tex]/boldsymbol']},
+    tex: {
+      packages: ['base', 'ams', 'newcommand', 'require', 'autoload', 'configmacros', 'boldsymbol'],
+      inlineMath: [['$', '$'], ['\\(', '\\)']],
+      displayMath: [['$$','$$'], ['\\[','\\]']]
+    },
+    options: {skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']}
+  };
+  var script = document.createElement("script");
+  script.src = "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js";
+  script.defer = true;
+  document.body.appendChild(script);
+});
+</script><meta property="og:url" content="https://leslie-ren.github.io/Inflection.Quant/articles/quanto_and_compo/">
+  <meta property="og:site_name" content="Inflection Quant Lab">
+  <meta property="og:title" content="Quanto and Compo Commodity Options: FX&#39;s Hidden Role in Pricing and Risk">
+  <meta property="og:description" content="Why This Matters Many of the world’s most actively traded commodities are priced in USD, yet end investors and corporates often operate in other currencies. A Canadian oil producer hedging output, a European airline managing jet fuel costs, or an Asian sovereign wealth fund allocating to commodity exposure all face the same underlying issue: commodity risk does not exist in isolation from FX risk. The standard approach is to hedge the commodity leg with USD-denominated futures or swaps and manage FX separately through forwards or options. This works, but it treats the two risks as independent. Quanto and compo options take a different approach by packaging both risks into a single instrument, but the way each handles FX risk creates some pricing and hedging subtleties that I find are easy to miss.">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="articles">
+    <meta property="article:published_time" content="2026-05-19T00:00:00+00:00">
+    <meta property="article:modified_time" content="2026-05-19T00:00:00+00:00">
+    <meta property="article:tag" content="Options">
+    <meta property="article:tag" content="Commodities">
+    <meta property="article:tag" content="FX">
+    <meta property="article:tag" content="Structured-Products">
+    <meta property="article:tag" content="Risk-Management">
+    <meta property="article:tag" content="WTI">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Quanto and Compo Commodity Options: FX&#39;s Hidden Role in Pricing and Risk">
+  <meta name="twitter:description" content="Why This Matters Many of the world’s most actively traded commodities are priced in USD, yet end investors and corporates often operate in other currencies. A Canadian oil producer hedging output, a European airline managing jet fuel costs, or an Asian sovereign wealth fund allocating to commodity exposure all face the same underlying issue: commodity risk does not exist in isolation from FX risk. The standard approach is to hedge the commodity leg with USD-denominated futures or swaps and manage FX separately through forwards or options. This works, but it treats the two risks as independent. Quanto and compo options take a different approach by packaging both risks into a single instrument, but the way each handles FX risk creates some pricing and hedging subtleties that I find are easy to miss.">
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Articles",
+      "item": "https://leslie-ren.github.io/Inflection.Quant/articles/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Quanto and Compo Commodity Options: FX's Hidden Role in Pricing and Risk",
+      "item": "https://leslie-ren.github.io/Inflection.Quant/articles/quanto_and_compo/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Quanto and Compo Commodity Options: FX's Hidden Role in Pricing and Risk",
+  "name": "Quanto and Compo Commodity Options: FX\u0027s Hidden Role in Pricing and Risk",
+  "description": "Why This Matters Many of the world\u0026rsquo;s most actively traded commodities are priced in USD, yet end investors and corporates often operate in other currencies. A Canadian oil producer hedging output, a European airline managing jet fuel costs, or an Asian sovereign wealth fund allocating to commodity exposure all face the same underlying issue: commodity risk does not exist in isolation from FX risk. The standard approach is to hedge the commodity leg with USD-denominated futures or swaps and manage FX separately through forwards or options. This works, but it treats the two risks as independent. Quanto and compo options take a different approach by packaging both risks into a single instrument, but the way each handles FX risk creates some pricing and hedging subtleties that I find are easy to miss.\n",
+  "keywords": [
+    "options", "commodities", "FX", "structured-products", "risk-management", "WTI", "Black-Scholes"
+  ],
+  "articleBody": "Why This Matters Many of the world’s most actively traded commodities are priced in USD, yet end investors and corporates often operate in other currencies. A Canadian oil producer hedging output, a European airline managing jet fuel costs, or an Asian sovereign wealth fund allocating to commodity exposure all face the same underlying issue: commodity risk does not exist in isolation from FX risk. The standard approach is to hedge the commodity leg with USD-denominated futures or swaps and manage FX separately through forwards or options. This works, but it treats the two risks as independent. Quanto and compo options take a different approach by packaging both risks into a single instrument, but the way each handles FX risk creates some pricing and hedging subtleties that I find are easy to miss.\nThis article works through both structures using WTI/CAD as an example and focuses on a few practical questions:\nWhy does the quanto adjustment exist and what drives its magnitude? How do FX volatility and correlation enter the pricing of each structure, and why do they enter differently? When does each structure suit a given participant? How do dealers hedge each structure, and which risks are hardest to manage? Payoff Structures We work with two assets throughout this article. Let F denote the USD price of WTI crude futures, and let X denote the spot USDCAD exchange rate, quoted as Canadian dollars per one US dollar. A call option struck at K has payoff at expiry T as follows.\nQuanto Call\n$$\\text{Quanto Payoff} = \\bar{X} \\cdot \\max(F_T - K, 0)$$where $\\bar{X}$ is a fixed exchange rate agreed at inception. The buyer receives the intrinsic value of the oil option, converted at a predetermined rate, regardless of where USDCAD trades at expiry. The FX rate is contractually frozen.\nCompo Call\n$$\\text{Compo Payoff} = \\max(X_T F_T - K, 0)$$where K is denominated in CAD. Here the oil price is first converted to CAD at the prevailing spot rate $X_T$, and the option is exercised based on whether that CAD-denominated oil price exceeds the CAD strike. The option is in the money only if the full currency-converted price clears the hurdle. Both oil moves and FX moves determine whether and by how much the option pays.\nThe distinction is obvious. In the quanto, the buyer has pure oil exposure with zero residual FX risk: FX only affects the fixed conversion notional. In the compo, the strike itself is in CAD, so a weakening USD can push the option out of the money even if oil rises in USD terms, and a strengthening USD can push the option into the money even if oil is flat. The exercise decision and the payoff magnitude are both affected by FX. The compo is inherently a two-dimensional product.\nDynamics of F and X Under the CAD Risk-Neutral Measure To price these instruments consistently we must work under a single measure. Since payoffs are denominated in CAD, we use the CAD risk-neutral measure $\\mathbb{Q}^{CAD}$.\nLet $r_d$ be the CAD interest rate and $r_f$ be the USD interest rate. Under $\\mathbb{Q}^{CAD}$:\n$$\\frac{dX}{X} = (r_d - r_f)\\,dt + \\sigma_X\\,dW_X^{CAD}$$This is standard: the drift of USDCAD under the domestic (CAD) measure equals the interest rate differential, and $\\sigma_X$ is the FX volatility.\nFor WTI futures, the natural starting point is the USD risk-neutral measure $\\mathbb{Q}^{USD}$. Under $\\mathbb{Q}^{USD}$, futures are martingales by no-arbitrage, so F is driftless:\n$$\\frac{dF}{F} = \\sigma_F\\,dW_F^{USD}$$The two Brownian motions $W_F^{USD}$ and $W_X^{USD}$ have instantaneous correlation $\\rho$:\n$$dW_F^{USD}\\,dW_X^{USD} = \\rho\\,dt$$Since X is quoted as CAD per USD, a rally in oil that strengthens CAD causes USDCAD to fall. This is not incidental: Canada is one of the world’s largest oil exporters, and CAD is widely regarded as a petrocurrency whose value is closely tied to energy prices. Oil returns and USDCAD returns therefore move in opposite directions systematically, giving $\\rho \u003c 0$ for this pair.\nSince measure change only adds a drift and leaves quadratic covariation unchanged, $\\rho$ is invariant under the measure change. The same correlation holds under $\\mathbb{Q}^{CAD}$:\n$$dW_F^{CAD}\\,dW_X^{CAD} = \\rho\\,dt$$Since our payoffs are denominated in CAD, we need to express $F$ under $\\mathbb{Q}^{CAD}$ rather than $\\mathbb{Q}^{USD}$. The key result is that under $\\mathbb{Q}^{CAD}$, $F$ is no longer driftless but acquires a drift of $-\\rho\\,\\sigma_F\\,\\sigma_X$, known as the quanto adjustment. This drift arises entirely from the correlation between $F$ and $X$ and would vanish if the two were independent.\nThe derivation below shows how this drift emerges from the Radon-Nikodym derivative linking the two measures. Readers comfortable with the result can skip ahead to the next section.\nDerivation: measure change from $\\mathbb{Q}^{USD}$ to $\\mathbb{Q}^{CAD}$ To move from $\\mathbb{Q}^{USD}$ to $\\mathbb{Q}^{CAD}$ we need the Radon-Nikodym derivative linking the two measures (See this article for the general change-of-numeraire framework). The USD and CAD risk-neutral measures are both obtained by discounting with their respective money market accounts, and the exchange rate X connects them. The Radon-Nikodym derivative is proportional to the ratio of the USD and CAD numeraires expressed in a common currency:\n$$\\frac{d\\mathbb{Q}^{USD}}{d\\mathbb{Q}^{CAD}}\\bigg|_T = \\frac{X_T / X_0}{e^{(r_d - r_f)T}}$$This is the value at time T of one unit of USDCAD forward, normalized to start at 1. Since X follows geometric Brownian motion under $\\mathbb{Q}^{CAD}$, we can write this Radon-Nikodym derivative explicitly as:\n$$\\left.\\frac{d\\mathbb{Q}^{USD}}{d\\mathbb{Q}^{CAD}}\\right|_T = \\exp\\!\\left(-\\frac{1}{2}\\sigma_X^2 T + \\sigma_X W_X^{CAD}(T)\\right)$$This is the standard Girsanov density for a constant shift $\\sigma_X$. The Radon-Nikodym derivative is driven entirely by $W_X^{CAD}$, the Brownian motion of the exchange rate process. By Girsanov’s theorem, $W_X^{CAD}$ acquires a drift when we move to $\\mathbb{Q}^{USD}$:\n$$dW_X^{USD} = dW_X^{CAD} - \\sigma_X\\, dt$$Why F Acquires a Drift\nThe Brownian motions $W_F^{USD}$ and $W_X^{USD}$ have instantaneous correlation $\\rho$, meaning we can always decompose:\n$$dW_F^{USD} = \\rho\\, dW_X^{USD} + \\sqrt{1-\\rho^2}\\, dW_\\perp$$where $W_\\perp$ is a Brownian motion independent of $W_X^{USD}$. Applying the measure change $dW_X^{USD} = dW_X^{CAD} - \\sigma_X\\,dt$:\n$$dW_F^{USD} = \\rho(dW_X^{CAD} - \\sigma_X\\,dt) + \\sqrt{1-\\rho^2}\\,dW_\\perp = -\\rho\\,\\sigma_X\\,dt + \\rho\\,dW_X^{CAD} + \\sqrt{1-\\rho^2}\\,dW_\\perp$$The diffusion part $\\rho\\,dW_X^{CAD} + \\sqrt{1-\\rho^2}\\,dW_\\perp$ has instantaneous correlation $\\rho$ with $W_X^{CAD}$, which is exactly the definition of $dW_F^{CAD}$, so we write:\n$$dW_F^{USD} = -\\rho\\,\\sigma_X\\,dt + dW_F^{CAD}$$Substituting into the SDE for $F$:\n$$\\frac{dF}{F} = \\sigma_F\\,dW_F^{USD} = \\sigma_F\\!\\left(dW_F^{CAD} - \\rho\\,\\sigma_X\\,dt\\right)$$Under $\\mathbb{Q}^{CAD}$, $F$ therefore follows:\n$$\\frac{dF}{F} = -\\rho\\,\\sigma_F\\,\\sigma_X\\,dt + \\sigma_F\\,dW_F^{CAD}$$The drift $-\\rho\\,\\sigma_F\\,\\sigma_X$ is the quanto adjustment. It is a direct consequence of changing the measure of a correlated asset.\nThe Quanto Adjustment: Why It Exists Although the quanto adjustment $-\\rho\\,\\sigma_F\\,\\sigma_X$ emerges naturally from the measure change derivation, it is worth building an intuition for why it exists and why its magnitude takes the form it does. The hedging argument provides a clean economic explanation.\nConsider a bank that has sold a quanto forward to a client: at maturity the bank pays $F_T \\cdot \\bar{X}$ in CAD, where $\\bar{X}$ is the fixed exchange rate agreed at inception. To hedge, the bank goes long a regular WTI futures contract and converts the USD proceeds at the market rate $X_T$ at maturity, receiving $F_T \\cdot X_T$ in CAD.\nThe bank’s hedging P\u0026L is:\n$$F_T \\cdot X_T - F_T \\cdot \\bar{X} = F_T(X_T - \\bar{X})$$Setting $\\bar{X} = \\mathbb{E}[X_T]$ to simplify the illustration1, the expected hedging cost becomes:\n$$\\mathbb{E}[F_T(X_T - \\bar{X})] = \\mathbb{E}[F_T X_T] - \\mathbb{E}[F_T]\\,\\mathbb{E}[X_T] = \\text{Cov}(F_T, X_T)$$Since $\\rho \u003c 0$ for this pair, the covariance is negative: the simple hedge bleeds in expectation. To break even, the bank must charge the client a forward price above $F_0$. The required markup is determined by the covariance $\\text{Cov}(F_T, X_T) = \\rho \\sigma_F \\sigma_X T$\nIn continuous time, the bleeding accumulates at rate $\\rho\\,\\sigma_F\\,\\sigma_X$ per unit time proportionally to the current level of $F$, giving the SDE under $\\mathbb{Q}^{CAD}$:\n$$\\frac{dF}{F} = -\\rho\\,\\sigma_F\\,\\sigma_X\\,dt + \\sigma_F\\,dW_F^{CAD}$$Compounding this proportional drift over $T$ gives the quanto-adjusted forward, which we denote $F_0^*$:\n$$F_0^* \\equiv \\mathbb{E}^{\\mathbb{Q}^{CAD}}[F_T] = F_0 \\cdot e^{-\\rho\\,\\sigma_F\\,\\sigma_X\\,T}$$Since $\\rho \u003c 0$, the exponent is positive and $F_0^* \u003e F_0$. The more negative $\\rho$ is, and the larger $\\sigma_F$ and $\\sigma_X$ are, the more the simple hedge bleeds and the greater the adjustment required.\nPricing the Quanto Option The quanto call eliminates FX risk by fixing the conversion rate at $\\bar{X}$. The payoff is linear in F alone. Under $\\mathbb{Q}^{CAD}$, we need to price:\n$$V_{quanto} = \\bar{X} \\cdot e^{-r_d T} \\cdot \\mathbb{E}^{CAD}\\left[\\max(F_T - K, 0)\\right]$$Since F under $\\mathbb{Q}^{CAD}$ is lognormal with forward $F_0^*$ as derived above, applying the Black formula directly:\n$$V_{quanto} = \\bar{X} \\cdot e^{-r_d T} \\cdot \\left[F_0^*\\,N(d_1) - K\\,N(d_2)\\right]$$where:\n$$d_1 = \\frac{\\ln(F_0^*/K) + \\frac{1}{2}\\sigma_F^2\\,T}{\\sigma_F\\sqrt{T}}, \\qquad d_2 = d_1 - \\sigma_F\\sqrt{T}$$This is simply a Black formula with the oil future price replaced by $F_0^*$. The vol input is $\\sigma_F$ alone: FX volatility enters only through the correlation term absorbed into $F_0^*$, and a larger negative covariance results in a higher adjusted forward and a higher call value.\nPricing the Compo Option The compo payoff is $\\max(X_T F_T - K, 0)$ where K is in CAD. The key observation is that $X_T F_T$ is itself a lognormal under $\\mathbb{Q}^{CAD}$, since it is the product of two correlated lognormals. We define the CAD-denominated oil price:\n$$S_T = X_T F_T$$The SDE for $S_T$ follows from Itô’s lemma applied to the product of $X_T$ and $F_T$. Under $\\mathbb{Q}^{CAD}$:\n$$\\frac{dS}{S} = (r_d - r_f)\\,dt + \\sigma_X\\,dW_X^{CAD} + \\sigma_F\\,dW_F^{CAD}$$The cross term $\\rho\\sigma_X\\sigma_Fdt$ from Itô’s lemma exactly cancels the quanto drift. As a result, $S_T$ drifts at $(r_d - r_f)$. This reflects that $S_t$ is a USD-denominated commodity price expressed in CAD units, whose drift is governed by the relative pricing of USD and CAD under the CAD measure. The diffusion is driven jointly by $W_X^{CAD}$ and $W_F^{CAD}$.\nThe compo call is then simply a call on $S_T$ struck at K, all in CAD:\n$$V_{compo} = e^{-r_d T} \\cdot \\mathbb{E}^{\\mathbb{Q}^{CAD}}\\left[\\max(S_T - K, 0)\\right]$$To apply Black’s formula we need the forward and the volatility of $S_T$.\n$$S_0^{fwd} = F_0 \\cdot X_0\\,e^{(r_d - r_f)T}$$$$\\sigma_{compo} = \\sqrt{\\sigma_F^2 + 2\\rho\\,\\sigma_F\\,\\sigma_X + \\sigma_X^2}$$Applying Black’s formula directly to $S_T$:\n$$V_{compo} = e^{-r_d T}\\left[S_0^{fwd}\\,N(d_1^c) - K\\,N(d_2^c)\\right]$$where:\n$$d_1^c = \\frac{\\ln(S_0^{fwd}/K) + \\frac{1}{2}\\sigma_{compo}^2\\, T}{\\sigma_{compo}\\sqrt{T}}, \\qquad d_2^c = d_1^c - \\sigma_{compo}\\sqrt{T}$$The compo is a standard Black call on the CAD-denominated oil forward, with a composite vol that blends oil vol, FX vol, and their covariance. FX volatility enters quadratically, unlike through the drift as in the quanto.\nWhile it may seem that a higher FX vol always increases the compo vol, this is not always the case. Taking the derivative of $\\sigma_{compo}$ with respect to $\\sigma_X$:\n$$\\frac{\\partial\\,\\sigma_{compo}}{\\partial\\,\\sigma_X} = \\frac{\\sigma_X + \\rho\\,\\sigma_F}{\\sigma_{compo}}$$This is positive only when $\\sigma_X \u003e -\\rho\\,\\sigma_F$. When $\\rho$ is negative, increasing $\\sigma_X$ can decrease $\\sigma_{compo}$ because the negative cross term $2\\rho\\,\\sigma_F\\,\\sigma_X$ grows in magnitude faster than the $\\sigma_X^2$ term. Intuitively, when $\\rho \u003c 0$, oil and FX move in opposite directions, and large FX moves increasingly offset the oil moves in CAD terms. In an extreme case of large $\\sigma_X$ and very negative $\\rho$, the FX leg almost perfectly hedges the oil leg and $S_T$ barely moves at all. The compo option can therefore be cheaper than a plain oil option when correlation is sufficiently negative, reflecting the natural hedge between oil and CAD that was discussed in the quanto adjustment section.\nWhich Structure Suits Which Participant? Currency of Exposure The most fundamental question is what currency the participant’s exposure actually lives in. A Canadian producer or refiner whose budget constraint is a CAD breakeven price is asking “is oil above C$\\$130$?\" rather than \"is oil above \\$100 USD?”. For that participant the compo is the natural fit: the strike is set directly in their decision currency and the exercise decision aligns with their actual P\u0026L. The quanto can hedge the same oil exposure but the exercise is made in USD terms, introducing a mismatch against a CAD budget that the participant must then manage separately. Conversely, a fund reporting in CAD whose mandate is pure commodity exposure benefits from the quanto’s fixed conversion rate, which removes USD/CAD as a P\u0026L variable entirely and keeps the oil attribution clean.\nRelative Cost Once the currency question is settled, cost becomes the next consideration, and neither structure is universally cheaper. At $\\rho = 0$ the compo tends to be more expensive because it embeds FX risk directly into the payoff, raising the total volatility $\\sigma_{compo}$. But as $\\rho$ becomes more negative, the cross term in $\\sigma_{compo}$ works in the buyer’s favour, and for WTI/CAD where $\\rho$ is meaningfully negative and $\\sigma_F$ is substantially larger than $\\sigma_X$, the compo can be cheaper than the quanto. The crossover point where the compo premium falls below the quanto premium depends on the interplay between the compo vol reduction and the quanto forward adjustment $F_0^*$, and participants who are indifferent between the two payoff structures should price both under current market inputs before deciding.\nOperational Complexity Operational simplicity favours the quanto, particularly for corporate treasuries and smaller counterparties. Both structures require $\\sigma_F$, $\\sigma_X$, and $\\rho$, none of which are directly observable. But in the quanto, $\\rho$ enters only through the drift adjustment in $F_0^*$, and once that adjusted forward is computed the valuation reduces to a standard single-underlying Black formula. In the compo, $\\rho$ enters $\\sigma_{compo}$ directly and the sensitivity of the option value to correlation is more immediate and material, making independent marking harder for a treasury without a dedicated quant function. Beyond valuation, the cross-gamma and correlation risks discussed in the next section mean dealers may charge a wider bid-offer spread on the compo, which partially offsets any premium saving from the lower composite vol and should be factored into the all-in cost comparison.\nThe pricer below allows direct comparison of both structures under user-specified inputs. The hedging section that follows explains how dealers manage each once the trade is on.\nMarket inputs\nWTI futures price F_0 (USD/bbl) $75 USD/CAD spot X_0 (CAD per USD) 1.36 Fixed FX rate X̄ (quanto, CAD per USD) 1.36 Moneyness (% of adjusted forward) 100% (ATM) Volatility \u0026 correlation\nWTI vol σ_F 30% USD/CAD vol σ_X 8% Correlation ρ (F, X) −0.45 Rates \u0026 tenor\nDomestic rate r_d (CAD) 3.75% Foreign rate r_f (USD) 4.50% Tenor (months) 12 mo Quanto Compo Comparison Quanto put — payoff: X̄ · max(K − F_T, 0) in CAD\nQuanto-adjusted forward (USD/bbl)\n—\nStrike K (USD/bbl)\n—\nQuanto fwd adjustment\n—\nd_1\n—\nd_2\n—\nPut premium (USD/bbl)\n—\nPut premium in CAD (× X̄)\n—\nAs % of F_0 · X̄\n—\nCompo put — payoff: max(K − X_T · F_T, 0) in CAD\nCAD oil spot S_0 = F_0 · X_0\n—\nCAD oil forward S_0^fwd\n—\nStrike K (CAD/bbl)\n—\nComposite vol σ_compo\n—\nd_1\n—\nd_2\n—\nPut premium (CAD/bbl)\n—\nAs % of S_0\n—\n∂σ_compo / ∂σ_X\n—\nGreeks\nDelta (∂P/∂S_0)\n—\nVega (per 1% σ_F)\n—\nCorr sens (per +0.1 ρ)\n—\nFX delta (∂P/∂X_0)\n—\nBoth premiums in CAD/bbl\nQuanto (CAD/bbl)\n—\nCompo (CAD/bbl)\n—\nDifference (Q − C)\n—\nCheaper by\n—\nWhat drives the difference\nQuanto fwd adj exp(−ρσ_Fσ_X T)\n—\nVol used: quanto (σ_F)\n—\nVol used: compo (σ_compo)\n—\nHedging Each Structure Understanding which structure fits a given exposure is only half the picture. Once a dealer has sold either instrument, the more operationally demanding question is how to manage the risk through the life of the trade. The two structures present meaningfully different hedging problems.\nHedging the Quanto\nThe quanto call has only one source of price risk: the level of WTI. Because the exchange rate is fixed contractually, USD/CAD is not a risk factor and the dealer runs no FX delta. The delta hedge is therefore a straightforward position in WTI futures, sized to the Black delta evaluated at the quanto-adjusted forward. As WTI moves, the futures position is rebalanced in the usual way.\nAlthough there is no FX delta, a USD/CAD forward is still required for currency translation. The WTI futures position generates P\u0026L in USD while the liability to the option holder is in CAD. The dealer enters a USD/CAD forward sized to the expected dollar value of the futures position to convert those proceeds into CAD at a known rate. This forward is updated as the delta is rebalanced. It is a funding hedge rather than a risk-factor hedge. It does not arise from any sensitivity of the option value to the exchange rate, but from the operational mismatch between the currency of the hedging instrument and the currency of the liability.\nThe more subtle risk in the quanto is correlation between WTI returns and USD/CAD returns. Correlation enters the pricing formula through the drift of the oil forward under the CAD measure, and the dealer who sold the option carries residual exposure to shifts in this parameter. This is difficult to hedge because correlation is not directly traded. Pure correlation products such as covariance swaps exist but are often illiquid in the commoidty/FX market. In practice dealers manage correlation exposure within book limits, accepting that residual exposure will sit on the book as a managed risk. The sensitivity is relatively contained, however, because correlation enters only through the drift adjustment rather than through the volatility of the underlying itself.\nHedging the Compo\nThe compo is more complex because both WTI and USD/CAD are live risk factors. The payoff depends on the product $F \\cdot X$, so the dealer must run two delta hedges simultaneously: a WTI futures position and a USD/CAD forward position. The two hedges are coupled: the WTI delta is proportional to the current spot FX rate, and the FX delta is proportional to the current WTI forward. Every time one underlying moves, the hedge notional in the other leg must be updated. This cross-gamma cannot be fully eliminated with vanilla instruments, and is typically treated as a cost of carry priced into the bid-offer spread at inception.\nOn the volatility side, both WTI vol and FX vol enter $\\sigma_{compo}$, so the dealer carries independent vega in each. WTI vega is hedged with WTI options, and FX vega with USD/CAD options. As discussed in the pricing section, the sign of FX vega depends on $\\sigma_X + \\rho\\sigma_F$. For WTI/CAD where $\\rho \u003c 0$, this quantity can be negative, meaning the dealer who sold the option is long rather than short FX vega. Dealers must verify this sign before structuring the USD/CAD options overlay, as the positive-correlation intuition would produce a hedge in the wrong direction.\nCorrelation risk in the compo is more material than in the quanto because $\\rho$ enters $\\sigma_{compo}$ directly rather than just the drift. The instinctive view is that a dealer who sold a call is short correlation, since higher $\\rho$ increases $\\sigma_{compo}$ and raises the option value. But this reasoning imports a positive-correlation assumption silently. For WTI/CAD where $\\rho$ is negative, a move toward more positive correlation does hurt the dealer, while a further decline in correlation reduces $\\sigma_{compo}$ and benefits them. The direction of the exposure is not fixed: it depends on where $\\rho$ currently sits and which way it moves. As with the quanto, residual correlation risk is carried on the book and priced into the spread at inception.\nComparative Summary\nQuanto Compo WTI delta WTI futures at $F_0^*$ WTI futures; notional scales with spot FX FX hedge USD/CAD forward for P\u0026L translation only; not a risk-factor hedge USD/CAD forward as risk-factor delta hedge; notional scales with WTI forward Cross-gamma None Cannot be fully hedged with vanilla instruments; treated as cost of carry and priced into the spread WTI vega WTI options WTI options FX vega Enters only via $F_0^*$; less material than WTI vega for short-dated trades, but grows with tenor and correlation USD/CAD options; sign of exposure determined by $\\sigma_X + \\rho\\sigma_F$ Correlation risk Via drift; relatively contained Via $\\sigma_{compo}$; more material; sign depends on level of $\\rho$ Correlation hedge Residual book risk; priced into spread Residual book risk; priced into spread Overall complexity Moderate Higher; two coupled dynamic hedges A Note on Calibrating $\\rho$ Throughout this article, $\\rho$ appears in every formula and drives many of the key risk management decisions. In practice, calibrating it is less straightforward than calibrating $\\sigma_F$ or $\\sigma_X$, both of which can be implied from liquid option markets. Correlation has no directly quoted instrument. Dealers typically estimate $\\rho$ from historical return series, often using rolling windows of varying length and weighting schemes that emphasise recent observations. The choice of window, frequency, and whether to use spot or futures returns can produce meaningfully different estimates. Some desks supplement historical estimates with implied correlation backed out from traded cross-asset products where available, though for WTI/CAD such instruments are sparse. The resulting uncertainty in $\\rho$ is itself a source of model risk, and given how directly it enters both the quanto drift adjustment and the compo composite volatility, even modest miscalibration can shift prices and hedge ratios materially. This is one of the reasons dealers price correlation risk into the spread rather than attempting to hedge it precisely.\nWithout this simplification, the expected hedging cost contains an additional term $\\mathbb{E}[F_T](\\mathbb{E}[X_T] - \\bar{X})$. This term is purely deterministic since both $\\mathbb{E}[F_T]$ and $\\mathbb{E}[X_T]$ are known at inception and $\\bar{X}$ is a fixed contractual rate, and it vanishes when $\\bar{X} = \\mathbb{E}[X_T]$. The covariance term is the only irreducible source of hedging cost and is the true quanto effect. ↩︎\n",
+  "wordCount" : "3518",
+  "inLanguage": "en",
+  "datePublished": "2026-05-19T00:00:00Z",
+  "dateModified": "2026-05-19T00:00:00Z",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://leslie-ren.github.io/Inflection.Quant/articles/quanto_and_compo/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Inflection Quant Lab",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://leslie-ren.github.io/Inflection.Quant/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+<body id="top">
+    <header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://leslie-ren.github.io/Inflection.Quant/" accesskey="h" title="Inflection Quant Lab (Alt + H)">Inflection Quant Lab</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://leslie-ren.github.io/Inflection.Quant/articles/" title="Articles">
+                    <span>Articles</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://leslie-ren.github.io/Inflection.Quant/search/" title="Search (Alt &#43; /)" accesskey=/>
+                    <span>Search</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://leslie-ren.github.io/Inflection.Quant/">Home</a>&nbsp;»&nbsp;<a href="https://leslie-ren.github.io/Inflection.Quant/articles/">Articles</a></div>
+    <h1 class="post-title entry-hint-parent">
+      Quanto and Compo Commodity Options: FX&#39;s Hidden Role in Pricing and Risk
+    </h1>
+    <div class="post-meta"><span title='2026-05-19 00:00:00 +0000 UTC'>May 19, 2026</span>
+
+</div>
+  </header> 
+  <div class="post-content"><h2 id="why-this-matters">Why This Matters<a hidden class="anchor" aria-hidden="true" href="#why-this-matters">#</a></h2>
+<p>Many of the world&rsquo;s most actively traded commodities are priced in USD, yet end investors and corporates often operate in other currencies. A Canadian oil producer hedging output, a European airline managing jet fuel costs, or an Asian sovereign wealth fund allocating to commodity exposure all face the same underlying issue: commodity risk does not exist in isolation from FX risk. The standard approach is to hedge the commodity leg with USD-denominated futures or swaps and manage FX separately through forwards or options. This works, but it treats the two risks as independent. Quanto and compo options take a different approach by packaging both risks into a single instrument, but the way each handles FX risk creates some pricing and hedging subtleties that I find are easy to miss.</p>
+<p>This article works through both structures using WTI/CAD as an example and focuses on a few practical questions:</p>
+<blockquote>
+<ul>
+<li>Why does the quanto adjustment exist and what drives its magnitude?</li>
+<li>How do FX volatility and correlation enter the pricing of each structure, and why do they enter differently?</li>
+<li>When does each structure suit a given participant?</li>
+<li>How do dealers hedge each structure, and which risks are hardest to manage?</li>
+</ul>
+</blockquote>
+<hr>
+<h2 id="payoff-structures">Payoff Structures<a hidden class="anchor" aria-hidden="true" href="#payoff-structures">#</a></h2>
+<p>We work with two assets throughout this article. Let F denote the USD price of WTI crude futures, and let X denote the spot USDCAD exchange rate, quoted as Canadian dollars per one US dollar. A call option struck at K has payoff at expiry T as follows.</p>
+<p><strong>Quanto Call</strong></p>
+$$\text{Quanto Payoff} = \bar{X} \cdot \max(F_T - K, 0)$$<p>where $\bar{X}$ is a fixed exchange rate agreed at inception. The buyer receives the intrinsic value of the oil option, converted at a predetermined rate, regardless of where USDCAD trades at expiry. The FX rate is contractually frozen.</p>
+<p><strong>Compo Call</strong></p>
+$$\text{Compo Payoff} = \max(X_T F_T - K, 0)$$<p>where K is denominated in CAD. Here the oil price is first converted to CAD at the prevailing spot rate $X_T$, and the option is exercised based on whether that CAD-denominated oil price exceeds the CAD strike. The option is in the money only if the full currency-converted price clears the hurdle. Both oil moves and FX moves determine whether and by how much the option pays.</p>
+<p>The distinction is obvious. In the quanto, the buyer has pure oil exposure with zero residual FX risk: FX only affects the fixed conversion notional. In the compo, the strike itself is in CAD, so a weakening USD can push the option out of the money even if oil rises in USD terms, and a strengthening USD can push the option into the money even if oil is flat. The exercise decision and the payoff magnitude are both affected by FX. The compo is inherently a two-dimensional product.</p>
+<hr>
+<h2 id="dynamics-of-f-and-x-under-the-cad-risk-neutral-measure">Dynamics of F and X Under the CAD Risk-Neutral Measure<a hidden class="anchor" aria-hidden="true" href="#dynamics-of-f-and-x-under-the-cad-risk-neutral-measure">#</a></h2>
+<p>To price these instruments consistently we must work under a single measure. Since payoffs are denominated in CAD, we use the CAD risk-neutral measure $\mathbb{Q}^{CAD}$.</p>
+<p>Let $r_d$ be the CAD interest rate and $r_f$ be the USD interest rate. Under $\mathbb{Q}^{CAD}$:</p>
+$$\frac{dX}{X} = (r_d - r_f)\,dt + \sigma_X\,dW_X^{CAD}$$<p>This is standard: the drift of USDCAD under the domestic (CAD) measure equals the interest rate differential, and $\sigma_X$ is the FX volatility.</p>
+<p>For WTI futures, the natural starting point is the USD risk-neutral measure $\mathbb{Q}^{USD}$. Under $\mathbb{Q}^{USD}$, futures are martingales by no-arbitrage, so F is driftless:</p>
+$$\frac{dF}{F} = \sigma_F\,dW_F^{USD}$$<p>The two Brownian motions $W_F^{USD}$ and $W_X^{USD}$ have instantaneous correlation $\rho$:</p>
+$$dW_F^{USD}\,dW_X^{USD} = \rho\,dt$$<p>Since X is quoted as CAD per USD, a rally in oil that strengthens CAD causes USDCAD to fall. This is not incidental: Canada is one of the world&rsquo;s largest oil exporters, and CAD is widely regarded as a petrocurrency whose value is closely tied to energy prices. Oil returns and USDCAD returns therefore move in opposite directions systematically, giving $\rho < 0$ for this pair.</p>
+<p>Since measure change only adds a drift and leaves quadratic covariation unchanged, $\rho$ is invariant under the measure change. The same correlation holds under $\mathbb{Q}^{CAD}$:</p>
+$$dW_F^{CAD}\,dW_X^{CAD} = \rho\,dt$$<p>Since our payoffs are denominated in CAD, we need to express $F$ under $\mathbb{Q}^{CAD}$ rather than $\mathbb{Q}^{USD}$. The key result is that under $\mathbb{Q}^{CAD}$, $F$ is no longer driftless but acquires a drift of $-\rho\,\sigma_F\,\sigma_X$, known as the quanto adjustment. This drift arises entirely from the correlation between $F$ and $X$ and would vanish if the two were independent.</p>
+<p>The derivation below shows how this drift emerges from the Radon-Nikodym derivative linking the two measures. Readers comfortable with the result can skip ahead to the next section.</p>
+<details>
+<summary>Derivation: measure change from $\mathbb{Q}^{USD}$ to $\mathbb{Q}^{CAD}$</summary>
+<p>To move from $\mathbb{Q}^{USD}$ to $\mathbb{Q}^{CAD}$ we need the Radon-Nikodym derivative linking the two measures (See <a href="../../Inflection.Quant/articles/change_of_numeraire/">this article</a> for the general change-of-numeraire framework). The USD and CAD risk-neutral measures are both obtained by discounting with their respective money market accounts, and the exchange rate X connects them. The Radon-Nikodym derivative is proportional to the ratio of the USD and CAD numeraires expressed in a common currency:</p>
+$$\frac{d\mathbb{Q}^{USD}}{d\mathbb{Q}^{CAD}}\bigg|_T = \frac{X_T / X_0}{e^{(r_d - r_f)T}}$$<p>This is the value at time T of one unit of USDCAD forward, normalized to start at 1. Since X follows geometric Brownian motion under $\mathbb{Q}^{CAD}$, we can write this Radon-Nikodym derivative explicitly as:</p>
+$$\left.\frac{d\mathbb{Q}^{USD}}{d\mathbb{Q}^{CAD}}\right|_T = \exp\!\left(-\frac{1}{2}\sigma_X^2 T + \sigma_X W_X^{CAD}(T)\right)$$<p>This is the standard Girsanov density for a constant shift $\sigma_X$. The Radon-Nikodym derivative is driven entirely by $W_X^{CAD}$, the Brownian motion of the exchange rate process. By Girsanov&rsquo;s theorem, $W_X^{CAD}$ acquires a drift when we move to $\mathbb{Q}^{USD}$:</p>
+$$dW_X^{USD} = dW_X^{CAD} - \sigma_X\, dt$$<p><strong>Why F Acquires a Drift</strong></p>
+<p>The Brownian motions $W_F^{USD}$ and $W_X^{USD}$ have instantaneous correlation $\rho$, meaning we can always decompose:</p>
+$$dW_F^{USD} = \rho\, dW_X^{USD} + \sqrt{1-\rho^2}\, dW_\perp$$<p>where $W_\perp$ is a Brownian motion independent of $W_X^{USD}$. Applying the measure change $dW_X^{USD} = dW_X^{CAD} - \sigma_X\,dt$:</p>
+$$dW_F^{USD} = \rho(dW_X^{CAD} - \sigma_X\,dt) + \sqrt{1-\rho^2}\,dW_\perp = -\rho\,\sigma_X\,dt + \rho\,dW_X^{CAD} + \sqrt{1-\rho^2}\,dW_\perp$$<p>The diffusion part $\rho\,dW_X^{CAD} + \sqrt{1-\rho^2}\,dW_\perp$ has instantaneous correlation $\rho$ with $W_X^{CAD}$, which is exactly the definition of $dW_F^{CAD}$, so we write:</p>
+$$dW_F^{USD} = -\rho\,\sigma_X\,dt + dW_F^{CAD}$$<p>Substituting into the SDE for $F$:</p>
+$$\frac{dF}{F} = \sigma_F\,dW_F^{USD} = \sigma_F\!\left(dW_F^{CAD} - \rho\,\sigma_X\,dt\right)$$<p>Under $\mathbb{Q}^{CAD}$, $F$ therefore follows:</p>
+$$\frac{dF}{F} = -\rho\,\sigma_F\,\sigma_X\,dt + \sigma_F\,dW_F^{CAD}$$<p>The drift $-\rho\,\sigma_F\,\sigma_X$ is the quanto adjustment. It is a direct consequence of changing the measure of a correlated asset.</p>
+</details>
+<hr>
+<h2 id="the-quanto-adjustment-why-it-exists">The Quanto Adjustment: Why It Exists<a hidden class="anchor" aria-hidden="true" href="#the-quanto-adjustment-why-it-exists">#</a></h2>
+<p>Although the quanto adjustment $-\rho\,\sigma_F\,\sigma_X$ emerges naturally from the measure change derivation, it is worth building an intuition for why it exists and why its magnitude takes the form it does. The hedging argument provides a clean economic explanation.</p>
+<p>Consider a bank that has sold a quanto forward to a client: at maturity the bank pays $F_T \cdot \bar{X}$ in CAD, where $\bar{X}$ is the fixed exchange rate agreed at inception. To hedge, the bank goes long a regular WTI futures contract and converts the USD proceeds at the market rate $X_T$ at maturity, receiving $F_T \cdot X_T$ in CAD.</p>
+<p>The bank&rsquo;s hedging P&amp;L is:</p>
+$$F_T \cdot X_T - F_T \cdot \bar{X} = F_T(X_T - \bar{X})$$<p>Setting $\bar{X} = \mathbb{E}[X_T]$ to simplify the illustration<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>, the expected hedging cost becomes:</p>
+$$\mathbb{E}[F_T(X_T - \bar{X})] = \mathbb{E}[F_T X_T] - \mathbb{E}[F_T]\,\mathbb{E}[X_T] = \text{Cov}(F_T, X_T)$$<p>Since $\rho < 0$ for this pair, the covariance is negative: the simple hedge bleeds in expectation. To break even, the bank must charge the client a forward price above $F_0$. The required markup is determined by the covariance $\text{Cov}(F_T, X_T) = \rho \sigma_F \sigma_X T$</p>
+<p>In continuous time, the bleeding accumulates at rate $\rho\,\sigma_F\,\sigma_X$ per unit time proportionally to the current level of $F$, giving the SDE under $\mathbb{Q}^{CAD}$:</p>
+$$\frac{dF}{F} = -\rho\,\sigma_F\,\sigma_X\,dt + \sigma_F\,dW_F^{CAD}$$<p>Compounding this proportional drift over $T$ gives the quanto-adjusted forward, which we denote $F_0^*$:</p>
+$$F_0^* \equiv \mathbb{E}^{\mathbb{Q}^{CAD}}[F_T] = F_0 \cdot e^{-\rho\,\sigma_F\,\sigma_X\,T}$$<p>Since $\rho < 0$, the exponent is positive and $F_0^* > F_0$. The more negative $\rho$ is, and the larger $\sigma_F$ and $\sigma_X$ are, the more the simple hedge bleeds and the greater the adjustment required.</p>
+<hr>
+<h2 id="pricing-the-quanto-option">Pricing the Quanto Option<a hidden class="anchor" aria-hidden="true" href="#pricing-the-quanto-option">#</a></h2>
+<p>The quanto call eliminates FX risk by fixing the conversion rate at $\bar{X}$. The payoff is linear in F alone. Under $\mathbb{Q}^{CAD}$, we need to price:</p>
+$$V_{quanto} = \bar{X} \cdot e^{-r_d T} \cdot \mathbb{E}^{CAD}\left[\max(F_T - K, 0)\right]$$<p>Since F under $\mathbb{Q}^{CAD}$ is lognormal with forward $F_0^*$ as derived above, applying the Black formula directly:</p>
+$$V_{quanto} = \bar{X} \cdot e^{-r_d T} \cdot \left[F_0^*\,N(d_1) - K\,N(d_2)\right]$$<p>where:</p>
+$$d_1 = \frac{\ln(F_0^*/K) + \frac{1}{2}\sigma_F^2\,T}{\sigma_F\sqrt{T}}, \qquad d_2 = d_1 - \sigma_F\sqrt{T}$$<p>This is simply a Black formula with the oil future price replaced by $F_0^*$. The vol input is $\sigma_F$ alone: FX volatility enters only through the correlation term absorbed into $F_0^*$, and a larger negative covariance results in a higher adjusted forward and a higher call value.</p>
+<hr>
+<h2 id="pricing-the-compo-option">Pricing the Compo Option<a hidden class="anchor" aria-hidden="true" href="#pricing-the-compo-option">#</a></h2>
+<p>The compo payoff is $\max(X_T F_T - K, 0)$ where K is in CAD. The key observation is that $X_T F_T$ is itself a lognormal under $\mathbb{Q}^{CAD}$, since it is the product of two correlated lognormals. We define the CAD-denominated oil price:</p>
+$$S_T = X_T F_T$$<p>The SDE for $S_T$ follows from Itô&rsquo;s lemma applied to the product of $X_T$ and $F_T$. Under $\mathbb{Q}^{CAD}$:</p>
+$$\frac{dS}{S} = (r_d - r_f)\,dt + \sigma_X\,dW_X^{CAD} + \sigma_F\,dW_F^{CAD}$$<p>The cross term $\rho\sigma_X\sigma_Fdt$ from Itô&rsquo;s lemma exactly cancels the quanto drift. As a result, $S_T$ drifts at $(r_d - r_f)$. This reflects that $S_t$ is a USD-denominated commodity price expressed in CAD units, whose drift is governed by the relative pricing of USD and CAD under the CAD measure. The diffusion is driven jointly by $W_X^{CAD}$ and $W_F^{CAD}$.</p>
+<p>The compo call is then simply a call on $S_T$ struck at K, all in CAD:</p>
+$$V_{compo} = e^{-r_d T} \cdot \mathbb{E}^{\mathbb{Q}^{CAD}}\left[\max(S_T - K, 0)\right]$$<p>To apply Black&rsquo;s formula we need the forward and the volatility of $S_T$.</p>
+$$S_0^{fwd} = F_0 \cdot X_0\,e^{(r_d - r_f)T}$$$$\sigma_{compo} = \sqrt{\sigma_F^2 + 2\rho\,\sigma_F\,\sigma_X + \sigma_X^2}$$<p>Applying Black&rsquo;s formula directly to $S_T$:</p>
+$$V_{compo} = e^{-r_d T}\left[S_0^{fwd}\,N(d_1^c) - K\,N(d_2^c)\right]$$<p>where:</p>
+$$d_1^c = \frac{\ln(S_0^{fwd}/K) + \frac{1}{2}\sigma_{compo}^2\, T}{\sigma_{compo}\sqrt{T}}, \qquad d_2^c = d_1^c - \sigma_{compo}\sqrt{T}$$<p>The compo is a standard Black call on the CAD-denominated oil forward, with a composite vol that blends oil vol, FX vol, and their covariance. FX volatility enters quadratically, unlike through the drift as in the quanto.</p>
+<p>While it may seem that a higher FX vol always increases the compo vol, this is not always the case. Taking the derivative of $\sigma_{compo}$ with respect to $\sigma_X$:</p>
+$$\frac{\partial\,\sigma_{compo}}{\partial\,\sigma_X} = \frac{\sigma_X + \rho\,\sigma_F}{\sigma_{compo}}$$<p>This is positive only when $\sigma_X > -\rho\,\sigma_F$. When $\rho$ is negative, increasing $\sigma_X$ can decrease $\sigma_{compo}$ because the negative cross term $2\rho\,\sigma_F\,\sigma_X$ grows in magnitude faster than the $\sigma_X^2$ term. Intuitively, when $\rho < 0$, oil and FX move in opposite directions, and large FX moves increasingly offset the oil moves in CAD terms. In an extreme case of large $\sigma_X$ and very negative $\rho$, the FX leg almost perfectly hedges the oil leg and $S_T$ barely moves at all. The compo option can therefore be cheaper than a plain oil option when correlation is sufficiently negative, reflecting the natural hedge between oil and CAD that was discussed in the quanto adjustment section.</p>
+<hr>
+<h1 id="which-structure-suits-which-participant">Which Structure Suits Which Participant?<a hidden class="anchor" aria-hidden="true" href="#which-structure-suits-which-participant">#</a></h1>
+<h3 id="currency-of-exposure">Currency of Exposure<a hidden class="anchor" aria-hidden="true" href="#currency-of-exposure">#</a></h3>
+<p>The most fundamental question is what currency the participant&rsquo;s exposure actually lives in. A Canadian producer or refiner whose budget constraint is a CAD breakeven price is asking &ldquo;is oil above C$\$130$?" rather than "is oil above \$100 USD?&rdquo;. For that participant the compo is the natural fit: the strike is set directly in their decision currency and the exercise decision aligns with their actual P&amp;L. The quanto can hedge the same oil exposure but the exercise is made in USD terms, introducing a mismatch against a CAD budget that the participant must then manage separately. Conversely, a fund reporting in CAD whose mandate is pure commodity exposure benefits from the quanto&rsquo;s fixed conversion rate, which removes USD/CAD as a P&amp;L variable entirely and keeps the oil attribution clean.</p>
+<h3 id="relative-cost">Relative Cost<a hidden class="anchor" aria-hidden="true" href="#relative-cost">#</a></h3>
+<p>Once the currency question is settled, cost becomes the next consideration, and neither structure is universally cheaper. At $\rho = 0$ the compo tends to be more expensive because it embeds FX risk directly into the payoff, raising the total volatility $\sigma_{compo}$. But as $\rho$ becomes more negative, the cross term in $\sigma_{compo}$ works in the buyer&rsquo;s favour, and for WTI/CAD where $\rho$ is meaningfully negative and $\sigma_F$ is substantially larger than $\sigma_X$, the compo can be cheaper than the quanto. The crossover point where the compo premium falls below the quanto premium depends on the interplay between the compo vol reduction and the quanto forward adjustment $F_0^*$, and participants who are indifferent between the two payoff structures should price both under current market inputs before deciding.</p>
+<h3 id="operational-complexity">Operational Complexity<a hidden class="anchor" aria-hidden="true" href="#operational-complexity">#</a></h3>
+<p>Operational simplicity favours the quanto, particularly for corporate treasuries and smaller counterparties. Both structures require $\sigma_F$, $\sigma_X$, and $\rho$, none of which are directly observable. But in the quanto, $\rho$ enters only through the drift adjustment in $F_0^*$, and once that adjusted forward is computed the valuation reduces to a standard single-underlying Black formula. In the compo, $\rho$ enters $\sigma_{compo}$ directly and the sensitivity of the option value to correlation is more immediate and material, making independent marking harder for a treasury without a dedicated quant function. Beyond valuation, the cross-gamma and correlation risks discussed in the next section mean dealers may charge a wider bid-offer spread on the compo, which partially offsets any premium saving from the lower composite vol and should be factored into the all-in cost comparison.</p>
+<p>The pricer below allows direct comparison of both structures under user-specified inputs. The hedging section that follows explains how dealers manage each once the trade is on.</p>
+<style>
+  .cq-wrap { font-family: inherit; font-size: 14px; color: var(--primary); }
+  .cq-card { background: var(--entry); border: 1px solid var(--border); border-radius: 8px; padding: 1rem 1.25rem; margin-bottom: 14px; }
+  .cq-section-title { font-size: 11px; font-weight: 600; color: var(--secondary); text-transform: uppercase; letter-spacing: 0.05em; margin: 0 0 12px; }
+  .cq-grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .cq-grid3 { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 8px; }
+  .cq-grid4 { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 8px; }
+  .cq-metric { background: var(--theme); border: 1px solid var(--border); border-radius: 6px; padding: 10px 12px; }
+  .cq-metric-label { font-size: 11px; color: var(--secondary); margin: 0 0 4px; }
+  .cq-metric-value { font-size: 18px; font-weight: 600; margin: 0; color: var(--primary); }
+  .cq-param-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+  .cq-param-label { font-size: 13px; color: var(--secondary); width: 210px; flex-shrink: 0; }
+  .cq-param-val { font-size: 13px; font-weight: 600; min-width: 62px; text-align: right; color: var(--primary); }
+  .cq-param-row input[type=range] { flex: 1; accent-color: var(--primary); }
+  .cq-divider { border: none; border-top: 1px solid var(--border); margin: 14px 0; }
+  .cq-note { font-size: 11px; color: var(--secondary); margin-top: 8px; font-family: monospace; line-height: 1.7; }
+  .cq-verdict { border-radius: 6px; padding: 10px 14px; margin-top: 12px; display: flex; justify-content: space-between; align-items: center; border: 1px solid var(--border); border-left-width: 4px; background: var(--theme); gap: 12px; }
+  .cq-verdict-text { font-size: 14px; font-weight: 600; color: var(--primary); white-space: nowrap; }
+  .cq-verdict-reason { font-size: 12px; color: var(--secondary); text-align: right; }
+  .cq-tabs { display: flex; gap: 0; margin-bottom: -1px; position: relative; z-index: 1; }
+  .cq-tab { padding: 8px 18px; font-size: 13px; font-weight: 500; cursor: pointer; border: 1px solid var(--border); border-bottom: none; border-radius: 6px 6px 0 0; background: var(--theme); color: var(--secondary); user-select: none; margin-right: 4px; }
+  .cq-tab.active { background: var(--entry); color: var(--primary); border-bottom: 1px solid var(--entry); }
+  .cq-tab-content { display: none; background: var(--entry); border: 1px solid var(--border); border-radius: 0 8px 8px 8px; padding: 1.25rem; margin-bottom: 14px; }
+  .cq-tab-content.active { display: block; }
+</style>
+
+<div class="cq-wrap">
+
+  <div class="cq-card">
+    <p class="cq-section-title">Market inputs</p>
+    <div class="cq-param-row">
+      <span class="cq-param-label">WTI futures price F_0 (USD/bbl)</span>
+      <input type="range" min="50" max="120" value="75" step="1" id="cq_f0">
+      <span class="cq-param-val" id="cq_f0_v">$75</span>
+    </div>
+    <div class="cq-param-row">
+      <span class="cq-param-label">USD/CAD spot X_0 (CAD per USD)</span>
+      <input type="range" min="1.20" max="1.50" value="1.36" step="0.01" id="cq_x0">
+      <span class="cq-param-val" id="cq_x0_v">1.36</span>
+    </div>
+    <div class="cq-param-row">
+      <span class="cq-param-label">Fixed FX rate X̄ (quanto, CAD per USD)</span>
+      <input type="range" min="1.20" max="1.50" value="1.36" step="0.01" id="cq_xbar">
+      <span class="cq-param-val" id="cq_xbar_v">1.36</span>
+    </div>
+    <div class="cq-param-row">
+      <span class="cq-param-label">Moneyness (% of adjusted forward)</span>
+      <input type="range" min="80" max="105" value="100" step="1" id="cq_mon">
+      <span class="cq-param-val" id="cq_mon_v">100% (ATM)</span>
+    </div>
+    <hr class="cq-divider">
+    <p class="cq-section-title">Volatility &amp; correlation</p>
+    <div class="cq-param-row">
+      <span class="cq-param-label">WTI vol σ_F</span>
+      <input type="range" min="15" max="50" value="30" step="1" id="cq_vol_f">
+      <span class="cq-param-val" id="cq_vol_f_v">30%</span>
+    </div>
+    <div class="cq-param-row">
+      <span class="cq-param-label">USD/CAD vol σ_X</span>
+      <input type="range" min="4" max="15" value="8" step="0.5" id="cq_vol_x">
+      <span class="cq-param-val" id="cq_vol_x_v">8%</span>
+    </div>
+    <div class="cq-param-row">
+      <span class="cq-param-label">Correlation ρ (F, X)</span>
+      <input type="range" min="-0.80" max="0.20" value="-0.45" step="0.05" id="cq_rho">
+      <span class="cq-param-val" id="cq_rho_v">−0.45</span>
+    </div>
+    <hr class="cq-divider">
+    <p class="cq-section-title">Rates &amp; tenor</p>
+    <div class="cq-param-row">
+      <span class="cq-param-label">Domestic rate r_d (CAD)</span>
+      <input type="range" min="2" max="6" value="3.75" step="0.25" id="cq_rd">
+      <span class="cq-param-val" id="cq_rd_v">3.75%</span>
+    </div>
+    <div class="cq-param-row">
+      <span class="cq-param-label">Foreign rate r_f (USD)</span>
+      <input type="range" min="2" max="6" value="4.50" step="0.25" id="cq_rf">
+      <span class="cq-param-val" id="cq_rf_v">4.50%</span>
+    </div>
+    <div class="cq-param-row">
+      <span class="cq-param-label">Tenor (months)</span>
+      <input type="range" min="1" max="24" value="12" step="1" id="cq_tenor">
+      <span class="cq-param-val" id="cq_tenor_v">12 mo</span>
+    </div>
+  </div>
+
+  <div class="cq-tabs">
+    <div class="cq-tab active" onclick="cqTab('quanto',this)">Quanto</div>
+    <div class="cq-tab" onclick="cqTab('compo',this)">Compo</div>
+    <div class="cq-tab" onclick="cqTab('compare',this)">Comparison</div>
+  </div>
+
+  
+  <div class="cq-tab-content active" id="cq_tab_quanto">
+    <p class="cq-section-title">Quanto put — payoff: X̄ · max(K − F_T, 0) in CAD</p>
+    <div class="cq-grid3" style="margin-bottom:8px;">
+      <div class="cq-metric">
+        <p class="cq-metric-label">Quanto-adjusted forward (USD/bbl)</p>
+        <p class="cq-metric-value" id="cq_q_fadj">—</p>
+      </div>
+      <div class="cq-metric">
+        <p class="cq-metric-label">Strike K (USD/bbl)</p>
+        <p class="cq-metric-value" id="cq_q_strike">—</p>
+      </div>
+      <div class="cq-metric">
+        <p class="cq-metric-label">Quanto fwd adjustment</p>
+        <p class="cq-metric-value" id="cq_q_adj_pct">—</p>
+      </div>
+    </div>
+    <div class="cq-grid3">
+      <div class="cq-metric">
+        <p class="cq-metric-label">d_1</p>
+        <p class="cq-metric-value" id="cq_q_d1">—</p>
+      </div>
+      <div class="cq-metric">
+        <p class="cq-metric-label">d_2</p>
+        <p class="cq-metric-value" id="cq_q_d2">—</p>
+      </div>
+      <div class="cq-metric">
+        <p class="cq-metric-label">Put premium (USD/bbl)</p>
+        <p class="cq-metric-value" id="cq_q_prem_usd">—</p>
+      </div>
+    </div>
+    <div class="cq-grid2" style="margin-top:8px;">
+      <div class="cq-metric">
+        <p class="cq-metric-label">Put premium in CAD (× X̄)</p>
+        <p class="cq-metric-value" id="cq_q_prem_cad">—</p>
+      </div>
+      <div class="cq-metric">
+        <p class="cq-metric-label">As % of F_0 · X̄</p>
+        <p class="cq-metric-value" id="cq_q_pct">—</p>
+      </div>
+    </div>
+
+  </div>
+
+  
+  <div class="cq-tab-content" id="cq_tab_compo">
+    <p class="cq-section-title">Compo put — payoff: max(K − X_T · F_T, 0) in CAD</p>
+    <div class="cq-grid3" style="margin-bottom:8px;">
+      <div class="cq-metric">
+        <p class="cq-metric-label">CAD oil spot S_0 = F_0 · X_0</p>
+        <p class="cq-metric-value" id="cq_c_s0">—</p>
+      </div>
+      <div class="cq-metric">
+        <p class="cq-metric-label">CAD oil forward S_0^fwd</p>
+        <p class="cq-metric-value" id="cq_c_fwd">—</p>
+      </div>
+      <div class="cq-metric">
+        <p class="cq-metric-label">Strike K (CAD/bbl)</p>
+        <p class="cq-metric-value" id="cq_c_strike">—</p>
+      </div>
+    </div>
+    <div class="cq-grid3" style="margin-bottom:8px;">
+      <div class="cq-metric">
+        <p class="cq-metric-label">Composite vol σ_compo</p>
+        <p class="cq-metric-value" id="cq_c_vol">—</p>
+      </div>
+      <div class="cq-metric">
+        <p class="cq-metric-label">d_1</p>
+        <p class="cq-metric-value" id="cq_c_d1">—</p>
+      </div>
+      <div class="cq-metric">
+        <p class="cq-metric-label">d_2</p>
+        <p class="cq-metric-value" id="cq_c_d2">—</p>
+      </div>
+    </div>
+    <div class="cq-grid3" style="margin-bottom:8px;">
+      <div class="cq-metric">
+        <p class="cq-metric-label">Put premium (CAD/bbl)</p>
+        <p class="cq-metric-value" id="cq_c_prem">—</p>
+      </div>
+      <div class="cq-metric">
+        <p class="cq-metric-label">As % of S_0</p>
+        <p class="cq-metric-value" id="cq_c_pct">—</p>
+      </div>
+      <div class="cq-metric">
+        <p class="cq-metric-label">∂σ_compo / ∂σ_X</p>
+        <p class="cq-metric-value" id="cq_c_dsig">—</p>
+      </div>
+    </div>
+    <hr class="cq-divider">
+    <p class="cq-section-title">Greeks</p>
+    <div class="cq-grid4">
+      <div class="cq-metric">
+        <p class="cq-metric-label">Delta (∂P/∂S_0)</p>
+        <p class="cq-metric-value" id="cq_g_delta">—</p>
+      </div>
+      <div class="cq-metric">
+        <p class="cq-metric-label">Vega (per 1% σ_F)</p>
+        <p class="cq-metric-value" id="cq_g_vega">—</p>
+      </div>
+      <div class="cq-metric">
+        <p class="cq-metric-label">Corr sens (per +0.1 ρ)</p>
+        <p class="cq-metric-value" id="cq_g_rho">—</p>
+      </div>
+      <div class="cq-metric">
+        <p class="cq-metric-label">FX delta (∂P/∂X_0)</p>
+        <p class="cq-metric-value" id="cq_g_fxdelta">—</p>
+      </div>
+    </div>
+
+  </div>
+
+  
+  <div class="cq-tab-content" id="cq_tab_compare">
+    <p class="cq-section-title">Both premiums in CAD/bbl</p>
+    <div class="cq-grid4" style="margin-bottom:8px;">
+      <div class="cq-metric">
+        <p class="cq-metric-label">Quanto (CAD/bbl)</p>
+        <p class="cq-metric-value" id="cq_res_q">—</p>
+      </div>
+      <div class="cq-metric">
+        <p class="cq-metric-label">Compo (CAD/bbl)</p>
+        <p class="cq-metric-value" id="cq_res_c">—</p>
+      </div>
+      <div class="cq-metric">
+        <p class="cq-metric-label">Difference (Q − C)</p>
+        <p class="cq-metric-value" id="cq_res_diff">—</p>
+      </div>
+      <div class="cq-metric">
+        <p class="cq-metric-label">Cheaper by</p>
+        <p class="cq-metric-value" id="cq_res_pct">—</p>
+      </div>
+    </div>
+    <div class="cq-verdict" id="cq_verdict_row">
+      <span class="cq-verdict-text" id="cq_verdict_text"></span>
+      <span class="cq-verdict-reason" id="cq_verdict_reason"></span>
+    </div>
+    <hr class="cq-divider">
+    <p class="cq-section-title">What drives the difference</p>
+    <div class="cq-grid3">
+      <div class="cq-metric">
+        <p class="cq-metric-label">Quanto fwd adj exp(−ρσ_Fσ_X T)</p>
+        <p class="cq-metric-value" id="cq_cmp_qadj">—</p>
+      </div>
+      <div class="cq-metric">
+        <p class="cq-metric-label">Vol used: quanto (σ_F)</p>
+        <p class="cq-metric-value" id="cq_cmp_vq">—</p>
+      </div>
+      <div class="cq-metric">
+        <p class="cq-metric-label">Vol used: compo (σ_compo)</p>
+        <p class="cq-metric-value" id="cq_cmp_vc">—</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+(function(){
+  function norm(x){
+    var a1=0.254829592,a2=-0.284496736,a3=1.421413741,a4=-1.453152027,a5=1.061405429,p=0.3275911;
+    var sign=x<0?-1:1,t=1/(1+p*Math.abs(x));
+    var y=1-(((((a5*t+a4)*t)+a3)*t+a2)*t+a1)*t*Math.exp(-x*x/2);
+    return 0.5*(1+sign*y);
+  }
+  function g(id){ return document.getElementById(id); }
+  function s(id,v){ g(id).textContent=v; }
+
+  function compute(){
+    var F0    = +g('cq_f0').value;
+    var X0    = +g('cq_x0').value;
+    var Xbar  = +g('cq_xbar').value;
+    var mon   = +g('cq_mon').value/100;
+    var sF    = +g('cq_vol_f').value/100;
+    var sX    = +g('cq_vol_x').value/100;
+    var rho   = +g('cq_rho').value;
+    var rd    = +g('cq_rd').value/100;
+    var rf    = +g('cq_rf').value/100;
+    var T     = +g('cq_tenor').value/12;
+
+    
+    
+    var F_adj = F0 * Math.exp(-rho * sF * sX * T);
+    var K_q   = F_adj * mon;
+    
+    var d1_q  = (Math.log(F0/K_q) - rho*sF*sX*T + 0.5*sF*sF*T) / (sF*Math.sqrt(T));
+    var d2_q  = d1_q - sF*Math.sqrt(T);
+    
+    var prem_q_usd = Math.exp(-rd*T) * (K_q*norm(-d2_q) - F_adj*norm(-d1_q));
+    var prem_q_cad = prem_q_usd * Xbar;
+    var qadj_pct   = (Math.exp(-rho*sF*sX*T)-1)*100;
+
+    
+    
+    
+    var S0     = F0 * X0;
+    var S_fwd  = F0 * X0 * Math.exp((rd - rf) * T);
+    var vc2    = sF*sF + 2*rho*sF*sX + sX*sX;
+    var s_c    = vc2 > 0 ? Math.sqrt(vc2) : 0.001;
+    var K_c    = S_fwd * mon;
+    
+    var d1_c   = (Math.log(S0/K_c) + (rd - rf + 0.5*s_c*s_c)*T) / (s_c*Math.sqrt(T));
+    var d2_c   = d1_c - s_c*Math.sqrt(T);
+    
+    var prem_c = Math.exp(-rd*T) * (K_c*norm(-d2_c) - S_fwd*norm(-d1_c));
+    var dsig_dsx = (sX + rho*sF) / s_c;
+
+    
+    var disc   = Math.exp(-rd*T);
+    
+    var dX     = 0.01;
+    var S0b    = F0*(X0+dX);
+    var Sfwdb  = S0b*Math.exp((rd-rf)*T);
+    var Kcb    = Sfwdb*mon;
+    var d1b    = (Math.log(S0b/Kcb)+(rd-rf+0.5*s_c*s_c)*T)/(s_c*Math.sqrt(T));
+    var d2b    = d1b - s_c*Math.sqrt(T);
+    var premb  = disc*(Kcb*norm(-d2b)-Sfwdb*norm(-d1b));
+    var fx_delta = (premb - prem_c)/dX;
+    
+    var dsF    = 0.001;
+    var sc2b   = Math.sqrt(Math.max((sF+dsF)*(sF+dsF)+2*rho*(sF+dsF)*sX+sX*sX,0.000001));
+    var d1vb   = (Math.log(S0/K_c)+(rd-rf+0.5*sc2b*sc2b)*T)/(sc2b*Math.sqrt(T));
+    var d2vb   = d1vb - sc2b*Math.sqrt(T);
+    var premvb = disc*(K_c*norm(-d2vb)-S_fwd*norm(-d1vb));
+    var vega_c = (premvb - prem_c)/dsF * 0.01;
+    
+    var rho2   = rho+0.1;
+    var sc2r   = Math.sqrt(Math.max(sF*sF+2*rho2*sF*sX+sX*sX,0.000001));
+    var d1rb   = (Math.log(S0/K_c)+(rd-rf+0.5*sc2r*sc2r)*T)/(sc2r*Math.sqrt(T));
+    var d2rb   = d1rb - sc2r*Math.sqrt(T);
+    var premrb = disc*(K_c*norm(-d2rb)-S_fwd*norm(-d1rb));
+    var rho_sens = premrb - prem_c;
+    
+    var delta_c = fx_delta; 
+
+    
+    var diff = prem_q_cad - prem_c;
+    var cpct = Math.abs(diff)/Math.max(prem_q_cad,prem_c)*100;
+
+    
+    
+    s('cq_q_fadj',    '$'+F_adj.toFixed(2));
+    s('cq_q_strike',  '$'+K_q.toFixed(2));
+    s('cq_q_adj_pct', (qadj_pct>=0?'+':'')+qadj_pct.toFixed(2)+'%');
+    s('cq_q_d1',      d1_q.toFixed(4));
+    s('cq_q_d2',      d2_q.toFixed(4));
+    s('cq_q_prem_usd','$'+prem_q_usd.toFixed(2));
+    s('cq_q_prem_cad','C$'+prem_q_cad.toFixed(2));
+    s('cq_q_pct',     (prem_q_cad/(F0*Xbar)*100).toFixed(2)+'%');
+
+
+    
+    s('cq_c_s0',    'C$'+S0.toFixed(2));
+    s('cq_c_fwd',   'C$'+S_fwd.toFixed(2));
+    s('cq_c_strike','C$'+K_c.toFixed(2));
+    s('cq_c_vol',   (s_c*100).toFixed(2)+'%');
+    s('cq_c_d1',    d1_c.toFixed(4));
+    s('cq_c_d2',    d2_c.toFixed(4));
+    s('cq_c_prem',  'C$'+prem_c.toFixed(2));
+    s('cq_c_pct',   (prem_c/S0*100).toFixed(2)+'%');
+    s('cq_c_dsig',  dsig_dsx.toFixed(4));
+    s('cq_g_delta', delta_c.toFixed(3));
+    s('cq_g_vega',  'C$'+vega_c.toFixed(2));
+    s('cq_g_rho',   (rho_sens>=0?'+':'')+' C$'+rho_sens.toFixed(2));
+    s('cq_g_fxdelta',fx_delta.toFixed(3));
+
+
+    
+    s('cq_res_q',    'C$'+prem_q_cad.toFixed(2));
+    s('cq_res_c',    'C$'+prem_c.toFixed(2));
+    s('cq_res_diff', (diff>=0?'+':'')+' C$'+diff.toFixed(2));
+    s('cq_res_pct',  cpct.toFixed(1)+'%');
+    s('cq_cmp_qadj', (qadj_pct>=0?'+':'')+qadj_pct.toFixed(2)+'%');
+    s('cq_cmp_vq',   (sF*100).toFixed(1)+'%');
+    s('cq_cmp_vc',   (s_c*100).toFixed(2)+'%');
+
+    var vrow = g('cq_verdict_row');
+    if(diff>0){
+      vrow.style.borderLeftColor='#22c55e';
+      s('cq_verdict_text','Compo is cheaper by C$'+Math.abs(diff).toFixed(2)+'/bbl');
+      s('cq_verdict_reason','Negative ρ reduces σ_compo to '+(s_c*100).toFixed(1)+'% vs σ_F='+(sF*100).toFixed(0)+'%');
+    } else {
+      vrow.style.borderLeftColor='#3b82f6';
+      s('cq_verdict_text','Quanto is cheaper by C$'+Math.abs(diff).toFixed(2)+'/bbl');
+      s('cq_verdict_reason','σ_compo='+(s_c*100).toFixed(1)+'% still exceeds σ_F='+(sF*100).toFixed(0)+'% — make ρ more negative to flip');
+    }
+
+    
+    s('cq_f0_v',    '$'+F0);
+    s('cq_x0_v',   X0.toFixed(2));
+    s('cq_xbar_v', Xbar.toFixed(2));
+    s('cq_vol_f_v',(sF*100).toFixed(0)+'%');
+    s('cq_vol_x_v',(sX*100).toFixed(1)+'%');
+    s('cq_rho_v',  (rho<0?'−':'')+Math.abs(rho).toFixed(2));
+    s('cq_rd_v',   (rd*100).toFixed(2)+'%');
+    s('cq_rf_v',   (rf*100).toFixed(2)+'%');
+    s('cq_tenor_v',+g('cq_tenor').value+' mo');
+    var mval=+g('cq_mon').value;
+    s('cq_mon_v',  mval===100?'100% (ATM)':mval+'%');
+  }
+
+  window.cqTab = function(name,el){
+    document.querySelectorAll('.cq-tab').forEach(function(t){ t.classList.remove('active'); });
+    document.querySelectorAll('.cq-tab-content').forEach(function(t){ t.classList.remove('active'); });
+    el.classList.add('active');
+    document.getElementById('cq_tab_'+name).classList.add('active');
+  };
+
+  ['cq_f0','cq_x0','cq_xbar','cq_mon','cq_vol_f','cq_vol_x','cq_rho','cq_rd','cq_rf','cq_tenor'].forEach(function(id){
+    document.getElementById(id).addEventListener('input', compute);
+  });
+  compute();
+})();
+</script>
+
+<hr>
+<h2 id="hedging-each-structure">Hedging Each Structure<a hidden class="anchor" aria-hidden="true" href="#hedging-each-structure">#</a></h2>
+<p>Understanding which structure fits a given exposure is only half the picture. Once a dealer has sold either instrument, the more operationally demanding question is how to manage the risk through the life of the trade. The two structures present meaningfully different hedging problems.</p>
+<p><strong>Hedging the Quanto</strong></p>
+<p>The quanto call has only one source of price risk: the level of WTI. Because the exchange
+rate is fixed contractually, USD/CAD is not a risk factor and the dealer runs no FX delta.
+The delta hedge is therefore a straightforward position in WTI futures, sized to the
+Black delta evaluated at the quanto-adjusted forward.
+As WTI moves, the futures position is rebalanced in the usual way.</p>
+<p>Although there is no FX delta, a USD/CAD forward is still required for currency
+translation. The WTI futures position generates P&amp;L in USD while the liability to the
+option holder is in CAD. The dealer enters a USD/CAD forward sized to the expected dollar
+value of the futures position to convert those proceeds into CAD at a known rate. This
+forward is updated as the delta is rebalanced. It is a funding hedge rather than a
+risk-factor hedge. It does not arise from any sensitivity of the option value to the
+exchange rate, but from the operational mismatch between the currency of the hedging
+instrument and the currency of the liability.</p>
+<p>The more subtle risk in the quanto is correlation between WTI returns and USD/CAD returns.
+Correlation enters the pricing formula through the drift of the oil forward under the CAD
+measure, and the dealer who sold the option carries residual exposure to shifts in this
+parameter. This is difficult to hedge because correlation is not directly traded. Pure
+correlation products such as covariance swaps exist but are often illiquid in the commoidty/FX market. In practice dealers manage correlation exposure within
+book limits, accepting that residual exposure will sit on the book as a managed risk.
+The sensitivity is relatively contained, however, because correlation enters only through
+the drift adjustment rather than through the volatility of the underlying itself.</p>
+<p><strong>Hedging the Compo</strong></p>
+<p>The compo is more complex because both WTI and USD/CAD are live risk factors. The payoff
+depends on the product $F \cdot X$, so the dealer must run two delta hedges simultaneously:
+a WTI futures position and a USD/CAD forward position. The two hedges are coupled: the
+WTI delta is proportional to the current spot FX rate, and the FX delta is proportional
+to the current WTI forward. Every time one underlying moves, the hedge notional in the
+other leg must be updated. This cross-gamma cannot be fully eliminated with vanilla
+instruments, and is typically treated as a cost of carry priced into the bid-offer spread
+at inception.</p>
+<p>On the volatility side, both WTI vol and FX vol enter $\sigma_{compo}$, so the dealer
+carries independent vega in each. WTI vega is hedged with WTI options, and FX vega with
+USD/CAD options. As discussed in the pricing section, the sign of FX vega depends on
+$\sigma_X + \rho\sigma_F$. For WTI/CAD where $\rho < 0$, this quantity can be
+negative, meaning the dealer who sold the option is long rather than short FX vega. Dealers
+must verify this sign before structuring the USD/CAD options overlay, as the
+positive-correlation intuition would produce a hedge in the wrong direction.</p>
+<p>Correlation risk in the compo is more material than in the quanto because $\rho$ enters
+$\sigma_{compo}$ directly rather than just the drift. The instinctive view is that a dealer
+who sold a call is short correlation, since higher $\rho$ increases $\sigma_{compo}$ and
+raises the option value. But this reasoning imports a positive-correlation assumption
+silently. For WTI/CAD where $\rho$ is negative, a move toward more positive correlation
+does hurt the dealer, while a further decline in correlation reduces $\sigma_{compo}$ and
+benefits them. The direction of the exposure is not fixed: it depends on where $\rho$
+currently sits and which way it moves. As with the quanto,
+residual correlation risk is carried on the book and priced into the spread at inception.</p>
+<p><strong>Comparative Summary</strong></p>
+<table>
+  <thead>
+      <tr>
+          <th></th>
+          <th>Quanto</th>
+          <th>Compo</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>WTI delta</td>
+          <td>WTI futures at $F_0^*$</td>
+          <td>WTI futures; notional scales with spot FX</td>
+      </tr>
+      <tr>
+          <td>FX hedge</td>
+          <td>USD/CAD forward for P&amp;L translation only; not a risk-factor hedge</td>
+          <td>USD/CAD forward as risk-factor delta hedge; notional scales with WTI forward</td>
+      </tr>
+      <tr>
+          <td>Cross-gamma</td>
+          <td>None</td>
+          <td>Cannot be fully hedged with vanilla instruments; treated as cost of carry and priced into the spread</td>
+      </tr>
+      <tr>
+          <td>WTI vega</td>
+          <td>WTI options</td>
+          <td>WTI options</td>
+      </tr>
+      <tr>
+          <td>FX vega</td>
+          <td>Enters only via $F_0^*$; less material than WTI vega for short-dated trades, but grows with tenor and correlation</td>
+          <td>USD/CAD options; sign of exposure determined by $\sigma_X + \rho\sigma_F$</td>
+      </tr>
+      <tr>
+          <td>Correlation risk</td>
+          <td>Via drift; relatively contained</td>
+          <td>Via $\sigma_{compo}$; more material; sign depends on level of $\rho$</td>
+      </tr>
+      <tr>
+          <td>Correlation hedge</td>
+          <td>Residual book risk; priced into spread</td>
+          <td>Residual book risk; priced into spread</td>
+      </tr>
+      <tr>
+          <td>Overall complexity</td>
+          <td>Moderate</td>
+          <td>Higher; two coupled dynamic hedges</td>
+      </tr>
+  </tbody>
+</table>
+<hr>
+<h2 id="a-note-on-calibrating">A Note on Calibrating $\rho$<a hidden class="anchor" aria-hidden="true" href="#a-note-on-calibrating">#</a></h2>
+<p>Throughout this article, $\rho$ appears in every formula and drives many of the key risk management decisions. In practice, calibrating it is less straightforward than calibrating $\sigma_F$ or $\sigma_X$, both of which can be implied from liquid option markets. Correlation has no directly quoted instrument. Dealers typically estimate $\rho$ from historical return series, often using rolling windows of varying length and weighting schemes that emphasise recent observations. The choice of window, frequency, and whether to use spot or futures returns can produce meaningfully different estimates. Some desks supplement historical estimates with implied correlation backed out from traded cross-asset products where available, though for WTI/CAD such instruments are sparse. The resulting uncertainty in $\rho$ is itself a source of model risk, and given how directly it enters both the quanto drift adjustment and the compo composite volatility, even modest miscalibration can shift prices and hedge ratios materially. This is one of the reasons dealers price correlation risk into the spread rather than attempting to hedge it precisely.</p>
+<div class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1">
+<p>Without this simplification, the expected hedging cost contains an additional term $\mathbb{E}[F_T](\mathbb{E}[X_T] - \bar{X})$. This term is purely deterministic since both $\mathbb{E}[F_T]$ and $\mathbb{E}[X_T]$ are known at inception and $\bar{X}$ is a fixed contractual rate, and it vanishes when $\bar{X} = \mathbb{E}[X_T]$. The covariance term is the only irreducible source of hedging cost and is the true quanto effect.&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</div>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://leslie-ren.github.io/Inflection.Quant/tags/options/">Options</a></li>
+      <li><a href="https://leslie-ren.github.io/Inflection.Quant/tags/commodities/">Commodities</a></li>
+      <li><a href="https://leslie-ren.github.io/Inflection.Quant/tags/fx/">FX</a></li>
+      <li><a href="https://leslie-ren.github.io/Inflection.Quant/tags/structured-products/">Structured-Products</a></li>
+      <li><a href="https://leslie-ren.github.io/Inflection.Quant/tags/risk-management/">Risk-Management</a></li>
+      <li><a href="https://leslie-ren.github.io/Inflection.Quant/tags/wti/">WTI</a></li>
+      <li><a href="https://leslie-ren.github.io/Inflection.Quant/tags/black-scholes/">Black-Scholes</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="https://leslie-ren.github.io/Inflection.Quant/articles/brownian_bridge/">
+    <span class="title">« Prev</span>
+    <br>
+    <span>The Brownian Bridge: What Brownian Motion Looks Like When You Know the Endpoints</span>
+  </a>
+  <a class="next" href="https://leslie-ren.github.io/Inflection.Quant/articles/change_of_numeraire/">
+    <span class="title">Next »</span>
+    <br>
+    <span>The Measure We Choose: How Numéraires Simplify Pricing</span>
+  </a>
+</nav>
+
+
+<ul class="share-buttons">
+    <li>
+        <a target="_blank" rel="noopener noreferrer" aria-label="share Quanto and Compo Commodity Options: FX&#39;s Hidden Role in Pricing and Risk on x"
+            href="https://x.com/intent/tweet/?text=Quanto%20and%20Compo%20Commodity%20Options%3a%20FX%27s%20Hidden%20Role%20in%20Pricing%20and%20Risk&amp;url=https%3a%2f%2fleslie-ren.github.io%2fInflection.Quant%2farticles%2fquanto_and_compo%2f&amp;hashtags=options%2ccommodities%2cFX%2cstructured-products%2crisk-management%2cWTI%2cBlack-Scholes">
+            <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve" height="30px" width="30px" fill="currentColor">
+                <path
+                    d="M512 62.554 L 512 449.446 C 512 483.97 483.97 512 449.446 512 L 62.554 512 C 28.03 512 0 483.97 0 449.446 L 0 62.554 C 0 28.03 28.029 0 62.554 0 L 449.446 0 C 483.971 0 512 28.03 512 62.554 Z M 269.951 190.75 L 182.567 75.216 L 56 75.216 L 207.216 272.95 L 63.9 436.783 L 125.266 436.783 L 235.9 310.383 L 332.567 436.783 L 456 436.783 L 298.367 228.367 L 432.367 75.216 L 371.033 75.216 Z M 127.633 110 L 164.101 110 L 383.481 400.065 L 349.5 400.065 Z" />
+            </svg>
+        </a>
+    </li>
+    <li>
+        <a target="_blank" rel="noopener noreferrer" aria-label="share Quanto and Compo Commodity Options: FX&#39;s Hidden Role in Pricing and Risk on linkedin"
+            href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3a%2f%2fleslie-ren.github.io%2fInflection.Quant%2farticles%2fquanto_and_compo%2f&amp;title=Quanto%20and%20Compo%20Commodity%20Options%3a%20FX%27s%20Hidden%20Role%20in%20Pricing%20and%20Risk&amp;summary=Quanto%20and%20Compo%20Commodity%20Options%3a%20FX%27s%20Hidden%20Role%20in%20Pricing%20and%20Risk&amp;source=https%3a%2f%2fleslie-ren.github.io%2fInflection.Quant%2farticles%2fquanto_and_compo%2f">
+            <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve" height="30px" width="30px" fill="currentColor">
+                <path
+                    d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-386.892,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Zm-288.985,423.278l0,-225.717l-75.04,0l0,225.717l75.04,0Zm270.539,0l0,-129.439c0,-69.333 -37.018,-101.586 -86.381,-101.586c-39.804,0 -57.634,21.891 -67.617,37.266l0,-31.958l-75.021,0c0.995,21.181 0,225.717 0,225.717l75.02,0l0,-126.056c0,-6.748 0.486,-13.492 2.474,-18.315c5.414,-13.475 17.767,-27.434 38.494,-27.434c27.135,0 38.007,20.707 38.007,51.037l0,120.768l75.024,0Zm-307.552,-334.556c-25.674,0 -42.448,16.879 -42.448,39.002c0,21.658 16.264,39.002 41.455,39.002l0.484,0c26.165,0 42.452,-17.344 42.452,-39.002c-0.485,-22.092 -16.241,-38.954 -41.943,-39.002Z" />
+            </svg>
+        </a>
+    </li>
+    <li>
+        <a target="_blank" rel="noopener noreferrer" aria-label="share Quanto and Compo Commodity Options: FX&#39;s Hidden Role in Pricing and Risk on reddit"
+            href="https://reddit.com/submit?url=https%3a%2f%2fleslie-ren.github.io%2fInflection.Quant%2farticles%2fquanto_and_compo%2f&title=Quanto%20and%20Compo%20Commodity%20Options%3a%20FX%27s%20Hidden%20Role%20in%20Pricing%20and%20Risk">
+            <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve" height="30px" width="30px" fill="currentColor">
+                <path
+                    d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-386.892,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Zm-3.446,265.638c0,-22.964 -18.616,-41.58 -41.58,-41.58c-11.211,0 -21.361,4.457 -28.841,11.666c-28.424,-20.508 -67.586,-33.757 -111.204,-35.278l18.941,-89.121l61.884,13.157c0.756,15.734 13.642,28.29 29.56,28.29c16.407,0 29.706,-13.299 29.706,-29.701c0,-16.403 -13.299,-29.702 -29.706,-29.702c-11.666,0 -21.657,6.792 -26.515,16.578l-69.105,-14.69c-1.922,-0.418 -3.939,-0.042 -5.585,1.036c-1.658,1.073 -2.811,2.761 -3.224,4.686l-21.152,99.438c-44.258,1.228 -84.046,14.494 -112.837,35.232c-7.468,-7.164 -17.589,-11.591 -28.757,-11.591c-22.965,0 -41.585,18.616 -41.585,41.58c0,16.896 10.095,31.41 24.568,37.918c-0.639,4.135 -0.99,8.328 -0.99,12.576c0,63.977 74.469,115.836 166.33,115.836c91.861,0 166.334,-51.859 166.334,-115.836c0,-4.218 -0.347,-8.387 -0.977,-12.493c14.564,-6.47 24.735,-21.034 24.735,-38.001Zm-119.474,108.193c-20.27,20.241 -59.115,21.816 -70.534,21.816c-11.428,0 -50.277,-1.575 -70.522,-21.82c-3.007,-3.008 -3.007,-7.882 0,-10.889c3.003,-2.999 7.882,-3.003 10.885,0c12.777,12.781 40.11,17.317 59.637,17.317c19.522,0 46.86,-4.536 59.657,-17.321c3.016,-2.999 7.886,-2.995 10.885,0.008c3.008,3.011 3.003,7.882 -0.008,10.889Zm-5.23,-48.781c-16.373,0 -29.701,-13.324 -29.701,-29.698c0,-16.381 13.328,-29.714 29.701,-29.714c16.378,0 29.706,13.333 29.706,29.714c0,16.374 -13.328,29.698 -29.706,29.698Zm-160.386,-29.702c0,-16.381 13.328,-29.71 29.714,-29.71c16.369,0 29.689,13.329 29.689,29.71c0,16.373 -13.32,29.693 -29.689,29.693c-16.386,0 -29.714,-13.32 -29.714,-29.693Z" />
+            </svg>
+        </a>
+    </li>
+    <li>
+        <a target="_blank" rel="noopener noreferrer" aria-label="share Quanto and Compo Commodity Options: FX&#39;s Hidden Role in Pricing and Risk on facebook"
+            href="https://facebook.com/sharer/sharer.php?u=https%3a%2f%2fleslie-ren.github.io%2fInflection.Quant%2farticles%2fquanto_and_compo%2f">
+            <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve" height="30px" width="30px" fill="currentColor">
+                <path
+                    d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-106.468,0l0,-192.915l66.6,0l12.672,-82.621l-79.272,0l0,-53.617c0,-22.603 11.073,-44.636 46.58,-44.636l36.042,0l0,-70.34c0,0 -32.71,-5.582 -63.982,-5.582c-65.288,0 -107.96,39.569 -107.96,111.204l0,62.971l-72.573,0l0,82.621l72.573,0l0,192.915l-191.104,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Z" />
+            </svg>
+        </a>
+    </li>
+    <li>
+        <a target="_blank" rel="noopener noreferrer" aria-label="share Quanto and Compo Commodity Options: FX&#39;s Hidden Role in Pricing and Risk on whatsapp"
+            href="https://api.whatsapp.com/send?text=Quanto%20and%20Compo%20Commodity%20Options%3a%20FX%27s%20Hidden%20Role%20in%20Pricing%20and%20Risk%20-%20https%3a%2f%2fleslie-ren.github.io%2fInflection.Quant%2farticles%2fquanto_and_compo%2f">
+            <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve" height="30px" width="30px" fill="currentColor">
+                <path
+                    d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-386.892,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Zm-58.673,127.703c-33.842,-33.881 -78.847,-52.548 -126.798,-52.568c-98.799,0 -179.21,80.405 -179.249,179.234c-0.013,31.593 8.241,62.428 23.927,89.612l-25.429,92.884l95.021,-24.925c26.181,14.28 55.659,21.807 85.658,21.816l0.074,0c98.789,0 179.206,-80.413 179.247,-179.243c0.018,-47.895 -18.61,-92.93 -52.451,-126.81Zm-126.797,275.782l-0.06,0c-26.734,-0.01 -52.954,-7.193 -75.828,-20.767l-5.441,-3.229l-56.386,14.792l15.05,-54.977l-3.542,-5.637c-14.913,-23.72 -22.791,-51.136 -22.779,-79.287c0.033,-82.142 66.867,-148.971 149.046,-148.971c39.793,0.014 77.199,15.531 105.329,43.692c28.128,28.16 43.609,65.592 43.594,105.4c-0.034,82.149 -66.866,148.983 -148.983,148.984Zm81.721,-111.581c-4.479,-2.242 -26.499,-13.075 -30.604,-14.571c-4.105,-1.495 -7.091,-2.241 -10.077,2.241c-2.986,4.483 -11.569,14.572 -14.182,17.562c-2.612,2.988 -5.225,3.364 -9.703,1.12c-4.479,-2.241 -18.91,-6.97 -36.017,-22.23c-13.314,-11.876 -22.304,-26.542 -24.916,-31.026c-2.612,-4.484 -0.279,-6.908 1.963,-9.14c2.016,-2.007 4.48,-5.232 6.719,-7.847c2.24,-2.615 2.986,-4.484 4.479,-7.472c1.493,-2.99 0.747,-5.604 -0.374,-7.846c-1.119,-2.241 -10.077,-24.288 -13.809,-33.256c-3.635,-8.733 -7.327,-7.55 -10.077,-7.688c-2.609,-0.13 -5.598,-0.158 -8.583,-0.158c-2.986,0 -7.839,1.121 -11.944,5.604c-4.105,4.484 -15.675,15.32 -15.675,37.364c0,22.046 16.048,43.342 18.287,46.332c2.24,2.99 31.582,48.227 76.511,67.627c10.685,4.615 19.028,7.371 25.533,9.434c10.728,3.41 20.492,2.929 28.209,1.775c8.605,-1.285 26.499,-10.833 30.231,-21.295c3.732,-10.464 3.732,-19.431 2.612,-21.298c-1.119,-1.869 -4.105,-2.99 -8.583,-5.232Z" />
+            </svg>
+        </a>
+    </li>
+    <li>
+        <a target="_blank" rel="noopener noreferrer" aria-label="share Quanto and Compo Commodity Options: FX&#39;s Hidden Role in Pricing and Risk on telegram"
+            href="https://telegram.me/share/url?text=Quanto%20and%20Compo%20Commodity%20Options%3a%20FX%27s%20Hidden%20Role%20in%20Pricing%20and%20Risk&amp;url=https%3a%2f%2fleslie-ren.github.io%2fInflection.Quant%2farticles%2fquanto_and_compo%2f">
+            <svg version="1.1" xml:space="preserve" viewBox="2 2 28 28" height="30px" width="30px" fill="currentColor">
+                <path
+                    d="M26.49,29.86H5.5a3.37,3.37,0,0,1-2.47-1,3.35,3.35,0,0,1-1-2.47V5.48A3.36,3.36,0,0,1,3,3,3.37,3.37,0,0,1,5.5,2h21A3.38,3.38,0,0,1,29,3a3.36,3.36,0,0,1,1,2.46V26.37a3.35,3.35,0,0,1-1,2.47A3.38,3.38,0,0,1,26.49,29.86Zm-5.38-6.71a.79.79,0,0,0,.85-.66L24.73,9.24a.55.55,0,0,0-.18-.46.62.62,0,0,0-.41-.17q-.08,0-16.53,6.11a.59.59,0,0,0-.41.59.57.57,0,0,0,.43.52l4,1.24,1.61,4.83a.62.62,0,0,0,.63.43.56.56,0,0,0,.4-.17L16.54,20l4.09,3A.9.9,0,0,0,21.11,23.15ZM13.8,20.71l-1.21-4q8.72-5.55,8.78-5.55c.15,0,.23,0,.23.16a.18.18,0,0,1,0,.06s-2.51,2.3-7.52,6.8Z" />
+            </svg>
+        </a>
+    </li>
+    <li>
+        <a target="_blank" rel="noopener noreferrer" aria-label="share Quanto and Compo Commodity Options: FX&#39;s Hidden Role in Pricing and Risk on ycombinator"
+            href="https://news.ycombinator.com/submitlink?t=Quanto%20and%20Compo%20Commodity%20Options%3a%20FX%27s%20Hidden%20Role%20in%20Pricing%20and%20Risk&u=https%3a%2f%2fleslie-ren.github.io%2fInflection.Quant%2farticles%2fquanto_and_compo%2f">
+            <svg version="1.1" xml:space="preserve" width="30px" height="30px" viewBox="0 0 512 512" fill="currentColor"
+                xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape">
+                <path
+                    d="M449.446 0C483.971 0 512 28.03 512 62.554L512 449.446C512 483.97 483.97 512 449.446 512L62.554 512C28.03 512 0 483.97 0 449.446L0 62.554C0 28.03 28.029 0 62.554 0L449.446 0ZM183.8767 87.9921H121.8427L230.6673 292.4508V424.0079H281.3328V292.4508L390.1575 87.9921H328.1233L256 238.2489z" />
+            </svg>
+        </a>
+    </li>
+</ul>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2026 <a href="https://leslie-ren.github.io/Inflection.Quant/">Inflection Quant Lab</a></span> · 
+
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu');
+    if (menu) {
+        
+        const scrollPosition = localStorage.getItem("menu-scroll-position");
+        if (scrollPosition) {
+            menu.scrollLeft = parseInt(scrollPosition, 10);
+        }
+        
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        const html = document.querySelector("html");
+        if (html.dataset.theme === "dark") {
+            html.dataset.theme = 'light';
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            html.dataset.theme = 'dark';
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

@@ -6,80 +6,90 @@
     <description>Recent content on Inflection Quant Lab</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 14 Jul 2026 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 23 Jul 2026 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://leslie-ren.github.io/Inflection.Quant/index.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>Local Volatility: From the Implied Vol Surface to Risk-Neutral Dynamics</title>
+      <link>https://leslie-ren.github.io/Inflection.Quant/articles/local_vol/</link>
+      <pubDate>Thu, 23 Jul 2026 00:00:00 +0000</pubDate>
+      <guid>https://leslie-ren.github.io/Inflection.Quant/articles/local_vol/</guid>
+      <description>&lt;h1 id=&#34;local-volatility-from-the-implied-vol-surface-to-risk-neutral-dynamics&#34;&gt;Local Volatility: From the Implied Vol Surface to Risk-Neutral Dynamics&lt;/h1&gt;
+&lt;h2 id=&#34;why-this-matters&#34;&gt;Why This Matters&lt;/h2&gt;
+&lt;p&gt;In the &lt;a href=&#34;https://leslie-ren.github.io/Inflection.Quant/articles/vol_surface_calibration/&#34;&gt;earlier article&lt;/a&gt; we constructed the implied volatility surface and used it primarily to price vanilla options. But a great deal of what trades is not vanilla. Products like barriers and autocallables depend on the path the underlying takes, not only where it lands.&lt;/p&gt;
+&lt;p&gt;Suppose I price a barrier by Monte Carlo. At each step the spot sits at some level, and I need a volatility to advance it. What vol do I use? The surface gives me a vol for every strike, but simulation does not ask about strikes. It asks what volatility the spot experiences at this level, at this moment, which the surface cannot answer.&lt;/p&gt;</description>
+    </item>
+    <item>
       <title>Forward and Backward Kolmogorov PDEs: An Intuitive Look at Their Duality</title>
-      <link>https://leslie-ren.github.io/Inflection.Quant/articles/quant-foundations/forward_backward_pde/</link>
+      <link>https://leslie-ren.github.io/Inflection.Quant/articles/forward_backward_pde/</link>
       <pubDate>Tue, 14 Jul 2026 00:00:00 +0000</pubDate>
-      <guid>https://leslie-ren.github.io/Inflection.Quant/articles/quant-foundations/forward_backward_pde/</guid>
+      <guid>https://leslie-ren.github.io/Inflection.Quant/articles/forward_backward_pde/</guid>
       <description>&lt;h2 id=&#34;why-this-matters&#34;&gt;Why This Matters&lt;/h2&gt;
 &lt;p&gt;Most practitioners have seen the Black-Scholes PDE. It is closely related to the backward Kolmogorov PDE: fix a payoff at maturity, and the equation propagates its value back to today.&lt;/p&gt;
 &lt;p&gt;There is also a forward equation, which may be less familiar. The backward equation has current spot and current time as its variables and takes the payoff as a terminal condition. The forward one instead propagates a probability density forward from today, with the terminal value of the underlying and the maturity as its variables. This is Fokker-Planck.&lt;/p&gt;</description>
     </item>
     <item>
       <title>Constructing the Implied Volatility Surface: From Market Quotes to an Arbitrage-Free Fit</title>
-      <link>https://leslie-ren.github.io/Inflection.Quant/articles/quant-engineering/vol_surface_calibration/</link>
+      <link>https://leslie-ren.github.io/Inflection.Quant/articles/vol_surface_calibration/</link>
       <pubDate>Fri, 26 Jun 2026 00:00:00 +0000</pubDate>
-      <guid>https://leslie-ren.github.io/Inflection.Quant/articles/quant-engineering/vol_surface_calibration/</guid>
+      <guid>https://leslie-ren.github.io/Inflection.Quant/articles/vol_surface_calibration/</guid>
       <description>&lt;h2 id=&#34;why-this-matters&#34;&gt;Why This Matters&lt;/h2&gt;
 &lt;p&gt;For vanilla options, the simple models are usually sufficient. A plain call or put can be priced off Black-Scholes directly; you often do not need to reach for local volatility or a stochastic volatility model. Those heavier models earn their place with exotics, where the payoff depends on how the smile behaves rather than just its level today. For a vanilla, you take the market&amp;rsquo;s implied volatility at the relevant strike and maturity and feed it into Black-Scholes. But that assumes a volatility surface already exists: before Black-Scholes can price anything, the surface it reads from has to be built, and building it is less straightforward than it appears.&lt;/p&gt;</description>
     </item>
     <item>
       <title>Fourier Transform: The Leap into Frequency</title>
-      <link>https://leslie-ren.github.io/Inflection.Quant/articles/quant-foundations/fourier_transform/</link>
+      <link>https://leslie-ren.github.io/Inflection.Quant/articles/fourier_transform/</link>
       <pubDate>Tue, 16 Jun 2026 00:00:00 +0000</pubDate>
-      <guid>https://leslie-ren.github.io/Inflection.Quant/articles/quant-foundations/fourier_transform/</guid>
+      <guid>https://leslie-ren.github.io/Inflection.Quant/articles/fourier_transform/</guid>
       <description>&lt;h2 id=&#34;why-this-matters&#34;&gt;Why This Matters&lt;/h2&gt;
-&lt;p&gt;The previous article on &lt;a href=&#34;./Inflection.Quant/articles/quant-foundations/fdm/&#34;&gt;finite difference methods&lt;/a&gt; solved the heat equation by brute force: lay down a grid, step it through time, let the solution emerge step by step. It works, and for many pricing problems it is the practical choice. But can we instead solve the equation analytically?&lt;/p&gt;
+&lt;p&gt;The previous article on &lt;a href=&#34;./Inflection.Quant/articles/fdm/&#34;&gt;finite difference methods&lt;/a&gt; solved the heat equation by brute force: lay down a grid, step it through time, let the solution emerge step by step. It works, and for many pricing problems it is the practical choice. But can we instead solve the equation analytically?&lt;/p&gt;
 &lt;p&gt;For a class of PDEs, the heat equation among them, we can. The idea is to stop viewing a function as a shape over space and instead see it as a combination of frequencies. That change of view is the Fourier transform. In this article, we explore it on the heat equation, where the diffusion structure shows through without the variable coefficients of Black-Scholes to clutter it, and then turn to its application in option pricing, where it works even when the distribution of prices has no closed form.&lt;/p&gt;</description>
     </item>
     <item>
       <title>Finite Difference Methods: Marching Forward or Solving Together</title>
-      <link>https://leslie-ren.github.io/Inflection.Quant/articles/quant-foundations/fdm/</link>
+      <link>https://leslie-ren.github.io/Inflection.Quant/articles/fdm/</link>
       <pubDate>Tue, 09 Jun 2026 00:00:00 +0000</pubDate>
-      <guid>https://leslie-ren.github.io/Inflection.Quant/articles/quant-foundations/fdm/</guid>
+      <guid>https://leslie-ren.github.io/Inflection.Quant/articles/fdm/</guid>
       <description>&lt;h2 id=&#34;why-this-matters&#34;&gt;Why This Matters&lt;/h2&gt;
-&lt;p&gt;A derivative price can be computed two equivalent ways: as a risk-neutral expectation, or as the solution of a PDE. This is the &lt;a href=&#34;./Inflection.Quant/articles/quant-foundations/feynman_kac/&#34;&gt;Feynman-Kac result&lt;/a&gt;, which I explored in the earlier article. Monte Carlo is the natural way to handle the expectation, and the &lt;a href=&#34;./Inflection.Quant/articles/quant-foundations/mc_variance_reduction/&#34;&gt;previous article&lt;/a&gt; worked through techniques for making it more efficient. Here I want to look at the other side, where the price is the solution of a PDE and we solve it on a grid.&lt;/p&gt;</description>
+&lt;p&gt;A derivative price can be computed two equivalent ways: as a risk-neutral expectation, or as the solution of a PDE. This is the &lt;a href=&#34;./Inflection.Quant/articles/feynman_kac/&#34;&gt;Feynman-Kac result&lt;/a&gt;, which I explored in the earlier article. Monte Carlo is the natural way to handle the expectation, and the &lt;a href=&#34;./Inflection.Quant/articles/mc_variance_reduction/&#34;&gt;previous article&lt;/a&gt; worked through techniques for making it more efficient. Here I want to look at the other side, where the price is the solution of a PDE and we solve it on a grid.&lt;/p&gt;</description>
     </item>
     <item>
       <title>Monte Carlo Variance Reduction: What We Average, and How We Sample</title>
-      <link>https://leslie-ren.github.io/Inflection.Quant/articles/quant-foundations/mc_variance_reduction/</link>
+      <link>https://leslie-ren.github.io/Inflection.Quant/articles/mc_variance_reduction/</link>
       <pubDate>Tue, 02 Jun 2026 00:00:00 +0000</pubDate>
-      <guid>https://leslie-ren.github.io/Inflection.Quant/articles/quant-foundations/mc_variance_reduction/</guid>
+      <guid>https://leslie-ren.github.io/Inflection.Quant/articles/mc_variance_reduction/</guid>
       <description>&lt;h2 id=&#34;why-this-matters&#34;&gt;Why This Matters&lt;/h2&gt;
-&lt;p&gt;In the article on the &lt;a href=&#34;./Inflection.Quant/articles/quant-foundations/feynman_kac/&#34;&gt;Feynman-Kac theorem&lt;/a&gt;, we saw that the price of a derivative can be expressed equivalently as the solution to a deterministic PDE or as the expectation of a discounted payoff under the risk-neutral measure. This gives us two complementary numerical approaches to pricing. For low-dimensional problems with smooth payoffs, finite difference methods on the PDE side are efficient and accurate. For high-dimensional problems, path-dependent payoffs, or models where the PDE is hard to derive, Monte Carlo (MC) on the expectation side becomes the natural choice.&lt;/p&gt;</description>
+&lt;p&gt;In the article on the &lt;a href=&#34;./Inflection.Quant/articles/feynman_kac/&#34;&gt;Feynman-Kac theorem&lt;/a&gt;, we saw that the price of a derivative can be expressed equivalently as the solution to a deterministic PDE or as the expectation of a discounted payoff under the risk-neutral measure. This gives us two complementary numerical approaches to pricing. For low-dimensional problems with smooth payoffs, finite difference methods on the PDE side are efficient and accurate. For high-dimensional problems, path-dependent payoffs, or models where the PDE is hard to derive, Monte Carlo (MC) on the expectation side becomes the natural choice.&lt;/p&gt;</description>
     </item>
     <item>
       <title>The Brownian Bridge: What Brownian Motion Looks Like When You Know the Endpoints</title>
-      <link>https://leslie-ren.github.io/Inflection.Quant/articles/quant-foundations/brownian_bridge/</link>
+      <link>https://leslie-ren.github.io/Inflection.Quant/articles/brownian_bridge/</link>
       <pubDate>Thu, 28 May 2026 00:00:00 +0000</pubDate>
-      <guid>https://leslie-ren.github.io/Inflection.Quant/articles/quant-foundations/brownian_bridge/</guid>
+      <guid>https://leslie-ren.github.io/Inflection.Quant/articles/brownian_bridge/</guid>
       <description>&lt;h2 id=&#34;why-this-matters&#34;&gt;Why This Matters&lt;/h2&gt;
-&lt;p&gt;In my earlier article on &lt;a href=&#34;./Inflection.Quant/articles/quant-foundations/understanding_brownian_motion/&#34;&gt;Brownian motion&lt;/a&gt;, I worked through the forward view: a process starting at a known value, diffusing into an uncertain future. Sometimes we know more than just the starting point. We also know where the process ended up, and we want to characterise the path in between. The object that answers this is the Brownian bridge: a Brownian motion conditioned on its terminal value.&lt;/p&gt;</description>
+&lt;p&gt;In my earlier article on &lt;a href=&#34;./Inflection.Quant/articles/understanding_brownian_motion/&#34;&gt;Brownian motion&lt;/a&gt;, I worked through the forward view: a process starting at a known value, diffusing into an uncertain future. Sometimes we know more than just the starting point. We also know where the process ended up, and we want to characterise the path in between. The object that answers this is the Brownian bridge: a Brownian motion conditioned on its terminal value.&lt;/p&gt;</description>
     </item>
     <item>
       <title>Quanto and Compo Commodity Options: FX&#39;s Hidden Role in Pricing and Risk</title>
-      <link>https://leslie-ren.github.io/Inflection.Quant/articles/quant-foundations/quanto_and_compo/</link>
+      <link>https://leslie-ren.github.io/Inflection.Quant/articles/quanto_and_compo/</link>
       <pubDate>Tue, 19 May 2026 00:00:00 +0000</pubDate>
-      <guid>https://leslie-ren.github.io/Inflection.Quant/articles/quant-foundations/quanto_and_compo/</guid>
+      <guid>https://leslie-ren.github.io/Inflection.Quant/articles/quanto_and_compo/</guid>
       <description>&lt;h2 id=&#34;why-this-matters&#34;&gt;Why This Matters&lt;/h2&gt;
 &lt;p&gt;Many of the world&amp;rsquo;s most actively traded commodities are priced in USD, yet end investors and corporates often operate in other currencies. A Canadian oil producer hedging output, a European airline managing jet fuel costs, or an Asian sovereign wealth fund allocating to commodity exposure all face the same underlying issue: commodity risk does not exist in isolation from FX risk. The standard approach is to hedge the commodity leg with USD-denominated futures or swaps and manage FX separately through forwards or options. This works, but it treats the two risks as independent. Quanto and compo options take a different approach by packaging both risks into a single instrument, but the way each handles FX risk creates some pricing and hedging subtleties that I find are easy to miss.&lt;/p&gt;</description>
     </item>
     <item>
       <title>The Measure We Choose: How Numéraires Simplify Pricing</title>
-      <link>https://leslie-ren.github.io/Inflection.Quant/articles/quant-foundations/change_of_numeraire/</link>
+      <link>https://leslie-ren.github.io/Inflection.Quant/articles/change_of_numeraire/</link>
       <pubDate>Tue, 12 May 2026 00:00:00 +0000</pubDate>
-      <guid>https://leslie-ren.github.io/Inflection.Quant/articles/quant-foundations/change_of_numeraire/</guid>
+      <guid>https://leslie-ren.github.io/Inflection.Quant/articles/change_of_numeraire/</guid>
       <description>&lt;h2 id=&#34;why-this-matters&#34;&gt;Why This Matters&lt;/h2&gt;
-&lt;p&gt;In the &lt;a href=&#34;./Inflection.Quant/articles/quant-foundations/girsanov/&#34;&gt;article on Girsanov&amp;rsquo;s Theorem&lt;/a&gt;, we studied how the real-world measure $\mathbb{P}$ and the risk-neutral measure $\mathbb{Q}$ relate, and showed that switching between them amounts to reweighting paths via the Girsanov exponential. Throughout, the risk-free bond was the numéraire: the asset against which all prices were expressed. But this is a convenient choice, not a fundamental one.&lt;/p&gt;
+&lt;p&gt;In the &lt;a href=&#34;./Inflection.Quant/articles/girsanov/&#34;&gt;article on Girsanov&amp;rsquo;s Theorem&lt;/a&gt;, we studied how the real-world measure $\mathbb{P}$ and the risk-neutral measure $\mathbb{Q}$ relate, and showed that switching between them amounts to reweighting paths via the Girsanov exponential. Throughout, the risk-free bond was the numéraire: the asset against which all prices were expressed. But this is a convenient choice, not a fundamental one.&lt;/p&gt;
 &lt;p&gt;Any strictly positive self-financing wealth process can serve as a numéraire, and each choice gives a different probability measure under which asset prices, expressed in units of that numéraire, become martingales. The price of a derivative is invariant; what changes is how the problem is represented. So instead of viewing pricing as a fixed-measure expectation problem, it is often more natural to think of it as choosing the numéraire that best matches the structure of the payoff.&lt;/p&gt;</description>
     </item>
     <item>
       <title>Drift Lives in the Measure: An Intuitive Look at Girsanov&#39;s Theorem</title>
-      <link>https://leslie-ren.github.io/Inflection.Quant/articles/quant-foundations/girsanov/</link>
+      <link>https://leslie-ren.github.io/Inflection.Quant/articles/girsanov/</link>
       <pubDate>Wed, 06 May 2026 00:00:00 +0000</pubDate>
-      <guid>https://leslie-ren.github.io/Inflection.Quant/articles/quant-foundations/girsanov/</guid>
+      <guid>https://leslie-ren.github.io/Inflection.Quant/articles/girsanov/</guid>
       <description>&lt;h2 id=&#34;why-this-matters&#34;&gt;Why This Matters&lt;/h2&gt;
 &lt;p&gt;We want to price a derivative. Under the real world measure $\mathbb{P}$, we face
 two problems. First, we do not know the true drift $\mu$ of the underlying, and
@@ -92,9 +102,9 @@ fundamentally unobservable. So what can we do?&lt;/p&gt;</description>
     </item>
     <item>
       <title>How Randomness Solves a Deterministic Equation: An Intuitive Look at the Feynman–Kac Theorem</title>
-      <link>https://leslie-ren.github.io/Inflection.Quant/articles/quant-foundations/feynman_kac/</link>
+      <link>https://leslie-ren.github.io/Inflection.Quant/articles/feynman_kac/</link>
       <pubDate>Tue, 28 Apr 2026 00:00:00 +0000</pubDate>
-      <guid>https://leslie-ren.github.io/Inflection.Quant/articles/quant-foundations/feynman_kac/</guid>
+      <guid>https://leslie-ren.github.io/Inflection.Quant/articles/feynman_kac/</guid>
       <description>&lt;h2 id=&#34;why-this-matters&#34;&gt;Why This Matters&lt;/h2&gt;
 &lt;p&gt;The first time I encountered the Feynman-Kac theorem, I found it fascinating but
 unintuitive. The theorem claims that a deterministic PDE and the expectation of
@@ -104,9 +114,9 @@ averaging over infinitely many paths. How could these be the same thing? I under
     </item>
     <item>
       <title>Futures-Style Margined Options: The Absence of Early Exercise Premium</title>
-      <link>https://leslie-ren.github.io/Inflection.Quant/articles/quant-foundations/future_style_margining_options/</link>
+      <link>https://leslie-ren.github.io/Inflection.Quant/articles/future_style_margining_options/</link>
       <pubDate>Thu, 23 Apr 2026 00:00:00 +0000</pubDate>
-      <guid>https://leslie-ren.github.io/Inflection.Quant/articles/quant-foundations/future_style_margining_options/</guid>
+      <guid>https://leslie-ren.github.io/Inflection.Quant/articles/future_style_margining_options/</guid>
       <description>&lt;h2 id=&#34;why-this-matters&#34;&gt;Why This Matters&lt;/h2&gt;
 &lt;p&gt;When I first studied options, most textbook examples were equity-style:
 you pay a premium upfront, and at expiry (or whenever you choose to exercise, if the
@@ -120,9 +130,9 @@ and wheat futures, and options on carbon emissions futures, to name a few.&lt;/p
     </item>
     <item>
       <title>From Option Prices to the Shape of Returns: A Model-Free Construction of Volatility, Skewness and Kurtosis</title>
-      <link>https://leslie-ren.github.io/Inflection.Quant/articles/quant-foundations/vol_skewness_kurtosis/</link>
+      <link>https://leslie-ren.github.io/Inflection.Quant/articles/vol_skewness_kurtosis/</link>
       <pubDate>Thu, 16 Apr 2026 00:00:00 +0000</pubDate>
-      <guid>https://leslie-ren.github.io/Inflection.Quant/articles/quant-foundations/vol_skewness_kurtosis/</guid>
+      <guid>https://leslie-ren.github.io/Inflection.Quant/articles/vol_skewness_kurtosis/</guid>
       <description>&lt;h2 id=&#34;why-this-matters&#34;&gt;Why This Matters&lt;/h2&gt;
 &lt;p&gt;Most of my early intuition about options came from the Black-Scholes model, which is
 clean and widely used. But once I started working with real option data, it becomes
@@ -140,26 +150,26 @@ replication.&lt;/p&gt;</description>
     </item>
     <item>
       <title>Solving for Implied Volatility: Newton&#39;s Method vs Brent&#39;s Method</title>
-      <link>https://leslie-ren.github.io/Inflection.Quant/articles/quant-foundations/newton_vs_brent_vol_solver/</link>
+      <link>https://leslie-ren.github.io/Inflection.Quant/articles/newton_vs_brent_vol_solver/</link>
       <pubDate>Thu, 09 Apr 2026 00:00:00 +0000</pubDate>
-      <guid>https://leslie-ren.github.io/Inflection.Quant/articles/quant-foundations/newton_vs_brent_vol_solver/</guid>
+      <guid>https://leslie-ren.github.io/Inflection.Quant/articles/newton_vs_brent_vol_solver/</guid>
       <description>&lt;h2 id=&#34;why-this-matters&#34;&gt;Why This Matters&lt;/h2&gt;
 &lt;p&gt;I started writing about calibrating a full volatility surface and realised it first requires a clear understanding of a simpler problem: solving for implied vol from a single option price. At its core, this is a root-finding problem: given a market price, we need to find the volatility that makes the model match that price. Once framed this way, the question becomes how to solve this nonlinear problem efficiently and reliably.&lt;/p&gt;</description>
     </item>
     <item>
       <title>Early Exercise of American Options: Call Equivalence and the Put Premium</title>
-      <link>https://leslie-ren.github.io/Inflection.Quant/articles/quant-foundations/american_vs_european_options/</link>
+      <link>https://leslie-ren.github.io/Inflection.Quant/articles/american_vs_european_options/</link>
       <pubDate>Fri, 03 Apr 2026 00:00:00 +0000</pubDate>
-      <guid>https://leslie-ren.github.io/Inflection.Quant/articles/quant-foundations/american_vs_european_options/</guid>
+      <guid>https://leslie-ren.github.io/Inflection.Quant/articles/american_vs_european_options/</guid>
       <description>&lt;h2 id=&#34;why-this-matters&#34;&gt;Why This Matters&lt;/h2&gt;
 &lt;p&gt;While practitioners price American puts correctly in production systems, the deeper question of &lt;em&gt;why&lt;/em&gt; early exercise is sometimes optimal, and the precise conditions under which it occurs, is less often articulated rigorously. This article works through the argument, starting with why early exercise is never optimal for calls without dividend, and then showing, using the Black–Scholes PDE, when and why it becomes mandatory for puts.&lt;/p&gt;
 &lt;p&gt;For those working with options pricing, hedging, or products with embedded American optionality, a rigorous understanding of the early exercise boundary can offer useful intuition beyond what standard pricing tools provide.&lt;/p&gt;</description>
     </item>
     <item>
       <title>Brownian Motion: From Random Walks to Option Prices</title>
-      <link>https://leslie-ren.github.io/Inflection.Quant/articles/quant-foundations/understanding_brownian_motion/</link>
+      <link>https://leslie-ren.github.io/Inflection.Quant/articles/understanding_brownian_motion/</link>
       <pubDate>Thu, 26 Mar 2026 00:00:00 +0000</pubDate>
-      <guid>https://leslie-ren.github.io/Inflection.Quant/articles/quant-foundations/understanding_brownian_motion/</guid>
+      <guid>https://leslie-ren.github.io/Inflection.Quant/articles/understanding_brownian_motion/</guid>
       <description>&lt;h2 id=&#34;why-this-matters&#34;&gt;Why This Matters&lt;/h2&gt;
 &lt;p&gt;Brownian motion, the mathematical model underlying everything from stock prices to heat diffusion, has one of its most elegant properties: the variance of its position at time $t$ grows linearly with time. Not $t^2$, not $\sqrt{t}$, but exactly $t$. This seemingly abstract fact has a concrete consequence in financial markets: under the idealised conditions of an at-the-money option with zero rates, it is precisely why option prices scale with $\sqrt{T}$ rather than $T$, a direct fingerprint of Brownian motion inside Black-Scholes. Understanding why requires looking at both &lt;strong&gt;physical observations&lt;/strong&gt; and the &lt;strong&gt;mathematical construction&lt;/strong&gt; of Brownian motion.&lt;/p&gt;</description>
     </item>
