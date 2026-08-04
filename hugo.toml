@@ -1,6 +1,6 @@
 
 #baseURL = "/"
-baseURL = "https://inflection-quant.pages.dev/"
+baseURL = "https://inflectionquant.com/"
 #baseURL = "https://yourusername.github.io/"
 relativeURLs = true
 canonifyURLs = false
