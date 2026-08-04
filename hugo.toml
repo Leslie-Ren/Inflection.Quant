@@ -6,7 +6,7 @@ relativeURLs = true
 canonifyURLs = false
 
 languageCode = "en-us"
-title = "Inflection Quant Lab"
+title = "Inflection Quant"
 theme = "PaperMod"
 
 [params]
