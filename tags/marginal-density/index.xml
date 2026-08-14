@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>Dupire on Inflection Quant</title>
-    <link>https://leslie-ren.github.io/Inflection.Quant/tags/dupire/</link>
-    <description>Recent content in Dupire on Inflection Quant</description>
+    <title>Marginal Density on Inflection Quant</title>
+    <link>https://leslie-ren.github.io/Inflection.Quant/tags/marginal-density/</link>
+    <description>Recent content in Marginal Density on Inflection Quant</description>
     <generator>Hugo</generator>
     <language>en-us</language>
     <lastBuildDate>Thu, 23 Jul 2026 00:00:00 +0000</lastBuildDate>
-    <atom:link href="https://leslie-ren.github.io/Inflection.Quant/tags/dupire/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://leslie-ren.github.io/Inflection.Quant/tags/marginal-density/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Local Volatility: From the Implied Vol Surface to Risk-Neutral Dynamics</title>
       <link>https://leslie-ren.github.io/Inflection.Quant/articles/local_vol/</link>
@@ -16,15 +16,6 @@
       <description>&lt;h2 id=&#34;why-this-matters&#34;&gt;Why This Matters&lt;/h2&gt;
 &lt;p&gt;In an &lt;a href=&#34;https://leslie-ren.github.io/Inflection.Quant/articles/vol_surface_calibration/&#34;&gt;earlier article&lt;/a&gt; we constructed the implied volatility surface and used it primarily to price vanilla options. But a great deal of what trades is not vanilla. Products like barriers and autocallables depend on the path the underlying takes, not only where it lands.&lt;/p&gt;
 &lt;p&gt;Suppose I price a barrier by Monte Carlo. At each step the spot sits at some level, and I need a volatility to advance it. What vol do I use? The surface gives me a vol for every strike, but simulation does not ask about strikes. It asks what volatility the spot experiences at this level, at this moment, which the surface cannot answer.&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>Forward and Backward Kolmogorov PDEs: An Intuitive Look at Their Duality</title>
-      <link>https://leslie-ren.github.io/Inflection.Quant/articles/forward_backward_pde/</link>
-      <pubDate>Tue, 14 Jul 2026 00:00:00 +0000</pubDate>
-      <guid>https://leslie-ren.github.io/Inflection.Quant/articles/forward_backward_pde/</guid>
-      <description>&lt;h2 id=&#34;why-this-matters&#34;&gt;Why This Matters&lt;/h2&gt;
-&lt;p&gt;Most practitioners have seen the Black-Scholes PDE. It is closely related to the backward Kolmogorov PDE: fix a payoff at maturity, and the equation propagates its value back to today.&lt;/p&gt;
-&lt;p&gt;There is also a forward equation, which may be less familiar. The backward equation has current spot and current time as its variables and takes the payoff as a terminal condition. The forward one instead propagates a probability density forward from today, with the terminal value of the underlying and the maturity as its variables. This is Fokker-Planck.&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>

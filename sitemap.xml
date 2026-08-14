@@ -3,15 +3,45 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://leslie-ren.github.io/Inflection.Quant/</loc>
-    <lastmod>2026-07-14T00:00:00+00:00</lastmod>
+    <lastmod>2026-07-23T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://leslie-ren.github.io/Inflection.Quant/articles/</loc>
-    <lastmod>2026-07-14T00:00:00+00:00</lastmod>
+    <lastmod>2026-07-23T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://leslie-ren.github.io/Inflection.Quant/tags/duality/</loc>
-    <lastmod>2026-07-14T00:00:00+00:00</lastmod>
+    <loc>https://leslie-ren.github.io/Inflection.Quant/tags/barrier-options/</loc>
+    <lastmod>2026-07-23T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://leslie-ren.github.io/Inflection.Quant/tags/commodities/</loc>
+    <lastmod>2026-07-23T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://leslie-ren.github.io/Inflection.Quant/tags/dupire/</loc>
+    <lastmod>2026-07-23T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://leslie-ren.github.io/Inflection.Quant/tags/gatheral/</loc>
+    <lastmod>2026-07-23T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://leslie-ren.github.io/Inflection.Quant/tags/gyongy/</loc>
+    <lastmod>2026-07-23T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://leslie-ren.github.io/Inflection.Quant/tags/implied-volatility/</loc>
+    <lastmod>2026-07-23T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://leslie-ren.github.io/Inflection.Quant/tags/local-volatility/</loc>
+    <lastmod>2026-07-23T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://leslie-ren.github.io/Inflection.Quant/articles/local_vol/</loc>
+    <lastmod>2026-07-23T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://leslie-ren.github.io/Inflection.Quant/tags/marginal-density/</loc>
+    <lastmod>2026-07-23T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://leslie-ren.github.io/Inflection.Quant/tags/monte-carlo/</loc>
+    <lastmod>2026-07-23T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://leslie-ren.github.io/Inflection.Quant/tags/</loc>
+    <lastmod>2026-07-23T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://leslie-ren.github.io/Inflection.Quant/tags/duality/</loc>
     <lastmod>2026-07-14T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://leslie-ren.github.io/Inflection.Quant/tags/fokker-planck/</loc>
@@ -23,22 +53,10 @@
     <loc>https://leslie-ren.github.io/Inflection.Quant/tags/kolmogorov-equations/</loc>
     <lastmod>2026-07-14T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://leslie-ren.github.io/Inflection.Quant/tags/local-volatility/</loc>
-    <lastmod>2026-07-14T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://leslie-ren.github.io/Inflection.Quant/tags/</loc>
-    <lastmod>2026-07-14T00:00:00+00:00</lastmod>
-  </url><url>
     <loc>https://leslie-ren.github.io/Inflection.Quant/tags/black-scholes/</loc>
     <lastmod>2026-06-26T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://leslie-ren.github.io/Inflection.Quant/tags/commodities/</loc>
-    <lastmod>2026-06-26T00:00:00+00:00</lastmod>
-  </url><url>
     <loc>https://leslie-ren.github.io/Inflection.Quant/articles/vol_surface_calibration/</loc>
-    <lastmod>2026-06-26T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://leslie-ren.github.io/Inflection.Quant/tags/implied-volatility/</loc>
     <lastmod>2026-06-26T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://leslie-ren.github.io/Inflection.Quant/tags/no-arbitrage/</loc>
@@ -78,9 +96,6 @@
     <lastmod>2026-06-09T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://leslie-ren.github.io/Inflection.Quant/articles/mc_variance_reduction/</loc>
-    <lastmod>2026-06-02T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://leslie-ren.github.io/Inflection.Quant/tags/monte-carlo/</loc>
     <lastmod>2026-06-02T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://leslie-ren.github.io/Inflection.Quant/tags/options/</loc>
