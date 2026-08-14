@@ -231,7 +231,6 @@ $$u(x,t) = \int_{-\infty}^{\infty} f(y)\,\frac{1}{\sqrt{4\pi\kappa t}}\,e^{-(x-y
 This integral is the general solution on the infinite rod: the heat at each point is the initial profile averaged against a Gaussian of variance $2\kappa t$ centered there, the nearby heat counting most. The point source is the case $f = Q\delta$, where the integral collapses back to the single kernel above.
 
 ---
-
 ## The Fourier Transform in Complex Exponentials
 
 So far we have built the transform from sine and cosine, the way Fourier originally worked, but the modern representation is almost always written with the complex exponential $e^{i\omega x}$ instead. The two are equivalent by Euler's formula,
@@ -250,11 +249,12 @@ where $c(\omega) = \tfrac{1}{2}\big(a(\omega) - i\,b(\omega)\big)$ and its partn
 
 The sine-and-cosine decomposition and the complex-exponential decomposition therefore hold the same information. In exponential form the transform and its inverse read
 
-$$c(\omega) = \int_{-\infty}^{\infty} f(x)\, e^{-i\omega x}\, dx, \qquad f(x) = \frac{1}{2\pi}\int_{-\infty}^{\infty} c(\omega)\, e^{i\omega x}\, d\omega,$$
+$$\hat f(\omega) = \int_{-\infty}^{\infty} f(x)\, e^{-i\omega x}\, dx, \qquad f(x) = \frac{1}{2\pi}\int_{-\infty}^{\infty} \hat f(\omega)\, e^{i\omega x}\, d\omega,$$
 
-where the complex weight $c(\omega)$ carries both the amplitude and the phase of frequency $\omega$. A single frequency is one oscillation described by two numbers, how large it is and where its peaks sit along the axis; a sine and a cosine of the same $\omega$ are this one oscillation in two shifted positions. The complex $c(\omega)$ records both: its size and its angle in the plane are the two numbers that pin down the oscillation.
+where $\hat f(\omega) = 2\pi\,c(\omega)$, and the complex weight $\hat f(\omega)$ carries both the amplitude and the phase of frequency $\omega$. A single frequency is one oscillation described by two numbers, how large it is and where its peaks sit along the axis; a sine and a cosine of the same $\omega$ are this one oscillation in two shifted positions. The complex $\hat f(\omega)$ records both: its size and its angle in the plane are the two numbers that pin down the oscillation.
 
-Two things make this form worth adopting. The first is bookkeeping: sines and cosines are tracked together as one complex exponential, instead of as two separate real families. The second matters more but is not obvious at this point: the complex exponential is the language of the characteristic function, $\phi(\omega) = \mathbb{E}[e^{i\omega X}]$, which we will draw on in the discussion of option pricing that follows.
+Two things make this form worth adopting. The first is bookkeeping: sines and cosines are tracked together as one complex exponential, instead of as two separate real families. The second matters more but is not obvious at this point: the complex exponential is the language of the characteristic function, $\phi(\omega) = \mathbb{E}[e^{i\omega X}]$, which is the transform of the density evaluated at $-\omega$ under the sign convention above, and which we will draw on in the discussion of option pricing that follows.
+
 
 ---
 

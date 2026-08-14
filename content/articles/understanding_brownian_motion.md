@@ -88,33 +88,49 @@ This shows that the step size must scale as $\sqrt{\Delta t}$ to reproduce the o
 Only $\sqrt{\Delta t}$ gives variance proportional to $t$, consistent with both physical observation and the continuous-time limit.
 
 ---
-
 ## Application: Option Price Scaling with Expiry
 
-A concrete place where the $\sqrt{T}$ scaling shows up in practice is in the price of at-the-money options. To isolate the effect of Brownian motion cleanly, we work under two idealising assumptions: the option is struck exactly at the current price ($S = K$), and the risk-free rate is zero ($r = 0$). In practice, implied volatility varies across expiries and rates are non-zero, both of which distort the pure $\sqrt{T}$ relationship — but stripping these away lets the Brownian motion signature come through clearly.
+A concrete place where the $\sqrt{T}$ scaling shows up in practice is in the price of
+at-the-money options. To isolate the effect of Brownian motion cleanly, we work under two
+idealising assumptions: the option is struck exactly at the current price ($S = K$), and the
+risk-free rate is zero ($r = 0$). In practice, implied volatility varies across expiries and
+rates are non-zero, both of which distort the pure $\sqrt{T}$ relationship. Stripping them
+away lets the Brownian motion signature come through clearly.
 
-Under these assumptions, consider a European call option on a stock with no drift. Intuitively, the option's value should grow with time-to-expiry $T$ — more time means more opportunity for the stock to move in your favour. But by how much? If variance grew as $T^2$, prices would scale linearly with $T$; if it were constant, prices would not change with expiry at all. Because Brownian motion gives $\text{Var}(B_T) = T$, the standard deviation of the stock's position scales as $\sqrt{T}$, and since an ATM option's value is essentially compensating the seller for the expected absolute deviation of the terminal stock price, the price scales accordingly.
+Under these assumptions, consider a European call on a stock whose *log-price* is Brownian
+with variance $\sigma^2 T$. The option's value should grow with time-to-expiry $T$, since more time means
+more opportunity for the stock to move in your favour. But by how much? The premium tracks the
+*standard deviation* of the terminal price rather than its variance, because an ATM call is
+compensating the seller for an expected absolute deviation. If variance grew as $T^2$, the standard deviation would grow as $T$ and
+prices would scale linearly with expiry; if variance were constant, the standard deviation
+would be too, and prices would not change with expiry at all. Because Brownian motion gives
+$\text{Var}(B_T) = T$, the proportional dispersion of the terminal price scales as
+$\sigma\sqrt{T}$, and the premium scales the same way.
 
-The table below shows Black-Scholes ATM call prices for $S = K = 100$, $\sigma = 20\%$, $r = 0$:
+The table below shows Black-Scholes ATM call prices for $S = K = 100$, $\sigma = 20\%$,
+$r = 0$:
 
 | Expiry $T$ | Call Price | Ratio to 1-month price |
 |---|---|---|
-| 1 month | 2.31 | 1.00 |
-| 4 months | 4.62 | 2.00 |
-| 9 months | 6.93 | 3.00 |
-| 16 months | 9.24 | 4.00 |
+| 1 month | 2.303 | 1.000 |
+| 4 months | 4.604 | 1.999 |
+| 9 months | 6.901 | 2.997 |
+| 16 months | 9.193 | 3.992 |
 
-The expiry quadruples from 1 to 4 months, yet the price only doubles — exactly the $\sqrt{T}$ signature of Brownian motion. This is not an approximation artifact.
+The expiry quadruples from 1 to 4 months, yet the price only doubles. That is the $\sqrt{T}$
+signature of Brownian motion. The ratios track $\sqrt{T}$ closely,
+and the small shortfall reflects curvature in the normal CDF, explained below.
 
-### Why the ATM Black-Scholes Formula Reduces to $\sigma\sqrt{T}$
+### Why the ATM Black-Scholes Formula Reduces to a Function of $\sigma\sqrt{T}$
 
-Under the two conditions $S = K$ and $r = 0$, the Black-Scholes $d_1$ and $d_2$ terms simplify considerably. Recall:
+Under the two conditions $S = K$ and $r = 0$, the Black-Scholes $d_1$ and $d_2$ terms simplify
+considerably. Recall:
 
 $$
 d_1 = \frac{\ln(S/K) + (r + \frac{1}{2}\sigma^2)T}{\sigma\sqrt{T}}, \qquad d_2 = d_1 - \sigma\sqrt{T}
 $$
 
-Setting $S = K$ (so $\ln(S/K) = 0$) and $r = 0$:
+Setting $S = K$ and $r = 0$:
 
 $$
 d_1 = \frac{\frac{1}{2}\sigma^2 T}{\sigma\sqrt{T}} = \frac{\sigma\sqrt{T}}{2}, \qquad d_2 = -\frac{\sigma\sqrt{T}}{2}
@@ -126,32 +142,44 @@ $$
 C = S \left( N\left(\tfrac{\sigma\sqrt{T}}{2}\right) - N\left(-\tfrac{\sigma\sqrt{T}}{2}\right) \right) = S \left( 2N\left(\tfrac{\sigma\sqrt{T}}{2}\right) - 1 \right)
 $$
 
-The price is an exact function of $\sigma\sqrt{T}$ alone — there is no separate dependence on $\sigma$ or $T$ individually, only through their product $\sigma\sqrt{T}$. Doubling $T$ is equivalent to doubling $\sigma^2$. To make the $\sqrt{T}$ dependence fully explicit, apply a first-order Taylor expansion of $N(x)$ around $x = 0$. Since $N'(x) = \phi(x)$ and $\phi(0) = \frac{1}{\sqrt{2\pi}}$, we have $N(x) \approx \frac{1}{2} + \frac{1}{\sqrt{2\pi}} x$ for small $x$, and therefore:
+This is exact, and it is the formula behind the table above. Note that the price depends on
+$\sigma$ and $T$ only through the combination $\sigma\sqrt{T}$, with no separate dependence on
+either.
+
+To make the $\sqrt{T}$ dependence fully explicit, expand the normal CDF about the origin.
+Since $N'= \phi$ and $\phi(0) = \frac{1}{\sqrt{2\pi}}$, for small arguments
 
 $$
-2N(x) - 1 \approx \sqrt{\frac{2}{\pi}}x
+2N\left(\tfrac{\sigma\sqrt{T}}{2}\right) - 1 = \sqrt{\frac{2}{\pi}}\left(\frac{\sigma\sqrt{T}}{2} - \frac{1}{6}\left(\frac{\sigma\sqrt{T}}{2}\right)^{3} + O\!\left((\sigma\sqrt{T})^{5}\right)\right)
 $$
 
-Substituting $x = \frac{\sigma\sqrt{T}}{2}$ gives the leading-order ATM call price:
+Keeping only the leading term:
 
 $$
-C \approx S \cdot \sqrt{\frac{2}{\pi}} \cdot \frac{\sigma\sqrt{T}}{2} = \frac{S\sigma\sqrt{T}}{\sqrt{2\pi}}
+C \approx S \cdot \sqrt{\frac{2}{\pi}} \cdot \frac{\sigma\sqrt{T}}{2} = \frac{S\sigma\sqrt{T}}{\sqrt{2\pi}} \approx 0.4\, S \sigma \sqrt{T}
 $$
 
-with $\frac{\sigma}{\sqrt{2\pi}}$ acting as a simple proportionality constant. The approximation is accurate for $\sigma\sqrt{T} \leq 0.3$ (e.g. 20% vol with under roughly two years to expiry), and deteriorates for long-dated or high-vol options where the cubic correction term in the Taylor expansion becomes material.
-
-Any model that replaced Brownian motion with a process whose variance scaled differently would produce option prices inconsistent with this pattern, which is one reason the continuous-time Brownian framework is so deeply embedded in derivatives pricing.
+which is the familiar desk rule of thumb. The cubic term is always negative, so the linear
+approximation always *overstates* the true premium, by a relative amount of roughly
+$\sigma^2 T / 24$. At 20% vol that is under 0.1% inside six months and about 0.2% at the
+16-month point in the table. The same curvature is what pulls the observed ratios slightly
+below 2.000, 3.000 and 4.000. Any model that replaced Brownian motion with a process whose variance scaled differently would
+produce option prices inconsistent with this pattern, which is one reason the continuous-time
+Brownian framework is so deeply embedded in derivatives pricing.
 
 ### Connection to Brenner–Subrahmanyam
 
-The relationship between ATM call price and $\sigma\sqrt{T}$ is exactly what motivates the Brenner–Subrahmanyam initial guess for implied volatility:
+The relationship between ATM call price and $\sigma\sqrt{T}$ is exactly what motivates the
+Brenner–Subrahmanyam initial guess for implied volatility:
 
 $$
 \sigma_0 \approx \frac{C_\text{mkt}}{S} \cdot \sqrt{\frac{2\pi}{T}}
 $$
 
-By taking the observed market price and inverting this relationship, we get a smart starting point for **Newton-Raphson** iterations when solving for implied volatility. For a deeper dive into solving for implied vol, including **Newton vs Brent methods**, see my article: [Solving for Implied Volatility: Newton's Method vs Brent's Method]({{< relref "newton_vs_brent_vol_solver.md" >}})
-
+Inverting the leading-order relationship gives a smart starting point for **Newton-Raphson**
+iterations when solving for implied volatility. For a deeper dive into solving for implied vol, including
+**Newton vs Brent methods**, see my article:
+[Solving for Implied Volatility: Newton's Method vs Brent's Method]({{< relref "newton_vs_brent_vol_solver.md" >}}).
 
 ---
 
