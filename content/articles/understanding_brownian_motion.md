@@ -22,12 +22,16 @@ Einstein's key insight was that this linear scaling follows from particles recei
 ---
 
 ## Definition of Standard Brownian Motion
+A standard Brownian motion $B(t)$ is a stochastic process indexed by $t \in [0, \infty)$ satisfying:
 
-Mathematically, a standard Brownian motion $B(t)$ is a continuous-time stochastic process defined by:
-
-1. $B(0) = 0$.
-2. Independent increments: The increment $B(t+s) - B(s)$ is independent of the past.
-3. Normally distributed increments: $B(t+s) - B(s) \sim N(0, t)$, where the variance equals the length of the interval.
+1. Starts at the origin: $B(0) = 0$.
+2. Continuous paths: With probability 1, the map $t \mapsto B(t)$ is
+   continuous.
+3. Independent increments: For any $0 \le t_0 < t_1 < \cdots < t_n$, the
+   increments $B(t_1) - B(t_0),\ \ldots,\ B(t_n) - B(t_{n-1})$ are mutually
+   independent.
+4. Normally distributed increments: For $0 \le s < t$,
+   $$B(t) - B(s) \sim N(0,\, t - s),$$
 
 Notice that the last condition encodes linear variance growth: an increment over a time interval of length $\Delta t$ has variance $\Delta t$. But why is this the correct scaling rather than an arbitrary choice? The answer comes from modeling Brownian motion as a limit of a random walk.
 

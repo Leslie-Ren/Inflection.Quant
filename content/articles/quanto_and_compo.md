@@ -1,5 +1,5 @@
 ---
-title: "Quanto and Compo Commodity Options: FX's Hidden Role in Pricing and Risk"
+title: "Quanto vs Compo Commodity Options: The Role of FX in Pricing and Risk"
 date: 2026-05-19
 draft: false
 math: true
@@ -14,7 +14,7 @@ This article works through both structures using WTI/CAD as an example and focus
 > - Why does the quanto adjustment exist and what drives its magnitude?
 > - How do FX volatility and correlation enter the pricing of each structure, and why do they enter differently?
 > - When does each structure suit a given participant?
-> - How do dealers hedge each structure, and which risks are hardest to manage?
+> - How is each structure hedged, and which risks are hardest to manage?
 
 ---
  
@@ -56,13 +56,14 @@ The two Brownian motions $W_F^{USD}$ and $W_X^{USD}$ have instantaneous correlat
 
 $$dW_F^{USD}\,dW_X^{USD} = \rho\,dt$$
 
-Since X is quoted as CAD per USD, a rally in oil that strengthens CAD causes USDCAD to fall. This is not incidental: Canada is one of the world's largest oil exporters, and CAD is widely regarded as a petrocurrency whose value is closely tied to energy prices. Oil returns and USDCAD returns therefore move in opposite directions systematically, giving $\rho < 0$ for this pair.
+Since X is quoted as CAD per USD, a rally in oil that strengthens CAD causes USDCAD to fall. This is not incidental: Canada is one of the world's largest oil exporters, and CAD is widely regarded as a petrocurrency whose value is closely tied to energy prices. Oil returns and USDCAD returns have therefore tended to move in opposite
+directions, and $\rho$ is typically negative for this pair.
 
 Since measure change only adds a drift and leaves quadratic covariation unchanged, $\rho$ is invariant under the measure change. The same correlation holds under $\mathbb{Q}^{CAD}$:
 
 $$dW_F^{CAD}\,dW_X^{CAD} = \rho\,dt$$
  
-Since our payoffs are denominated in CAD, we need to express $F$ under $\mathbb{Q}^{CAD}$ rather than $\mathbb{Q}^{USD}$. The key result is that under $\mathbb{Q}^{CAD}$, $F$ is no longer driftless but acquires a drift of $-\rho\,\sigma_F\,\sigma_X$, known as the quanto adjustment. This drift arises entirely from the correlation between $F$ and $X$ and would vanish if the two were independent.
+Because our payoffs are denominated in CAD, we need to express $F$ under $\mathbb{Q}^{CAD}$ rather than $\mathbb{Q}^{USD}$. The key result is that under $\mathbb{Q}^{CAD}$, $F$ is no longer driftless but acquires a drift of $-\rho\,\sigma_F\,\sigma_X$, known as the quanto adjustment. This drift arises entirely from the correlation between $F$ and $X$ and would vanish if the two were independent.
 
 The derivation below shows how this drift emerges from the Radon-Nikodym derivative linking the two measures. Readers comfortable with the result can skip ahead to the next section.
 
@@ -91,7 +92,7 @@ where $W_\perp$ is a Brownian motion independent of $W_X^{USD}$. Applying the me
 
 $$dW_F^{USD} = \rho(dW_X^{CAD} - \sigma_X\,dt) + \sqrt{1-\rho^2}\,dW_\perp = -\rho\,\sigma_X\,dt + \rho\,dW_X^{CAD} + \sqrt{1-\rho^2}\,dW_\perp$$
 
-The diffusion part $\rho\,dW_X^{CAD} + \sqrt{1-\rho^2}\,dW_\perp$ has instantaneous correlation $\rho$ with $W_X^{CAD}$, which is exactly the definition of $dW_F^{CAD}$, so we write:
+The diffusion part $\rho\,dW_X^{CAD} + \sqrt{1-\rho^2}\,dW_\perp$ is exactly $dW_F^{CAD}$, so we write:
 
 $$dW_F^{USD} = -\rho\,\sigma_X\,dt + dW_F^{CAD}$$
 
@@ -123,16 +124,29 @@ Setting $\bar{X} = \mathbb{E}[X_T]$ to simplify the illustration[^1], the expect
 
 $$\mathbb{E}[F_T(X_T - \bar{X})] = \mathbb{E}[F_T X_T] - \mathbb{E}[F_T]\,\mathbb{E}[X_T] = \text{Cov}(F_T, X_T)$$
 
-Since $\rho < 0$ for this pair, the covariance is negative: the simple hedge bleeds in expectation. To break even, the bank must charge the client a forward price above $F_0$. The required markup is determined by the covariance $\text{Cov}(F_T, X_T) = \rho \sigma_F \sigma_X T$
+Since $\rho < 0$ for this pair, the covariance is negative: the simple hedge bleeds in expectation. To break even, the bank must charge the client a forward price above $F_0$. The required markup is determined by this covariance, and it is worth being careful here about which covariance is meant. The parameter $\rho$ describes the correlation of the Brownian drivers, so the quantity $\rho\,\sigma_F\,\sigma_X\,T$ is the covariance of the logs:
+ 
+$$\text{Cov}(\ln F_T, \ln X_T) = \rho\,\sigma_F\,\sigma_X\,T$$
 
-In continuous time, the bleeding accumulates at rate $\rho\,\sigma_F\,\sigma_X$ per unit time proportionally to the current level of $F$, giving the SDE under $\mathbb{Q}^{CAD}$:
+The hedging P&L, however, is a CAD cash amount, so what we need is the covariance of the levels. For lognormal $F$ and $X$ the two are related by
+ 
+$$\text{Cov}(F_T, X_T) = \mathbb{E}[F_TX_T] - \mathbb{E}[F_T]\,\mathbb{E}[X_T]=\mathbb{E}[F_T]\,\mathbb{E}[X_T]\left(e^{\rho\sigma_F\sigma_X T} - 1\right)$$
 
+Notice that $\mathbb{E}[F_T]$ appears on the right hand side, and $\mathbb{E}[F_T]$ is precisely the quantity this argument is meant to pin down. Leave it symbolic instead and write $\mathbb{E}[F_T] = F_0 e^{\mu T}$ for some unknown drift rate $\mu$, so that
+$$\text{Cov}(F_T, X_T) = F_0\,\bar{X}\,e^{\mu T}\left(e^{\rho\sigma_F\sigma_X T} - 1\right)$$
+
+Expanding both factors for small $T$, the $e^{\mu T}$ factor contributes $1 + \mu T + \ldots$, and the cross term $\mu T \cdot \rho\sigma_F\sigma_X T$ is of order $T^2$. Whatever $\mu$ turns out to be, it does not affect the leading behavior:
+ 
+$$\text{Cov}(F_T, X_T) \approx F_0\,\bar{X}\,\rho\,\sigma_F\,\sigma_X\,T$$
+
+Expressed per unit of the fixed rate $\bar{X}$, the bank must raise the price it quotes by $-F_0\,\rho\,\sigma_F\,\sigma_X\,T$. The markup is proportional to the level of $F$, so in continuous time the bleeding accumulates at rate $\rho\,\sigma_F\,\sigma_X$ per unit time proportionally to the current level of $F$, giving the SDE under $\mathbb{Q}^{CAD}$:
+ 
 $$\frac{dF}{F} = -\rho\,\sigma_F\,\sigma_X\,dt + \sigma_F\,dW_F^{CAD}$$
-
-Compounding this proportional drift over $T$ gives the quanto-adjusted forward, which we denote $F_0^*$:
-
+ 
+Compounding this drift over $T$ gives the quanto adjusted forward, which we denote $F_0^*$:
+ 
 $$F_0^* \equiv \mathbb{E}^{\mathbb{Q}^{CAD}}[F_T] = F_0 \cdot e^{-\rho\,\sigma_F\,\sigma_X\,T}$$
-
+ 
 Since $\rho < 0$, the exponent is positive and $F_0^* > F_0$. The more negative $\rho$ is, and the larger $\sigma_F$ and $\sigma_X$ are, the more the simple hedge bleeds and the greater the adjustment required.
 
 ---
@@ -196,7 +210,7 @@ This is positive only when $\sigma_X > -\rho\,\sigma_F$. When $\rho$ is negative
  
 ---
  
-# Which Structure Suits Which Participant?
+## Which Structure Suits Which Participant?
 
 ### Currency of Exposure
 
@@ -204,14 +218,15 @@ The most fundamental question is what currency the participant's exposure actual
 
 ### Relative Cost
 
-Once the currency question is settled, cost becomes the next consideration, and neither structure is universally cheaper. At $\rho = 0$ the compo tends to be more expensive because it embeds FX risk directly into the payoff, raising the total volatility $\sigma_{compo}$. But as $\rho$ becomes more negative, the cross term in $\sigma_{compo}$ works in the buyer's favour, and for WTI/CAD where $\rho$ is meaningfully negative and $\sigma_F$ is substantially larger than $\sigma_X$, the compo can be cheaper than the quanto. The crossover point where the compo premium falls below the quanto premium depends on the interplay between the compo vol reduction and the quanto forward adjustment $F_0^*$, and participants who are indifferent between the two payoff structures should price both under current market inputs before deciding.
+Once the currency question is settled, cost becomes the next consideration, and neither structure is universally cheaper. At $\rho = 0$ the compo tends to be more expensive because it embeds FX risk directly into the payoff, raising the total volatility $\sigma_{compo}$. But as $\rho$ becomes more negative, the cross term in $\sigma_{compo}$ works in the buyer's favor, and for WTI/CAD where $\rho$ is meaningfully negative and $\sigma_F$ is substantially larger than $\sigma_X$, the compo can be cheaper than the quanto. The crossover point where the compo premium falls below the quanto premium depends on the interplay between the compo vol reduction and the quanto forward adjustment $F_0^*$, and participants who are indifferent between the two payoff structures should price both under current market inputs before deciding.
  
 
 ### Operational Complexity
-Operational simplicity favours the quanto, particularly for corporate treasuries and smaller counterparties. Both structures require $\sigma_F$, $\sigma_X$, and $\rho$, none of which are directly observable. But in the quanto, $\rho$ enters only through the drift adjustment in $F_0^*$, and once that adjusted forward is computed the valuation reduces to a standard single-underlying Black formula. In the compo, $\rho$ enters $\sigma_{compo}$ directly and the sensitivity of the option value to correlation is more immediate and material, making independent marking harder for a treasury without a dedicated quant function. Beyond valuation, the cross-gamma and correlation risks discussed in the next section mean dealers may charge a wider bid-offer spread on the compo, which partially offsets any premium saving from the lower composite vol and should be factored into the all-in cost comparison.
+Operational simplicity favors the quanto, particularly for corporate treasuries and smaller counterparties. Both structures require $\sigma_F$, $\sigma_X$, and $\rho$. The two volatilities are obtainable from the option market, but $\rho$ is not, and that is where the two structures diverge. In the quanto, $\rho$ enters only through the drift adjustment in $F_0^*$, and once that adjusted forward is computed the valuation reduces to a standard single-underlying Black formula. In the compo, $\rho$ enters $\sigma_{compo}$ directly and the sensitivity of the option value to correlation is more immediate and material, making independent marking harder for a treasury without a dedicated quant function. Beyond valuation, the cross-gamma and correlation risks discussed in the next section mean dealers may charge a wider bid-offer spread on the compo, which partially offsets any premium saving from the lower composite vol and should be factored into the all-in cost comparison.
 
-The pricer below allows direct comparison of both structures under user-specified inputs. The hedging section that follows explains how dealers manage each once the trade is on.
+The pricer below allows direct comparison of both structures under user-specified inputs. The hedging section that follows explains how each is managed once the trade is on.
 
+---
 
 {{<compo_quanto_pricer>}}
 
@@ -229,22 +244,32 @@ The delta hedge is therefore a straightforward position in WTI futures, sized to
 Black delta evaluated at the quanto-adjusted forward.
 As WTI moves, the futures position is rebalanced in the usual way.
  
-Although there is no FX delta, a USD/CAD forward is still required for currency
-translation. The WTI futures position generates P&L in USD while the liability to the
-option holder is in CAD. The dealer enters a USD/CAD forward sized to the expected dollar
-value of the futures position to convert those proceeds into CAD at a known rate. This
-forward is updated as the delta is rebalanced. It is a funding hedge rather than a
-risk-factor hedge. It does not arise from any sensitivity of the option value to the
-exchange rate, but from the operational mismatch between the currency of the hedging
-instrument and the currency of the liability.
+Although there is no FX delta, USD/CAD still enters the hedge in two ways. First,
+the futures position must be scaled by $\bar{X}/X_t$, the ratio of the contractual
+rate to current spot, so that hedge P&L converts into CAD at the same rate the
+liability is struck at. Spot FX therefore affects the hedge ratio even though it
+does not affect the option value. Second, futures settle daily, so the dealer
+accumulates a USD margin balance while the liability is in CAD. A USD/CAD forward
+sized to that balance locks in the rate at which realized hedge P&L becomes CAD,
+and is rolled as margin accrues. Neither is a risk-factor hedge. Both arise from
+the mismatch between the currency of the hedging instrument and the currency of
+the liability.
+
+The option value is also sensitive to FX volatility, since $\sigma_X$ enters the
+adjusted forward through $F_0^* = F_0\,e^{-\rho\,\sigma_F\,\sigma_X T}$. For
+$\rho < 0$ higher FX vol raises $F_0^*$ and the call value, leaving a dealer who
+sold the option short FX vol, though the effect is small for short tenors and
+grows with maturity. This risk is hedgeable with
+USD/CAD options, though for short-dated trades the exposure may be small enough
+not to warrant it.
  
-The more subtle risk in the quanto is correlation between WTI returns and USD/CAD returns.
+The harder risk to manage is correlation between WTI returns and USD/CAD returns.
 Correlation enters the pricing formula through the drift of the oil forward under the CAD
 measure, and the dealer who sold the option carries residual exposure to shifts in this
-parameter. This is difficult to hedge because correlation is not directly traded. Pure
-correlation products such as covariance swaps exist but are often illiquid in the commoidty/FX market. In practice dealers manage correlation exposure within
+parameter. This is difficult to hedge because correlation is not directly traded, and there
+is no liquid instrument on WTI/CAD correlation to hedge with. In practice dealers manage correlation exposure within
 book limits, accepting that residual exposure will sit on the book as a managed risk.
-The sensitivity is relatively contained, however, because correlation enters only through
+The sensitivity is relatively contained, because correlation enters only through
 the drift adjustment rather than through the volatility of the underlying itself.
 
 **Hedging the Compo**
@@ -267,15 +292,13 @@ must verify this sign before structuring the USD/CAD options overlay, as the
 positive-correlation intuition would produce a hedge in the wrong direction.
  
 Correlation risk in the compo is more material than in the quanto because $\rho$ enters
-$\sigma_{compo}$ directly rather than just the drift. The instinctive view is that a dealer
-who sold a call is short correlation, since higher $\rho$ increases $\sigma_{compo}$ and
-raises the option value. But this reasoning imports a positive-correlation assumption
-silently. For WTI/CAD where $\rho$ is negative, a move toward more positive correlation
-does hurt the dealer, while a further decline in correlation reduces $\sigma_{compo}$ and
-benefits them. The direction of the exposure is not fixed: it depends on where $\rho$
-currently sits and which way it moves. As with the quanto,
-residual correlation risk is carried on the book and priced into the spread at inception.
-
+$\sigma_{compo}$ directly rather than just the drift. A dealer who has sold the compo call is
+unambiguously short correlation. A move toward more positive correlation raises
+$\sigma_{compo}$ and hurts them. In the quanto the exposure runs the other way. Correlation enters only
+through the drift, and since a higher $\rho$ makes the exponent in $F_0^*$ more
+negative, it lowers the adjusted forward and with it the call value, leaving the
+dealer who sold the quanto long correlation. In both cases the residual risk is carried on the book, and is most likely
+reflected in the pricing spread rather than hedged away.
 
 **Comparative Summary**
  
@@ -286,13 +309,12 @@ residual correlation risk is carried on the book and priced into the spread at i
 | Cross-gamma | None | Cannot be fully hedged with vanilla instruments; treated as cost of carry and priced into the spread |
 | WTI vega | WTI options | WTI options |
 | FX vega | Enters only via $F_0^*$; less material than WTI vega for short-dated trades, but grows with tenor and correlation  | USD/CAD options; sign of exposure determined by $\sigma_X + \rho\sigma_F$ |
-| Correlation risk | Via drift; relatively contained | Via $\sigma_{compo}$; more material; sign depends on level of $\rho$ |
+| Correlation risk | Via drift; relatively contained; call seller is long correlation | Via $\sigma_{compo}$; more material; call seller is short correlation |
 | Correlation hedge | Residual book risk; priced into spread | Residual book risk; priced into spread |
 | Overall complexity | Moderate | Higher; two coupled dynamic hedges |
  
 ---
 
-
 ## A Note on Calibrating $\rho$
 
-Throughout this article, $\rho$ appears in every formula and drives many of the key risk management decisions. In practice, calibrating it is less straightforward than calibrating $\sigma_F$ or $\sigma_X$, both of which can be implied from liquid option markets. Correlation has no directly quoted instrument. Dealers typically estimate $\rho$ from historical return series, often using rolling windows of varying length and weighting schemes that emphasise recent observations. The choice of window, frequency, and whether to use spot or futures returns can produce meaningfully different estimates. Some desks supplement historical estimates with implied correlation backed out from traded cross-asset products where available, though for WTI/CAD such instruments are sparse. The resulting uncertainty in $\rho$ is itself a source of model risk, and given how directly it enters both the quanto drift adjustment and the compo composite volatility, even modest miscalibration can shift prices and hedge ratios materially. This is one of the reasons dealers price correlation risk into the spread rather than attempting to hedge it precisely.
+Throughout this article, $\rho$ appears in every formula and drives many of the key risk management decisions. In practice, calibrating it is less straightforward than calibrating $\sigma_F$ or $\sigma_X$, both of which can be implied from liquid option markets. Correlation has no directly quoted instrument. Dealers typically estimate $\rho$ from historical return series, often using rolling windows of varying length and weighting schemes that emphasize recent observations. The choice of window, frequency, and whether to use spot or futures returns can produce meaningfully different estimates. Some desks supplement historical estimates with implied correlation backed out from traded cross-asset products where available, though for WTI/CAD such instruments are sparse. The resulting uncertainty in $\rho$ is itself a source of model risk, and given how directly it enters both the quanto drift adjustment and the compo composite volatility, even modest miscalibration can shift prices and hedge ratios materially. This is one of the reasons dealers price correlation risk into the spread rather than attempting to hedge it precisely.

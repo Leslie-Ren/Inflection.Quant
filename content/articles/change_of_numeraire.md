@@ -26,7 +26,7 @@ Assume both assets follow geometric Brownian motion under $\mathbb{P}$:
 
 $$dS^i_t = \mu_i S^i_t dt + \sigma_i S^i_t dW^i_t, \qquad i = 1, 2$$
 
-with $d\langle W^1, W^2 \rangle_t = \rho dt$. 
+with $d\langle W^1, W^2 \rangle_t = \rho dt$. Neither asset pays dividends, so each price process is itself a self-financing wealth process.
 
 Let us price it two ways: under the risk-neutral measure, and under the stock measure using $S^2$ as numéraire.
 
@@ -94,7 +94,7 @@ What exactly happens to the measure when we switch numéraire from $B_t$ to $S^2
  
 $$\mathbb{Q} \xrightarrow{\text{change of numéraire}} \mathbb{Q}^2$$
  
-The numéraire for $\mathbb{Q}$ is the bond $B_t = e^{rt}$. The numéraire for $\mathbb{Q}^2$ is $S^2_t$. To find the Radon-Nikodym derivative between them, recall that any asset $V_t$, expressed in units of $B_t$, must be a $\mathbb{Q}$-martingale:
+The numéraire for $\mathbb{Q}$ is the bond $B_t = e^{rt}$. The numéraire for $\mathbb{Q}^2$ is $S^2_t$. To find the Radon-Nikodym derivative between them, recall that any self-financing wealth process, $V_t$, expressed in units of $B_t$, must be a $\mathbb{Q}$-martingale:
  
 $$\frac{V_t}{B_t} = \mathbb{E}^{\mathbb{Q}}\!\left[\frac{V_T}{B_T} \,\bigg|\, \mathcal{F}_t\right]$$
  
@@ -136,8 +136,8 @@ The key point is that the measure change is driven entirely by the randomness of
 
 The exchange option gave us one instance of a numéraire change. The pattern it revealed generalises. Every time we price a derivative, we are implicitly choosing a numéraire. Choosing it to match the structure of the payoff is what makes the difference between a one-line derivation and a page of algebra.
  
-**Definition.** A *numéraire* is any strictly positive adapted process $N_t$. The associated measure $\mathbb{Q}^N$ is the probability measure under which every asset price $V_t$, expressed in units of $N_t$, is a martingale:
- 
+**Definition.** A *numéraire* $N_t$ is the price process of a strictly positive traded asset with no intermediate cash flows. The associated measure $\mathbb{Q}^N$ is the measure under which the asset price $V_t$ expressed in units of $N_t$ is a martingale:
+
 $$\frac{V_t}{N_t} = \mathbb{E}^{\mathbb{Q}^N}\!\left[\frac{V_T}{N_T} \,\bigg|\, \mathcal{F}_t\right]$$
  
 **Theorem (Change of Numéraire).** Let $M$ and $N$ be two numéraires. Then the measures $\mathbb{Q}^M$ and $\mathbb{Q}^N$ are related by:

@@ -212,14 +212,14 @@ Rather than study volatility against log-moneyness $x = \ln(F/K)$, work in total
 The butterfly condition from the density section can be written entirely in these coordinates. Non-negative density is equivalent to a single function of $w$ and its first two derivatives staying non-negative at every $x$,
 
 $$g(x) = \left(1 - \frac{x\,w'}{2w}\right)^2 - \frac{w'^2}{4}\left(\frac{1}{w} + \frac14\right) + \frac{w''}{2} \;\ge\; 0,$$
-
+ 
 where $w' = dw/dx$ and $w'' = d^2w/dx^2$; its derivation is in [Appendix B](#appendix-b-deriving-the-total-variance-butterfly-condition). Test the growth by setting $w = Cx^\alpha$ and reading the sign of $g$ as $x \to \infty$.
 
-**Faster than linear, $\alpha > 1$.** With $w = Cx^\alpha$, $w' = C\alpha x^{\alpha-1}$, $w'' = C\alpha(\alpha-1)x^{\alpha-2}$, the two curvature terms give
-
-$$-\frac{w'^2}{4w} + \frac{w''}{2} = \frac{C\alpha(\alpha-2)}{4}\,x^{\alpha-2},$$
-
-which for $\alpha > 1$ grows without bound and drives $g \to -\infty$. Superlinear growth is a butterfly arbitrage in the wing.
+**Faster than linear,  $\alpha > 1$.** With $w = Cx^\alpha$, $w' = C\alpha x^{\alpha-1}$, $w'' = C\alpha(\alpha-1)x^{\alpha-2}$, the three terms of $g$ scale as
+ 
+$$\left(1 - \frac{x w'}{2w}\right)^2 = \left(1 - \frac{\alpha}{2}\right)^2, \qquad -\frac{w'^2}{4w} + \frac{w''}{2} = \frac{C\alpha(\alpha-2)}{4}\,x^{\alpha-2}, \qquad -\frac{w'^2}{16} = -\frac{C^2\alpha^2}{16}\,x^{2\alpha-2}.$$
+ 
+The first is constant. The last dominates the middle one, since $2\alpha - 2 > \alpha - 2$ for every $\alpha$, and for $\alpha > 1$ its exponent is positive, so it diverges: $g \to -\infty$. Superlinear growth leads to butterfly arbitrages in the wing.
 
 **Linear, $\alpha = 1$.** For $w = a + bx$, $g \to \tfrac14 - b^2/16$ as $x \to \infty$, non-negative only when $b \le 2$. A linear wing is arbitrage-free up to that slope; steeper reintroduces the violation. This is Lee's bound, and the construction has to respect it.
 

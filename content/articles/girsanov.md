@@ -54,15 +54,20 @@ $\mathbb{Q}$.
 
 **Property 2: The drift of the stock under $\mathbb{Q}$ must be $r$.**
 
-This follows directly from Property 1. If the stock follows $S_t = S_0 e^{\mu t +
-\sigma W_t}$ under $\mathbb{P}$, then for the discounted stock to be a martingale
-under $\mathbb{Q}$, the drift must be exactly $r$. Any other drift would allow an
-arbitrage between the stock and the risk-free bond: if the stock drifted faster than
-$r$ under $\mathbb{Q}$, we could borrow at $r$ and buy the stock for a riskless
-profit.
+This follows from Property 1 by direct calculation. Suppose the stock has $\mathbb{Q}$-dynamics
 
-So the drift being $r$ under $\mathbb{Q}$ is not an assumption. It is forced on us
-by the risk-free rate $r$, and no-arbitrage.
+$$dS_t = \alpha S_t\,dt + \sigma S_t\,dW_t^{\mathbb{Q}}$$
+
+for some unknown drift $\alpha$. Applying the product rule to the discounted price
+$\tilde{S}_t = e^{-rt}S_t$ gives
+
+$$d\tilde{S}_t = (\alpha - r)\tilde{S}_t\,dt + \sigma \tilde{S}_t\,dW_t^{\mathbb{Q}}$$
+
+A process of this form is a martingale precisely when its drift term vanishes, so
+Property 1 forces $\alpha = r$:
+
+$$dS_t = r S_t\,dt + \sigma S_t\,dW_t^{\mathbb{Q}}, \qquad
+S_t = S_0 \exp\!\left(\left(r - \tfrac{1}{2}\sigma^2\right)t + \sigma W_t^{\mathbb{Q}}\right)$$
 
 ### What We Still Do Not Know
 

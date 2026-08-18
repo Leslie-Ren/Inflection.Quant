@@ -14,11 +14,11 @@ Suppose I price a barrier by Monte Carlo. At each step the spot sits at some lev
 
 Local volatility is one solution. It gives the instantaneous vol of the underlying at each level and time. This article explains how the model works, and is my exploration of five questions:
 
-- How should the local vols be calibrated in theory?
+- How should local vol be calibrated in theory?
 - What are the challenges of calibrating it in practice?
-- If we price a barrier option under local volatility, how do the results differ from a constant vol, and why?
-- What does local volatility tell us about the path the underlying takes, and what does it not?
-- Why can local volatility not be applied directly to some commodities, and what adaptations does it need?
+- If we price a barrier option under local vol, how do the results differ from constant vol, and why?
+- What does local vol tell us about the path the underlying takes, and what does it leave out?
+- Why can't local vol be applied directly to some commodities, and what adaptations does it need?
 
 ## Set-up
 
