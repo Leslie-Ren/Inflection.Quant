@@ -68,7 +68,7 @@
 &lt;p&gt;In my earlier article on &lt;a href=&#34;./Inflection.Quant/articles/understanding_brownian_motion/&#34;&gt;Brownian motion&lt;/a&gt;, I worked through the forward view: a process starting at a known value, diffusing into an uncertain future. Sometimes we know more than just the starting point. We also know where the process ended up, and we want to characterise the path in between. The object that answers this is the Brownian bridge: a Brownian motion conditioned on its terminal value.&lt;/p&gt;</description>
     </item>
     <item>
-      <title>Quanto and Compo Commodity Options: FX&#39;s Hidden Role in Pricing and Risk</title>
+      <title>Quanto vs Compo Commodity Options: The Role of FX in Pricing and Risk</title>
       <link>https://leslie-ren.github.io/Inflection.Quant/articles/quanto_and_compo/</link>
       <pubDate>Tue, 19 May 2026 00:00:00 +0000</pubDate>
       <guid>https://leslie-ren.github.io/Inflection.Quant/articles/quanto_and_compo/</guid>

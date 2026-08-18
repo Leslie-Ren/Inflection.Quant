@@ -34,7 +34,7 @@
 &lt;p&gt;A derivative price can be computed two equivalent ways: as a risk-neutral expectation, or as the solution of a PDE. This is the &lt;a href=&#34;../../Inflection.Quant/articles/feynman_kac/&#34;&gt;Feynman-Kac result&lt;/a&gt;, which I explored in the earlier article. Monte Carlo is the natural way to handle the expectation, and the &lt;a href=&#34;../../Inflection.Quant/articles/mc_variance_reduction/&#34;&gt;previous article&lt;/a&gt; worked through techniques for making it more efficient. Here I want to look at the other side, where the price is the solution of a PDE and we solve it on a grid.&lt;/p&gt;</description>
     </item>
     <item>
-      <title>Quanto and Compo Commodity Options: FX&#39;s Hidden Role in Pricing and Risk</title>
+      <title>Quanto vs Compo Commodity Options: The Role of FX in Pricing and Risk</title>
       <link>https://leslie-ren.github.io/Inflection.Quant/articles/quanto_and_compo/</link>
       <pubDate>Tue, 19 May 2026 00:00:00 +0000</pubDate>
       <guid>https://leslie-ren.github.io/Inflection.Quant/articles/quanto_and_compo/</guid>
