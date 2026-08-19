@@ -9,15 +9,19 @@ tags: ["Options", "Futures", "Derivatives", "Margining"]
 ## Why This Matters
 
 When I first studied options, most textbook examples were equity-style:
-you pay a premium upfront, and at expiry (or whenever you choose to exercise, if the
-option is American), you receive the payoff. That framing stuck with me for a long time.
+you pay a premium upfront, and you receive the payoff at expiry, or whenever
+you choose to exercise, if the option is American. That framing stuck with me
+for a long time.
 
-When I started working on commodity derivatives, I encountered a different world. Many
-options in commodity markets are traded under futures-style margining. No premium
-changes hands at inception, and instead the option is margined daily like a futures
-contract. This is common across a wide range of exchange-traded products: options on WTI
-crude oil futures at the CME, options on Henry Hub natural gas futures, options on corn
-and wheat futures, and options on carbon emissions futures, to name a few.
+When I started working on commodity derivatives, I encountered a different
+world. Many options are traded under futures-style margining. No premium
+changes hands at inception; instead, the option is margined daily like a
+futures contract. The convention splits along venue lines rather than by
+underlying. US exchanges are predominantly equity-style: options on WTI crude
+futures at the CME and options on corn and wheat futures at the CBOT all
+require an upfront premium. European venues lean the other way. Options on ICE
+Brent futures and options on EUA carbon futures at ICE Endex and EEX are both
+margined futures-style.
 
 A standard assumption in practice is that American futures-style options are valued
 identically to their European counterparts. When I first went looking for an explanation
