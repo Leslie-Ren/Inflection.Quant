@@ -241,35 +241,52 @@ Understanding which structure fits a given exposure is only half the picture. On
 The quanto call has only one source of price risk: the level of WTI. Because the exchange
 rate is fixed contractually, USD/CAD is not a risk factor and the dealer runs no FX delta.
 The delta hedge is therefore a straightforward position in WTI futures, sized to the
-Black delta evaluated at the quanto-adjusted forward.
-As WTI moves, the futures position is rebalanced in the usual way.
- 
-Although there is no FX delta, USD/CAD still enters the hedge in two ways. First,
-the futures position must be scaled by $\bar{X}/X_t$, the ratio of the contractual
-rate to current spot, so that hedge P&L converts into CAD at the same rate the
-liability is struck at. Spot FX therefore affects the hedge ratio even though it
-does not affect the option value. Second, futures settle daily, so the dealer
-accumulates a USD margin balance while the liability is in CAD. A USD/CAD forward
-sized to that balance locks in the rate at which realized hedge P&L becomes CAD,
-and is rolled as margin accrues. Neither is a risk-factor hedge. Both arise from
-the mismatch between the currency of the hedging instrument and the currency of
-the liability.
+Black delta evaluated at the quanto-adjusted forward. As WTI moves, the futures position
+is rebalanced in the usual way. The dealer also carries WTI vega, since $\sigma_F$ is the
+volatility input to the pricing formula, and hedges it with WTI options. Both hedging
+instruments are therefore USD-denominated.
+
+Although there is no FX delta, USD/CAD still enters the hedge through the currency
+mismatch. The dealer's obligation to the client is a CAD amount, $V_t^{quanto}$, while
+the WTI hedges are in USD. Writing $H_t$ for their USD value, and adding a forward
+selling $N_f$ USD at rate $K_f$, the book is worth
+
+$$\Pi_t = -V_t^{quanto} + X_t H_t + N_f(K_f - X_t)$$
+
+in CAD. The forward notional $N_f$ is chosen to make the book insensitive to $X_t$: we set
+$\partial \Pi/\partial X = 0$, which gives $N_f = H_t$. The dealer therefore sells $H_t$
+USD forward, resizing as $H_t$ moves.
+
+Note that $H_t$ covers the whole WTI hedge, futures and options together. The futures
+settle daily, so their contribution is already cash sitting in the margin account. The
+WTI options settle equity-style, so theirs is an unsettled mark. Both are USD claims
+awaiting translation into CAD, and sizing the forward off the margin balance alone leaves
+the options unaccounted for. In practice the desk can also size the forward off the option value directly, assuming the
+WTI hedge is constructed to track the liability closely. Its dollar value is then close to
+$V_t^{quanto} / X_t$, and the dealer sells this amount of USD forward. This sidesteps the
+problem that a margin account shared across books or trades cannot be attributed to a
+single quanto deal, though it inherits any hedging error when the hedge portfolio no
+longer tracks the option value closely. Consider the extreme case of a dealer who puts on no WTI hedge at all. Whatever the quanto
+is worth, $H_t$ is zero and no FX forward is required, since all that sits on the book is a
+CAD obligation struck at a fixed rate and therefore insensitive to spot. The FX exposure is
+created by holding the hedge, not by selling the option.
 
 The option value is also sensitive to FX volatility, since $\sigma_X$ enters the
 adjusted forward through $F_0^* = F_0\,e^{-\rho\,\sigma_F\,\sigma_X T}$. For
 $\rho < 0$ higher FX vol raises $F_0^*$ and the call value, leaving a dealer who
 sold the option short FX vol, though the effect is small for short tenors and
-grows with maturity. This risk is hedgeable with
-USD/CAD options, though for short-dated trades the exposure may be small enough
-not to warrant it.
- 
+grows with maturity. This exposure is hedgeable with USD/CAD options, though for
+short-dated trades it may be small enough not to warrant it. Where the dealer does hedge
+it, the USD/CAD options introduce FX delta of their own, which is straightforward to
+handle since the risk system generates it as usual and it enters the book's net FX delta.
+
 The harder risk to manage is correlation between WTI returns and USD/CAD returns.
 Correlation enters the pricing formula through the drift of the oil forward under the CAD
 measure, and the dealer who sold the option carries residual exposure to shifts in this
-parameter. This is difficult to hedge because correlation is not directly traded, and there
-is no liquid instrument on WTI/CAD correlation to hedge with. In practice dealers manage correlation exposure within
-book limits, accepting that residual exposure will sit on the book as a managed risk.
-The sensitivity is relatively contained, because correlation enters only through
+parameter. This is difficult to hedge because correlation is not directly traded, and no
+liquid instrument on WTI/CAD exists to hedge with. In practice dealers manage the exposure
+within book limits, accepting that residual risk will sit on the book as a managed
+position. The sensitivity is relatively contained, because correlation enters only through
 the drift adjustment rather than through the volatility of the underlying itself.
 
 **Hedging the Compo**
