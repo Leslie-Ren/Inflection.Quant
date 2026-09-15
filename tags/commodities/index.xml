@@ -33,5 +33,25 @@
       <description>&lt;h2 id=&#34;why-this-matters&#34;&gt;Why This Matters&lt;/h2&gt;
 &lt;p&gt;Many of the world&amp;rsquo;s most actively traded commodities are priced in USD, yet end investors and corporates often operate in other currencies. A Canadian oil producer hedging output, a European airline managing jet fuel costs, or an Asian sovereign wealth fund allocating to commodity exposure all face the same underlying issue: commodity risk does not exist in isolation from FX risk. The standard approach is to hedge the commodity leg with USD-denominated futures or swaps and manage FX separately through forwards or options. This works, but it treats the two risks as independent. Quanto and compo options take a different approach by packaging both risks into a single instrument, but the way each handles FX risk creates some pricing and hedging subtleties that I find are easy to miss.&lt;/p&gt;</description>
     </item>
+    <item>
+      <title>Futures-Style Margined Options: The Absence of Early Exercise Premium</title>
+      <link>https://leslie-ren.github.io/Inflection.Quant/articles/future_style_margining_options/</link>
+      <pubDate>Thu, 23 Apr 2026 00:00:00 +0000</pubDate>
+      <guid>https://leslie-ren.github.io/Inflection.Quant/articles/future_style_margining_options/</guid>
+      <description>&lt;h2 id=&#34;why-this-matters&#34;&gt;Why This Matters&lt;/h2&gt;
+&lt;p&gt;When I first studied options, most textbook examples were equity-style:
+you pay a premium upfront, and you receive the payoff at expiry, or whenever
+you choose to exercise, if the option is American. That framing was so ingrained that I took
+it for the general case.&lt;/p&gt;
+&lt;p&gt;When I started working on commodity derivatives, I encountered a different
+world. Many options are traded under futures-style margining. No premium
+changes hands at inception; instead, the option is margined daily like a
+futures contract. The convention tends to split along venue lines rather than by
+underlying. US exchanges are predominantly equity-style: options on WTI crude
+futures at the CME and options on corn and wheat futures at the CBOT all
+require an upfront premium. European venues lean the other way. Options on ICE
+Brent futures and options on EUA carbon futures at ICE Endex and EEX are both
+margined futures-style.&lt;/p&gt;</description>
+    </item>
   </channel>
 </rss>
