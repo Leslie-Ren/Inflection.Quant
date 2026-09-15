@@ -4,6 +4,8 @@ date: 2026-06-16
 draft: false
 math: true
 tags: ["fourier-transform", "pde", "black-scholes", "heat-equation", "characteristic-function", "heston"]
+ShowToc: true
+TocOpen: false
 ---
 
 ## Why This Matters
@@ -26,7 +28,7 @@ The numerical method took $f(x)$ on a grid and advanced it through time. To solv
 
 ---
 
-## Looking for Solutions
+### Looking for Solutions
 
 What makes this equation hard to solve directly is that it ties space and time together: the rate of change in time at a point depends on the curvature in space around that point, so the whole profile evolves as one coupled object. Rather than attack that coupling head-on, watch what the rod actually does as it cools, and look for solutions that behave the same way.
 
@@ -54,7 +56,7 @@ Two ordinary differential equations, each in one variable, which we can now solv
 
 ---
 
-## The Spatial Part and the Role of Boundary Conditions
+### The Spatial Part and the Role of Boundary Conditions
 
 The spatial equation is $X''(x) = -\lambda X(x)$. For $\lambda > 0$ its solutions are oscillations,
 
@@ -78,7 +80,7 @@ In every case the admissible frequencies are discrete: a countable list $\omega_
 
 ---
 
-## The Time Part
+### The Time Part
 
 The time equation $T'(t) = -\lambda \kappa\, T(t)$ says the rate of change is proportional to the current value, which is solved by an exponential. The spatial side already fixed $\lambda = \omega_n^2$, so
 
@@ -110,13 +112,13 @@ $$\frac{\partial (u_1 + u_2)}{\partial t} = \frac{\partial u_1}{\partial t} + \f
 
 so the sum solves it too, as does any amplitude-weighted sum of sines. The hard part is the reach of the claim: that the sum can be made to equal an arbitrary $f(x)$ in the first place. Fourier asserted this but did not prove it; the first rigorous proof came decades later from Dirichlet, who gave sufficient conditions on the function for the series to converge.
 
-Those conditions are that the function has to be bounded, have at most finitely many jumps and corners, and a finite number of maxima and minima over the interval. A profile like $1/x$ near the origin, which runs off to infinity, cannot be represented. Physical temperature profiles satisfy all of this, so the conditions are no real restriction here.
+Those conditions are that the function has to be absolutely integrable over the interval, with at most finitely many jumps and corners and a finite number of maxima and minima. A profile like $1/x$ near the origin fails the first condition: it runs off to infinity fast enough that the integral of its magnitude diverges, and it cannot be represented. Physical temperature profiles satisfy all of this, so the conditions are no real restriction here.
 
 Granting the assumption, the problem reduces to one question: given $f(x)$, what are the coefficients $b_n$?
 
 ---
 
-## Extracting a Coefficient Is a Projection
+### Extracting a Coefficient Is a Projection
 
 Fourier's contribution was the assumption that the decomposition exists; that the sines are orthogonal was already known before him. Orthogonality is what turns the assumption into a recipe, making each coefficient a clean projection.
 
@@ -198,7 +200,7 @@ $$a(\omega) = \frac{1}{\pi}\int_{-\infty}^{\infty} f(x)\cos(\omega x)\,dx, \qqua
 
 ---
 
-## Solving the Heat Equation: Unbounded Case
+### Solving the Heat Equation: Unbounded Case
 
 Earlier we solved the heat equation on a rod with fixed ends. Now take a rod with no boundaries at all and a concrete starting profile: a quantity of heat $Q$ deposited at the single point $x = 0$, a hot needle touched to the origin of an infinite rod, with the rest of the rod cold. Concentrating the heat at a point forces one shift in reading: $u(x,t)$ is now the heat density, the amount of heat per unit length, rather than the temperature.[^density] Written as an initial condition, all the heat sits at one point, $u(x, 0) = Q\,\delta(x)$, where $\delta$ is the spike at the origin that integrates to one, so the total heat on the rod is $Q$. We never need a formula for $\delta$ itself, only the rule that defines it: integrated against any function it returns that function's value at the origin,
 

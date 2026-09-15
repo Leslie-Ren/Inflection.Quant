@@ -261,7 +261,7 @@ Note that $H_t$ covers the whole WTI hedge, futures and options together. The fu
 settle daily, so their contribution is already cash sitting in the margin account. The
 WTI options settle equity-style, so theirs is an unsettled mark. Both are USD claims
 awaiting translation into CAD, and sizing the forward off the margin balance alone leaves
-the options unaccounted for. In practice the desk can also size the forward off the option value directly, assuming the
+the options unaccounted for. In practice the desk can also size the forward off the quanto option value directly, assuming the
 WTI hedge is constructed to track the liability closely. Its dollar value is then close to
 $V_t^{quanto} / X_t$, and the dealer sells this amount of USD forward. This sidesteps the
 problem that a margin account shared across books or trades cannot be attributed to a
