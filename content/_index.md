@@ -8,7 +8,7 @@ draft: false
 
 My name is Leslie Ren. I work in quantitative finance and started this site to write about pricing models, risk frameworks, and the connection between theory and what actually happens in practice.
 
-When I read textbooks and papers, I sometimes find it hard to see the intuition behind the formulas, and shorter articles often skip the technical details I want to see. This site is my effort to narrow that gap. I keep the mathematical framework intact because rigor is what makes a concept feel complete to me, but working with models on the desk taught me that the formula is never the whole story, and the ideas behind it are what carry over to real problem solving.
+When I read textbooks and papers, I sometimes find it hard to see the intuition behind the formulas, and shorter articles often skip the technical details I am looking for. This site is my effort to narrow that gap. I keep the mathematical framework intact because rigor is what makes a concept feel complete to me, but working with models on the desk taught me that the formula is never the whole story, and the ideas behind it are what carry over to real problem solving.
 
 ---
 
