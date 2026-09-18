@@ -15,9 +15,9 @@
       <guid>https://leslie-ren.github.io/Inflection.Quant/articles/future_style_margining_options/</guid>
       <description>&lt;h2 id=&#34;why-this-matters&#34;&gt;Why This Matters&lt;/h2&gt;
 &lt;p&gt;When I first studied options, most textbook examples were equity-style:
-you pay a premium upfront, and you receive the payoff at expiry, or whenever
-you choose to exercise, if the option is American. That framing was so ingrained that I took
-it for the general case.&lt;/p&gt;
+you pay a premium upfront, and you receive the payoff at expiry, or when
+you choose to exercise for American options. That framing was so ingrained that I assumed
+it was the general case.&lt;/p&gt;
 &lt;p&gt;When I started working on commodity derivatives, I encountered a different
 world. Many options are traded under futures-style margining. No premium
 changes hands at inception; instead, the option is margined daily like a
