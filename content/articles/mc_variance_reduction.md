@@ -26,10 +26,9 @@ where $g$ is the payoff function and $S_T^{(i)}$ are independent samples of the 
 
 $$\text{Var}(\hat{V}_N) = \frac{e^{-2rT}\,\text{Var}(g(S_T))}{N}$$
 
-The expression points to two distinct levers we can pull. We can **reshape what we average** by replacing $g(S_T)$ with a related quantity that has the same expectation but lower variance. Or we can **change how we sample** by drawing the paths in a smarter way, without touching the payoff itself.
+The expression points to two distinct levers we can pull, and each one targets a different part of the formula. The first lever targets the numerator. We can **reshape what we average** by replacing $g(S_T)$ with a related quantity that has the same expectation but lower variance, so $\text{Var}(g(S_T))$ itself gets smaller. The second lever targets the $1/N$. That rate holds only because the $N$ samples are drawn independently, so their errors cancel purely by chance. We can **change how we sample** by choosing the draws so that their errors cancel more reliably than chance allows. 
 
 Each of the five techniques in this article fits one of these two patterns:
-
 > - **Reshape what we average:** control variates, conditional MC, importance sampling[^1].
 > - **Change how we sample:** antithetic variates, quasi-MC.
 
