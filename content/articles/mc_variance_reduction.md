@@ -6,6 +6,8 @@ math: true
 tags: ["monte-carlo", "variance-reduction", "options", "numerical-methods"]
 ---
 
+**Under review:** some results and code in this article are being revised.
+
 ## Why This Matters
 
 In the article on the [Feynman-Kac theorem]({{< relref "feynman_kac.md" >}}), we saw that the price of a derivative can be expressed equivalently as the solution to a deterministic PDE or as the expectation of a discounted payoff under the risk-neutral measure. This gives us two complementary numerical approaches to pricing. For low-dimensional problems with smooth payoffs, finite difference methods on the PDE side are efficient and accurate. For high-dimensional problems, path-dependent payoffs, or models where the PDE is hard to derive, Monte Carlo (MC) on the expectation side becomes the natural choice.
