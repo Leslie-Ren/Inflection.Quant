@@ -1,6 +1,3 @@
-heston.md
-Readable
-Raw
 ---
 title: "Heston Model: What the Square Root Bought and What It Cost"
 date: 2026-09-30
@@ -633,9 +630,9 @@ This article mainly focuses on the Heston model's pricing and properties, and we
 
 ## Reflection
 
-Looking back over the article, one tool did a lot of the heavy lifting, and it was not the Fourier transform. It was the link between expectations and PDEs that most practitioners know as Feynman-Kac. We used it twice, both times in its form without discounting, the backward Kolmogorov equation.[^kolmogorov] In pricing, the characteristic function $\mathbb{E}[e^{iuX_T}]$ is the expectation of a payoff, and the backward equation turned it into the two variable PDE that the exponential affine guess reduced to two ODEs. In the Feller derivation, the probability that the rate ever reaches zero looked hard to attack directly, so we recast it as the value of a claim paying a dollar at zero, and the backward equation again turned it into an equation we could solve analytically.
+Looking back over the article, one tool did a lot of the heavy lifting, and it was not the Fourier transform. It was Feynman-Kac, the theorem that turns an expectation into a PDE, and we invoked it twice under the name of the backward Kolmogorov equation. In pricing, the characteristic function $\mathbb{E}[e^{iuX_T}]$ is the expectation of a payoff, and Feynman-Kac turned it into the two variable PDE that the exponential affine guess reduced to two ODEs. In the Feller derivation, the probability that the rate ever reaches zero looked hard to attack directly, so we recast it as the value of a claim paying a dollar at zero, and Feynman-Kac again turned it into an equation we could solve analytically.
 
-What makes this link so useful is that it lets a question in probability be answered with the tools of analysis. A characteristic function and a hitting probability look like different objects, but each is an expectation over the path, so each becomes a PDE. I find it striking that a single idea sits under both the Heston characteristic function and the Feller condition, and working through them gave me a new appreciation of why Feynman-Kac is one of the cornerstones of quantitative finance.
+What makes the theorem so useful is that it lets a question in probability be answered with the tools of analysis. A characteristic function and a hitting probability look like different objects, but each is an expectation over the path, so each becomes a PDE. I find it striking that a single theorem sits under both the Heston characteristic function and the Feller condition, and working through them gave me a new appreciation of why Feynman-Kac is one of the cornerstones of quantitative finance.
 
 ## Appendix: Solving the Riccati Equation
 
@@ -720,5 +717,3 @@ Data: VIX and VVIX daily closes from Cboe's historical index data; SPX implied v
 [^halfrange]: The integrand is built from waves $e^{iux} = \cos(ux) + i\sin(ux)$. Replacing $u$ by $-u$ leaves the cosine unchanged and flips the sign of the sine, so the real part is even in $u$ and the imaginary part is odd.
 
 [^wing]: A wing option pays only if the spot makes a move of many standard deviations, and the chance of that falls off like $e^{-k^2/(2\sigma^2 T)}$, where $k$ is the log distance to the strike. Each extra point of vol makes the rare move much more likely than the last one did.
-
-[^kolmogorov]: Kolmogorov published his equations in 1931. The Feynman-Kac formula came later, published by Kac in 1949.

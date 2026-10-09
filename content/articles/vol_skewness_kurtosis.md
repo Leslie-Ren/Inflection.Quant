@@ -8,7 +8,7 @@ tags: ["Implied Moments", "Volatility", "Skewness", "Kurtosis", "Static Replicat
 ## Why This Matters
 
 Most of my early intuition about options came from the Black-Scholes model, which is 
-clean and widely used. But once I started working with real option data, it becomes 
+clean and widely used. But once I started working with real option data, it became 
 clear that the Black-Scholes assumption of a lognormal distribution is too restrictive. 
 For a given maturity, the implied volatility is not constant across strikes, and its 
 shape suggests asymmetry and heavy tails in the risk-neutral distribution.
@@ -22,9 +22,9 @@ volatility, skewness, and kurtosis are not model assumptions or calibration outp
 They are quantities that can be recovered from market prices through static option 
 replication.
 
-This article is my attempt to explain the math behind their ideas. But before getting 
-into their formulas, I first revisit a simple form of Taylor's theorem, which turns out 
-to be the key foundation behind their representation.
+This article is my attempt to explain the math behind their ideas. BKM do not derive this decomposition of a payoff into vanilla options. They take it as a special case of the spanning result in Bakshi and Madan (2000) and refer the reader to the proof in Carr and Madan (2001). That proof applies the fundamental theorem of calculus twice, which amounts to Taylor's theorem with integral remainder. I take the same route here because it is simple to follow and requires nothing beyond basic calculus.[^1]
+
+[^1]: An alternative route uses the risk-neutral density of $S_t$, which can be read from call prices as $e^{rt}\,\partial^2 C/\partial K^2$ (Breeden and Litzenberger, 1978). Writing the claim price as the payoff integrated against this density and integrating by parts twice gives the same decomposition.
 
 
 ## Taylor's Theorem with Integral Remainder
@@ -58,7 +58,7 @@ region:
 
 $$\{(u, t) : \bar{S} \leq u \leq t \leq S\}$$
 
-Switching the order of integration — integrating over $t$ first, then $u$ — this same 
+Switching the order of integration, integrating over $t$ first and then $u$, this same 
 region is described by $\bar{S} \leq u \leq S$ and $u \leq t \leq S$:
 
 $$\int_{\bar{S}}^{S}\int_{\bar{S}}^{t} H''(u)\,du\,dt = \int_{\bar{S}}^{S}\int_{u}^{S} 
@@ -73,8 +73,6 @@ Substituting back and renaming the dummy variable $u \to K$:
 
 $$H(S) = H(\bar{S}) + H'(\bar{S})(S - \bar{S}) + \int_{\bar{S}}^{S} H''(K)(S - K)dK 
 \qquad \blacksquare$$
-
----
 
 ## Pricing a Claim via Static Replication
 
@@ -108,14 +106,15 @@ from random variables.
 
 Applying risk-neutral valuation to both sides of equation (2) gives the arbitrage-free price of the claim:
 
-$$e^{-rt}E^Q[H(S_t)]=[H(S_0) - S_0 H'(S_0)]e^{-rt} + H'(S_0)S_0 + \int_{S_0}^{\infty} H''(K)C(0,K)dK+ \int_0^{S_0} H''(K)P(0,K)dK \tag{3}$$
+$$e^{-rt}\mathbb{E}^Q[H(S_t)]=[H(S_0) - S_0 H'(S_0)]e^{-rt} + H'(S_0)S_0 + \int_{S_0}^{\infty} H''(K)C(0,K)dK+ \int_0^{S_0} H''(K)P(0,K)dK \tag{3}$$
 
 
 where $C(0,K)$ and $P(0,K)$ are the time-$0$ prices of European calls and puts with 
 strike $K$ and maturity $t$. The bond and stock terms follow from the facts that 
-$H(S_0)$ and $H'(S_0)$ are constants at time $0$, and that the no-arbitrage forward 
-price satisfies $e^{-rt}\mathbb{E}^Q[S_t] = S_0$.[^1]
-[^1]: This relation holds for non-dividend-paying assets. For dividend-paying equities or
+$H(S_0)$ and $H'(S_0)$ are constants at time $0$, and that the discounted stock price 
+is a martingale under $\mathbb{Q}$, so $e^{-rt}\mathbb{E}^Q[S_t] = S_0$.[^2]
+
+[^2]: This relation holds for non-dividend-paying assets. For dividend-paying equities or
 indices such as the S&P 500, the no-arbitrage forward price is $S_0 e^{(r-q)t}$ where
 $q$ is the continuous dividend yield. In that case, the stock and bond terms in equation
 (3) require adjustment. Throughout this article we maintain the no-dividend assumption
@@ -145,7 +144,6 @@ X(0,t) = e^{-rt}\mathbb{E}^Q\left[R_t^4\right]$$
 By equation (3), each can be replicated by a static portfolio of options once we compute $H'(S_0)$ and $H''(K)$ for each payoff and substitute into the replication formula. That is the task of the 
 next section.
 
----
 ## Computing the Option Weights
 
 Replicating each contract requires two ingredients: the first derivative 
@@ -162,14 +160,14 @@ Taking derivatives with respect to $S_t$, evaluated at strike $K$:
 
 $$H'(S_t) = \frac{2\ln\frac{S_t}{S_0}}{S_t}, \qquad H''(K) = \frac{2 - 2\ln\frac{K}{S_0}}{K^2} = \frac{2\left(1 - \ln\frac{K}{S_0}\right)}{K^2}$$
 
-At $S_t = S_0$, the log term vanishes: $H'(S_0) = 0$. This means the stock position 
-is zero and the bond position $H(S_0) - S_0 H'(S_0) = 0$ vanishes as well. The 
+At $S_t = S_0$, the log term vanishes: $H(S_0) = 0$ and $H'(S_0) = 0$. This means the 
+stock position is zero and the bond position $H(S_0) - S_0 H'(S_0)$ vanishes as well. The 
 replication formula reduces entirely to the option integrals:
 
 $$V(0,t) = \int_{S_0}^{\infty} \frac{2\left(1 - \ln\frac{K}{S_0}\right)}{K^2} C(0,K)dK + \int_0^{S_0} \frac{2\left(1 + \ln\frac{S_0}{K}\right)}{K^2} P(0,K)dK$$
 
-where for the put integral we used the fact that $-\ln(K/S_0) = \ln(S_0/K)$ for
-$K < S_0$. The weight on OTM calls, $2(1 - \ln(K/S_0))/K^2$, is positive for
+where for the put integral we used the fact that $-\ln(K/S_0) = \ln(S_0/K)$. The weight 
+on OTM calls, $2(1 - \ln(K/S_0))/K^2$, is positive for
 near-the-money strikes but turns negative for strikes above $eS_0$, approximately 2.7
 times the current stock price. In practice this sign change has little numerical
 consequence: option prices at such extreme strikes are close to zero, and the $K^2$
@@ -186,7 +184,7 @@ Taking derivatives:
 $$H'(S_t) = \frac{3\left(\ln\frac{S_t}{S_0}\right)^2}{S_t}, \qquad H''(K) = 
 \frac{6\ln\frac{K}{S_0} - 3\left(\ln\frac{K}{S_0}\right)^2}{K^2}$$
 
-At $S_t = S_0$, the log term again vanishes: $H'(S_0) = 0$, so the stock and bond 
+At $S_t = S_0$, the log term again vanishes: $H(S_0) = H'(S_0) = 0$, so the stock and bond 
 positions are both zero. The replication formula is:
 
 $$W(0,t) = \int_{S_0}^{\infty} \frac{6\ln\frac{K}{S_0} - 3\left(\ln\frac{K}{S_0}
@@ -195,8 +193,8 @@ $$W(0,t) = \int_{S_0}^{\infty} \frac{6\ln\frac{K}{S_0} - 3\left(\ln\frac{K}{S_0}
 
 The sign pattern here is economically meaningful. The cubic contract is long calls and 
 short puts. When the risk-neutral distribution is left-skewed, OTM puts are expensive 
-relative to OTM calls, so the cost of the short put position exceeds the long call 
-position, driving the cubic contract value, $W$, to negative. A more negative $W$ corresponds to a more left-skewed distribution.
+relative to OTM calls, so the value of the puts sold exceeds the value of the calls 
+bought, driving the cubic contract value, $W$, negative. For a given variance, a more negative $W$ corresponds to a more left-skewed distribution.
 
 ### 3. The Quartic Contract
 
@@ -207,16 +205,14 @@ Taking derivatives:
 $$H'(S_t) = \frac{4\left(\ln\frac{S_t}{S_0}\right)^3}{S_t}, \qquad H''(K) = 
 \frac{12\left(\ln\frac{K}{S_0}\right)^2 - 4\left(\ln\frac{K}{S_0}\right)^3}{K^2}$$
 
-At $S_t = S_0$: $H'(S_0) = 0$, so again the stock and bond positions vanish. The 
+At $S_t = S_0$: $H(S_0) = H'(S_0) = 0$, so again the stock and bond positions vanish. The 
 replication formula is:
 
 $$X(0,t) = \int_{S_0}^{\infty} \frac{12\left(\ln\frac{K}{S_0}\right)^2 - 4\left(
 \ln\frac{K}{S_0}\right)^3}{K^2} C(0,K)\,dK + \int_0^{S_0} \frac{12\left(\ln\frac{S_0}
 {K}\right)^2 + 4\left(\ln\frac{S_0}{K}\right)^3}{K^2} P(0,K)\,dK$$
 
-The quartic contract is long both calls and puts. Unlike the volatility contract, however, the weights grow with distance from $S_0$: deep out-of-the-money options receive 
-progressively larger weights. This makes the quartic contract especially sensitive to 
-tail options, which is exactly what we want from a kurtosis measure.
+The quartic contract is long both calls and puts. Unlike the volatility contract, whose weight is $2/S_0^2$ at the money, the quartic weights are zero at $K = S_0$ and build up as the strike moves away from it. On the put side the weight keeps growing as $K$ falls. On the call side it peaks near $K \approx 2.26\,S_0$ ($m \approx 0.81$) and then declines. This shifts the exposure away from at-the-money options and into the wings, which is exactly what we want from a kurtosis measure.
 
 ### Summary of Option Weights
 
@@ -231,6 +227,7 @@ calls ($K > S_0$) and $m = \ln(S_0/K)$ for puts ($K < S_0$), so $m > 0$ in both 
 
 
 {{< bkm_weights>}}
+
 ## Relating Contract Prices to Risk-Neutral Moments
 
 We now have the three contract prices $V(0,t)$, $W(0,t)$, and $X(0,t)$, each recoverable 
@@ -244,7 +241,7 @@ Before computing the centered moments, we need the risk-neutral mean log return:
 
 $$\mu_t = \mathbb{E}^Q[R_t]$$
 
-$\mu_t$ can be recovered from option prices using exactly the same static replication approach as the other three contracts — simply apply equation (3) to the payoff $$H(S_t) = \ln(S_t/S_0) = R_t$$. 
+$\mu_t$ can be recovered from option prices using exactly the same static replication approach as the other three contracts: simply apply equation (3) to the payoff $H(S_t) = \ln(S_t/S_0) = R_t$. 
 The result is:
 
 $$\mu_t = e^{rt} - 1 - e^{rt}\int_{S_0}^{\infty} \frac{C(0,K)}{K^2}dK - 
@@ -252,6 +249,12 @@ e^{rt}\int_0^{S_0} \frac{P(0,K)}{K^2}dK$$
 
 So $\mu_t$ is fully determined by observed option prices with no model assumptions, 
 just like the volatility, cubic, and quartic contracts.
+
+This expression is exact. BKM instead approximate $\mu_t$ by expanding $e^{R_t}$ to fourth order in $e^{rt} = \mathbb{E}^Q[e^{R_t}]$, which reuses the three contracts already defined:
+
+$$\mu_t \approx e^{rt} - 1 - \frac{e^{rt}}{2}V(0,t) - \frac{e^{rt}}{6}W(0,t) - \frac{e^{rt}}{24}X(0,t)$$
+
+The two agree up to terms of fifth order in the return. The exact version costs one additional integral over the same option prices.
 
 With $\mu_t$ in hand, the centered moments follow from standard moment algebra. Write 
 $\hat{R}_t = R_t - \mu_t$ for the demeaned return.
@@ -287,18 +290,19 @@ $$\text{SKEW}^Q_t = \frac{e^{rt}W(0,t) - 3\mu_t e^{rt}V(0,t) + 2\mu_t^3}
 $$\text{KURT}^Q_t = \frac{e^{rt}X(0,t) - 4\mu_t e^{rt}W(0,t) + 
 6\mu_t^2 e^{rt}V(0,t) - 3\mu_t^4}{\left(e^{rt}V(0,t) - \mu_t^2\right)^{2}}$$
 
-Every quantity on the right hand side — $V$, $W$, $X$, and $\mu_t$ — is recoverable from the OTM option prices via static replication. No model has been assumed beyond the existence of a risk-neutral measure. In a typical implementation, the integrals are approximated numerically using a discrete set of observed option prices across available strikes. 
+$\text{Var}^Q_t$ is the variance of the log return over the full horizon $t$, not an annualized quantity. The annualized volatility comparable to an implied volatility quote is $\sqrt{\text{Var}^Q_t / t}$. Skewness and kurtosis are scale-free and need no adjustment.
+
+Every quantity on the right hand side ($V$, $W$, $X$, and $\mu_t$) is recoverable from the OTM option prices via static replication. No model has been assumed beyond the existence of a risk-neutral measure. In a typical implementation, the integrals are approximated numerically using a discrete set of observed option prices across available strikes. 
 
 In practice, risk-neutral skewness extracted for an equity or equity index (e.g. SPX) is typically negative, reflecting the market’s tendency to assign higher probability and higher price to large downside moves than to symmetric upside moves. In intuitive terms, skewness captures crash asymmetry: downside moves are sharper, more abrupt, and more expensive to insure than upside moves.
 
-Risk-neutral kurtosis is typically elevated relative to a normal distribution, capturing the market’s expectation that extreme moves, both positive and negative, occur more frequently than Gaussian assumptions would imply. In this sense, kurtosis measures the frequency and severity of extreme outcomes, independent of direction.
+$\text{KURT}^Q_t$ as defined here is raw kurtosis, not excess kurtosis, so the normal benchmark is 3. Risk-neutral kurtosis is typically above that level, capturing the market’s expectation that extreme moves, both positive and negative, occur more frequently than Gaussian assumptions would imply. In this sense, kurtosis measures the frequency and severity of extreme outcomes, independent of direction.
 
-Together, these imply that the risk-neutral distribution is left-skewed and fat-tailed, with asymmetric crash risk and elevated probability of extreme events relative to the lognormal benchmark of Black–Scholes.
- 
- ## Conclusion
- The BKM framework shows that variance, skewness, and kurtosis of the risk-neutral distribution can be recovered directly from vanilla option prices without calibrating a parametric model. The key is Taylor's theorem with integral remainder, which decomposes any smooth payoff into a static portfolio of calls and puts weighted by the payoff's second derivative. In practice, the continuum of strikes is replaced by a discrete set of observed option prices, requiring numerical integration across available strikes. 
+Together, these imply that the risk-neutral distribution is left-skewed and fat-tailed, with asymmetric crash risk and elevated probability of extreme events relative to the lognormal benchmark of Black-Scholes.
 
- ## References
 
+## References
+
+- Bakshi, G., & Madan, D. (2000). Spanning and derivative-security valuation. *Journal of Financial Economics*, 55(2), 205–238.
 - Bakshi, G., Kapadia, N., & Madan, D. (2003). Stock return characteristics, skew laws, and the differential pricing of individual equity options. *The Review of Financial Studies*, 16(1), 101–143.
 - Carr, P., & Madan, D. (2001). Optimal positioning in derivative securities. *Quantitative Finance*, 1(1), 19–37.
