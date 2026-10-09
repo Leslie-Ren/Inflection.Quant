@@ -15,7 +15,7 @@
       <guid>https://leslie-ren.github.io/Inflection.Quant/articles/vol_skewness_kurtosis/</guid>
       <description>&lt;h2 id=&#34;why-this-matters&#34;&gt;Why This Matters&lt;/h2&gt;
 &lt;p&gt;Most of my early intuition about options came from the Black-Scholes model, which is
-clean and widely used. But once I started working with real option data, it becomes
+clean and widely used. But once I started working with real option data, it became
 clear that the Black-Scholes assumption of a lognormal distribution is too restrictive.
 For a given maturity, the implied volatility is not constant across strikes, and its
 shape suggests asymmetry and heavy tails in the risk-neutral distribution.&lt;/p&gt;

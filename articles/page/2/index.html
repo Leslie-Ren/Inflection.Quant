@@ -194,7 +194,7 @@ When I started working on commodity derivatives, I encountered a different world
     </h2>
   </header>
   <div class="entry-content">
-    <p>Why This Matters Most of my early intuition about options came from the Black-Scholes model, which is clean and widely used. But once I started working with real option data, it becomes clear that the Black-Scholes assumption of a lognormal distribution is too restrictive. For a given maturity, the implied volatility is not constant across strikes, and its shape suggests asymmetry and heavy tails in the risk-neutral distribution.
+    <p>Why This Matters Most of my early intuition about options came from the Black-Scholes model, which is clean and widely used. But once I started working with real option data, it became clear that the Black-Scholes assumption of a lognormal distribution is too restrictive. For a given maturity, the implied volatility is not constant across strikes, and its shape suggests asymmetry and heavy tails in the risk-neutral distribution.
 That leads to a more basic question. Instead of imposing a parametric model and calibrating its parameters, is there a way to extract volatility, skewness, and kurtosis directly from option prices in a model-free way? This is where the Bakshi, Kapadia, and Madan (2003) framework becomes useful. Their key idea is that smooth payoff functions can be represented as a continuum of vanilla options across strikes. In this view, volatility, skewness, and kurtosis are not model assumptions or calibration outputs. They are quantities that can be recovered from market prices through static option replication.
 ...</p>
   </div>
@@ -239,6 +239,19 @@ That leads to a more basic question. Instead of imposing a parametric model and 
   </div>
   <footer class="entry-footer"><span title='2026-03-26 00:00:00 +0000 UTC'>March 26, 2026</span></footer>
   <a class="entry-link" aria-label="post link to Brownian Motion: From Random Walks to Option Prices" href="https://leslie-ren.github.io/Inflection.Quant/articles/understanding_brownian_motion/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>heston.md Readable Raw title: “Heston Model: What the Square Root Bought and What It Cost” date: 2026-09-30 draft: false math: true tags: [“stochastic volatility”, “Heston”, “CIR”, “Feller condition”, “characteristic function”, “Fourier pricing”, “forward start options”, “barrier options”, “Monte Carlo”, “local volatility”] ShowToc: true TocOpen: false Why This Matters The local vol model we discussed in the previous article assumes the vol is a deterministic function of spot and time, so the vol has no randomness of its own. But the market does not treat vol that way. The VIX is the market’s implied vol for SPX, and options on the VIX are themselves quoted with an implied vol, a vol of vol. The market is pricing vol itself as a random quantity.
+...</p>
+  </div>
+  <footer class="entry-footer"></footer>
+  <a class="entry-link" aria-label="post link to " href="https://leslie-ren.github.io/Inflection.Quant/articles/forward_backward_pde/"></a>
 </article>
 <footer class="page-footer">
   <nav class="pagination">

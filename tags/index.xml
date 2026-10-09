@@ -6,13 +6,76 @@
     <description>Recent content in Tags on Inflection Quant</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 23 Jul 2026 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 30 Sep 2026 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://leslie-ren.github.io/Inflection.Quant/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Barrier Options</title>
       <link>https://leslie-ren.github.io/Inflection.Quant/tags/barrier-options/</link>
-      <pubDate>Thu, 23 Jul 2026 00:00:00 +0000</pubDate>
+      <pubDate>Wed, 30 Sep 2026 00:00:00 +0000</pubDate>
       <guid>https://leslie-ren.github.io/Inflection.Quant/tags/barrier-options/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Characteristic Function</title>
+      <link>https://leslie-ren.github.io/Inflection.Quant/tags/characteristic-function/</link>
+      <pubDate>Wed, 30 Sep 2026 00:00:00 +0000</pubDate>
+      <guid>https://leslie-ren.github.io/Inflection.Quant/tags/characteristic-function/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>CIR</title>
+      <link>https://leslie-ren.github.io/Inflection.Quant/tags/cir/</link>
+      <pubDate>Wed, 30 Sep 2026 00:00:00 +0000</pubDate>
+      <guid>https://leslie-ren.github.io/Inflection.Quant/tags/cir/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Feller Condition</title>
+      <link>https://leslie-ren.github.io/Inflection.Quant/tags/feller-condition/</link>
+      <pubDate>Wed, 30 Sep 2026 00:00:00 +0000</pubDate>
+      <guid>https://leslie-ren.github.io/Inflection.Quant/tags/feller-condition/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Forward Start Options</title>
+      <link>https://leslie-ren.github.io/Inflection.Quant/tags/forward-start-options/</link>
+      <pubDate>Wed, 30 Sep 2026 00:00:00 +0000</pubDate>
+      <guid>https://leslie-ren.github.io/Inflection.Quant/tags/forward-start-options/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Fourier Pricing</title>
+      <link>https://leslie-ren.github.io/Inflection.Quant/tags/fourier-pricing/</link>
+      <pubDate>Wed, 30 Sep 2026 00:00:00 +0000</pubDate>
+      <guid>https://leslie-ren.github.io/Inflection.Quant/tags/fourier-pricing/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Heston</title>
+      <link>https://leslie-ren.github.io/Inflection.Quant/tags/heston/</link>
+      <pubDate>Wed, 30 Sep 2026 00:00:00 +0000</pubDate>
+      <guid>https://leslie-ren.github.io/Inflection.Quant/tags/heston/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Local Volatility</title>
+      <link>https://leslie-ren.github.io/Inflection.Quant/tags/local-volatility/</link>
+      <pubDate>Wed, 30 Sep 2026 00:00:00 +0000</pubDate>
+      <guid>https://leslie-ren.github.io/Inflection.Quant/tags/local-volatility/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Monte Carlo</title>
+      <link>https://leslie-ren.github.io/Inflection.Quant/tags/monte-carlo/</link>
+      <pubDate>Wed, 30 Sep 2026 00:00:00 +0000</pubDate>
+      <guid>https://leslie-ren.github.io/Inflection.Quant/tags/monte-carlo/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Stochastic Volatility</title>
+      <link>https://leslie-ren.github.io/Inflection.Quant/tags/stochastic-volatility/</link>
+      <pubDate>Wed, 30 Sep 2026 00:00:00 +0000</pubDate>
+      <guid>https://leslie-ren.github.io/Inflection.Quant/tags/stochastic-volatility/</guid>
       <description></description>
     </item>
     <item>
@@ -51,45 +114,10 @@
       <description></description>
     </item>
     <item>
-      <title>Local Volatility</title>
-      <link>https://leslie-ren.github.io/Inflection.Quant/tags/local-volatility/</link>
-      <pubDate>Thu, 23 Jul 2026 00:00:00 +0000</pubDate>
-      <guid>https://leslie-ren.github.io/Inflection.Quant/tags/local-volatility/</guid>
-      <description></description>
-    </item>
-    <item>
       <title>Marginal Density</title>
       <link>https://leslie-ren.github.io/Inflection.Quant/tags/marginal-density/</link>
       <pubDate>Thu, 23 Jul 2026 00:00:00 +0000</pubDate>
       <guid>https://leslie-ren.github.io/Inflection.Quant/tags/marginal-density/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Monte-Carlo</title>
-      <link>https://leslie-ren.github.io/Inflection.Quant/tags/monte-carlo/</link>
-      <pubDate>Thu, 23 Jul 2026 00:00:00 +0000</pubDate>
-      <guid>https://leslie-ren.github.io/Inflection.Quant/tags/monte-carlo/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Duality</title>
-      <link>https://leslie-ren.github.io/Inflection.Quant/tags/duality/</link>
-      <pubDate>Tue, 14 Jul 2026 00:00:00 +0000</pubDate>
-      <guid>https://leslie-ren.github.io/Inflection.Quant/tags/duality/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Fokker-Planck</title>
-      <link>https://leslie-ren.github.io/Inflection.Quant/tags/fokker-planck/</link>
-      <pubDate>Tue, 14 Jul 2026 00:00:00 +0000</pubDate>
-      <guid>https://leslie-ren.github.io/Inflection.Quant/tags/fokker-planck/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Kolmogorov Equations</title>
-      <link>https://leslie-ren.github.io/Inflection.Quant/tags/kolmogorov-equations/</link>
-      <pubDate>Tue, 14 Jul 2026 00:00:00 +0000</pubDate>
-      <guid>https://leslie-ren.github.io/Inflection.Quant/tags/kolmogorov-equations/</guid>
       <description></description>
     </item>
     <item>
@@ -121,13 +149,6 @@
       <description></description>
     </item>
     <item>
-      <title>Characteristic-Function</title>
-      <link>https://leslie-ren.github.io/Inflection.Quant/tags/characteristic-function/</link>
-      <pubDate>Tue, 16 Jun 2026 00:00:00 +0000</pubDate>
-      <guid>https://leslie-ren.github.io/Inflection.Quant/tags/characteristic-function/</guid>
-      <description></description>
-    </item>
-    <item>
       <title>Fourier-Transform</title>
       <link>https://leslie-ren.github.io/Inflection.Quant/tags/fourier-transform/</link>
       <pubDate>Tue, 16 Jun 2026 00:00:00 +0000</pubDate>
@@ -139,13 +160,6 @@
       <link>https://leslie-ren.github.io/Inflection.Quant/tags/heat-equation/</link>
       <pubDate>Tue, 16 Jun 2026 00:00:00 +0000</pubDate>
       <guid>https://leslie-ren.github.io/Inflection.Quant/tags/heat-equation/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Heston</title>
-      <link>https://leslie-ren.github.io/Inflection.Quant/tags/heston/</link>
-      <pubDate>Tue, 16 Jun 2026 00:00:00 +0000</pubDate>
-      <guid>https://leslie-ren.github.io/Inflection.Quant/tags/heston/</guid>
       <description></description>
     </item>
     <item>
