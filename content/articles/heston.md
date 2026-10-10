@@ -1,6 +1,3 @@
-heston.md
-Readable
-Raw
 ---
 title: "Heston Model: What the Square Root Bought and What It Cost"
 date: 2026-09-30
@@ -722,3 +719,4 @@ Data: VIX and VVIX daily closes from Cboe's historical index data; SPX implied v
 [^wing]: A wing option pays only if the spot makes a move of many standard deviations, and the chance of that falls off like $e^{-k^2/(2\sigma^2 T)}$, where $k$ is the log distance to the strike. Each extra point of vol makes the rare move much more likely than the last one did.
 
 [^kolmogorov]: Kolmogorov published his equations in 1931. The Feynman-Kac formula came later, published by Kac in 1949.
+
