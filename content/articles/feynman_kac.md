@@ -1,5 +1,5 @@
 ---
-title: "How Randomness Solves a Deterministic Equation: An Intuitive Look at the Feynman–Kac Theorem"
+title: "How Randomness Solves a Deterministic Equation: An Intuitive Look at the Feynman-Kac Theorem"
 date: 2026-04-28
 draft: false
 math: true
@@ -14,7 +14,7 @@ a stochastic process are two representations of the same object. A PDE is smooth
 deterministic. A stochastic expectation involves randomness, probability measures, and
 averaging over infinitely many paths. How could these be the same thing? I understood the steps of the proof, but I still didn’t have a clear intuition for why this equivalence should exist.
 
-I also found myself slightly confused about its role in practice. In derivative pricing, we often work directly with risk-neutral expectations. The PDE formulation and the stochastic formulation both appear natural, so it is not immediately obvious what additional insight Feynman–Kac is adding.
+I also found myself slightly confused about its role in practice. In derivative pricing, we often work directly with risk-neutral expectations. The PDE formulation and the stochastic formulation both appear natural, so it is not immediately obvious what additional insight Feynman-Kac is adding.
 
 This article is my attempt to answer both. Starting from a simple random walk, I hope
 the equivalence feels less like a coincidence by the end, and that it becomes clear
@@ -31,11 +31,11 @@ The key is to start from neither, and instead start from something more primitiv
 
 ### Setup
 
-Consider a particle that can sit at any integer position on a line. Starting from
-position $x$ at time $t$, at each discrete time step of size $\Delta t$, the particle
-moves up by $\Delta x$ or down by $\Delta x$ with equal probability $\frac{1}{2}$.
-At the final time $T$, we collect a payoff $g(X_T)$ depending on where the particle
-ends up.
+Consider a particle that sits on a grid of points with spacing $\Delta x$ on a line.
+Starting from position $x$ at time $t$, at each discrete time step of size $\Delta t$,
+the particle moves up by $\Delta x$ or down by $\Delta x$ with equal probability
+$\frac{1}{2}$. At the final time $T$, we collect a payoff $g(X_T)$ depending on where
+the particle ends up.
 
 We want to find a function $u(x, t)$ that tells us the fair value of this payoff at
 any position $x$ and time $t$ before expiry.
@@ -89,7 +89,7 @@ forces a second-order spatial structure in the limit. That structure is the PDE.
 
 The averaging property also tells us how to compute $u$ by working forward in time.
 Starting from position $x$ at time $t$, at each step the particle moves up or down
-with equal probability. After two steps there are four possible positions, after three
+with equal probability. After two steps there are four possible paths, after three
 steps there are eight, and so on. This generates a binary tree of possible paths,
 where each branch represents one possible realization of the particle's journey from
 $t$ to $T$.
@@ -150,7 +150,7 @@ and $g$; we assume these are satisfied throughout.
 |---|---|
 | Drift $\mu \frac{\partial u}{\partial x}$ | Drift of $X_t$ |
 | Diffusion $\frac{1}{2}\sigma^2 \frac{\partial^2 u}{\partial x^2}$ | Diffusion of $X_t$ |
-| Discounting $-r u$ | Discount factor $e^{-\int_t^T rds}$ inside the expectation |
+| Discounting $-r u$ | Discount factor $e^{-\int_t^T r\,ds}$ inside the expectation |
 | Terminal condition $u(x, T) = g(x)$ | Payoff function $g(X_T)$ |
 
 ---
@@ -167,36 +167,43 @@ helps to understand what each approach delivers on its own.
 
 The PDE approach starts from no-arbitrage. We construct a delta-hedged portfolio,
 eliminate the stochastic term, and impose that any risk-free portfolio must earn the
-risk-free rate. In the Black-Scholes setting for a futures option, this gives:
+risk-free rate. In the Black-Scholes setting for a futures option, this gives the
+Black (1976) PDE:
 
 $$\frac{\partial V}{\partial t} + \frac{1}{2}\sigma^2 F^2
 \frac{\partial^2 V}{\partial F^2} - rV = 0, \quad V(F, T) = g(F)$$
 
+Compared with the Black-Scholes PDE for a spot asset, there is no first-order term
+$rF\frac{\partial V}{\partial F}$, because a futures position costs nothing to enter
+and the hedge therefore carries no financing cost.
+
 The PDE is grounded in no-arbitrage from the start. Any function that solves it is,
-by construction, consistent with the requirement that a delta-hedged portfolio cannot
-earn more than the risk-free rate. Solve it once on a grid in $(F, t)$ space and we
+by construction, consistent with the requirement that a delta-hedged portfolio must
+earn exactly the risk-free rate. Solve it once on a grid in $(F, t)$ space and we
 obtain prices across all underlying levels and all times before expiry in a single
 pass.
 
 ### Path 2: The Martingale Approach
 
 The martingale approach starts from a different principle. Under the risk-neutral
-measure $\mathbb{Q}$, the no-arbitrage condition is equivalent to discounted asset
-prices being martingales. From this, any derivative can be priced as the expected
+measure $\mathbb{Q}$, the no-arbitrage condition is equivalent to discounted prices of
+traded assets being martingales. A futures contract costs nothing to enter, so for
+futures it is the futures price $F_t$ itself, not its discounted value, that is a
+martingale under $\mathbb{Q}$. From this, any derivative can be priced as the expected
 discounted payoff:
 
 $$V(F, t) = \mathbb{E}^{\mathbb{Q}}\left[e^{-r(T-t)}g(F_T) \mid \mathcal{F}_t\right]$$
 
 This is a clean and flexible framework. Prices can be computed by Monte Carlo, by
-numerical integration, or analytically in some cases. But there is something this
-formula does not immediately provide: a guarantee that the $V$ it defines is
-consistent with no-arbitrage.
+numerical integration, or analytically in some cases. The price it defines is
+arbitrage-free by construction. But there is something this formula does not
+immediately provide: the hedge.
 
-Defining $V$ as a conditional expectation makes it a well-posed mathematical object.
-It does not automatically make it an economically valid price. For that, we need to
-know that this $V$ satisfies the same equation that the delta-hedging argument
-produces. If it did not, the two approaches would give different prices for the same
-derivative, which would itself be an arbitrage.
+Defining $V$ as a conditional expectation tells us the price. It does not show that
+this price is the cost of a replicating strategy, or that it is the same function the
+delta-hedging argument produces. For that, we need to know that this $V$ satisfies
+the PDE from Path 1. If it did not, the two approaches would give different prices
+for the same derivative.
 
 ### Where Feynman-Kac Comes In
 
@@ -207,7 +214,9 @@ satisfies:
 $$\frac{\partial V}{\partial t} + \frac{1}{2}\sigma^2 F^2
 \frac{\partial^2 V}{\partial F^2} - rV = 0, \quad V(F, T) = g(F)$$
 
-This is exactly the Black-Scholes PDE. The two approaches are not just compatible in the cases we can solve by hand. They are guaranteed to produce the same function for any well-posed diffusion model, whether or not an analytical solution exists. In simple models like Black-Scholes this equivalence can feel almost unnecessary, but in more complex models such as stochastic volatility settings, where closed-form solutions are no longer available, Feynman-Kac provides the rigorous link that ensures the PDE formulation and the expectation formulation remain consistent representations of the same quantity.
+This is exactly the PDE from Path 1. The two approaches are not just compatible in the cases we can solve by hand. They are guaranteed to produce the same function for any well-posed diffusion model, whether or not an analytical solution exists. In simple models like Black-Scholes this equivalence can feel almost unnecessary, but in more complex models such as stochastic volatility settings, where closed-form solutions are no longer available, the multidimensional version of Feynman-Kac provides the rigorous link that ensures the PDE formulation and the expectation formulation remain consistent representations of the same quantity.
+
+One caveat in that setting: volatility is not a traded asset, so the pricing PDE contains a market price of volatility risk, and each choice of that quantity corresponds to a choice of $\mathbb{Q}$. Feynman-Kac links the PDE and the expectation for a given choice; it does not make the choice.
 
 ---
 
@@ -221,14 +230,14 @@ structure of the problem.
 | Situation | Preferred approach | Reason |
 |---|---|---|
 | Computing smooth Greeks | PDE | Finite differences on the grid are stable; Monte Carlo differentiation is noisy |
-| Model calibration | PDE | Each calibration iteration requires a fast, deterministic price; Monte Carlo is slower and introduces noise into the objective function |
+| Model calibration | Forward PDE or semi-analytic pricer | Each calibration iteration requires fast, deterministic prices across many strikes and expiries; a forward (Dupire or Fokker-Planck) PDE delivers all strikes in a single solve, while Monte Carlo is slower and introduces noise into the objective function |
 | Pricing across a range of underlying scenarios | PDE | A single grid solve covers all $F$ at once; Monte Carlo requires a separate simulation per scenario |
 | High-dimensional underlyings (basket options) | Monte Carlo | PDE grid grows exponentially in dimension; simulation cost scales with paths |
-| Path-dependent payoffs (Asian, barrier) | Monte Carlo | Path history requires extra state variables, turning a 2D grid into 3D or higher; simulation handles it naturally by following the full path |
+| Path-dependent payoffs (Asian, lookback) | Monte Carlo | Path history requires extra state variables, turning a 2D grid into 3D or higher; simulation handles it naturally by following the full path |
 | Validating a PDE implementation | Monte Carlo | Feynman-Kac guarantees a simulation-based check that should agree with the grid |
 
 ## Beyond Monte Carlo and PDE
 
-Both the PDE and Monte Carlo perspectives assume a fixed underlying random evolution and differ only in how that evolution is computed. The PDE approach propagates structure deterministically, while Monte Carlo propagates it through sampled paths. Feynman–Kac tells us these are not competing methods but two representations of the same object.
+Both the PDE and Monte Carlo perspectives assume a fixed underlying random evolution and differ only in how that evolution is computed. The PDE approach propagates structure deterministically, while Monte Carlo propagates it through sampled paths. Feynman-Kac tells us these are not competing methods but two representations of the same object.
 
 This naturally leads to another question: we are computing expectations over paths, so why should we be committed to a single way of assigning probabilities to those paths in the first place? In many problems, the same physical or financial system can be described with different probabilistic weightings of the same trajectories, and some of these representations make computation or analysis significantly simpler than others. Understanding how such reweightings can change the apparent dynamics without changing the value of expectations is the subject of Girsanov’s theorem, which I will discuss in the [next article]({{< relref "girsanov.md" >}}).
