@@ -35,7 +35,7 @@
 &lt;p&gt;In the article on the &lt;a href=&#34;../../Inflection.Quant/articles/feynman_kac/&#34;&gt;Feynman-Kac theorem&lt;/a&gt;, we saw that the price of a derivative can be expressed equivalently as the solution to a deterministic PDE or as the expectation of a discounted payoff under the risk-neutral measure. This gives us two complementary numerical approaches to pricing. For low-dimensional problems with smooth payoffs, finite difference methods on the PDE side are efficient and accurate. For high-dimensional problems, path-dependent payoffs, or models where the PDE is hard to derive, Monte Carlo (MC) on the expectation side becomes the natural choice.&lt;/p&gt;</description>
     </item>
     <item>
-      <title>How Randomness Solves a Deterministic Equation: An Intuitive Look at the Feynman–Kac Theorem</title>
+      <title>How Randomness Solves a Deterministic Equation: An Intuitive Look at the Feynman-Kac Theorem</title>
       <link>https://leslie-ren.github.io/Inflection.Quant/articles/feynman_kac/</link>
       <pubDate>Tue, 28 Apr 2026 00:00:00 +0000</pubDate>
       <guid>https://leslie-ren.github.io/Inflection.Quant/articles/feynman_kac/</guid>
