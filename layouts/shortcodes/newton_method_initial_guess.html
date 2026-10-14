@@ -19,7 +19,7 @@
 <h2 class="sr-only">Interactive visualization: Newton's method for implied volatility — showing how a poor initial guess leads to divergence or oscillation.</h2>
 -->
 <div class="ctrl">
-  <label>True implied vol (σ*)</label>
+  <label>True implied vol (σ̂)</label>
   <input type="range" id="trueVol" min="10" max="90" value="70" step="1">
   <span id="trueVolOut">70%</span>
 </div>
@@ -173,7 +173,7 @@ function buildChart(trueVol, guess) {
   const statusLabel = wentNeg ? 'Diverged (σ < 0)' : converged ? 'Converged' : `Not converged`;
   const statusClass = converged ? 'good' : 'bad';
   info.innerHTML = `
-    <div class="info-card"><div class="lbl">Starting error |σ₀ − σ*|</div><div class="val">${distPct.toFixed(0)} vol pts</div></div>
+    <div class="info-card"><div class="lbl">Starting error |σ₀ − σ̂|</div><div class="val">${distPct.toFixed(0)} vol pts</div></div>
     <div class="info-card"><div class="lbl">Vega at σ₀</div><div class="val">${vega(guess/100).toFixed(3)}</div></div>
     <div class="info-card"><div class="lbl">Iterations shown</div><div class="val">${iters}</div></div>
     <div class="info-card"><div class="lbl">Status after ${iters} steps</div><div class="val ${statusClass}">${statusLabel}</div></div>
