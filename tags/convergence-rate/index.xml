@@ -9,12 +9,12 @@
     <lastBuildDate>Thu, 09 Apr 2026 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://leslie-ren.github.io/Inflection.Quant/tags/convergence-rate/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Solving for Implied Volatility: Newton&#39;s Method vs Brent&#39;s Method</title>
+      <title>Solving for Implied Volatility: Making Newton&#39;s Method Production-Ready</title>
       <link>https://leslie-ren.github.io/Inflection.Quant/articles/newton_vs_brent_vol_solver/</link>
       <pubDate>Thu, 09 Apr 2026 00:00:00 +0000</pubDate>
       <guid>https://leslie-ren.github.io/Inflection.Quant/articles/newton_vs_brent_vol_solver/</guid>
       <description>&lt;h2 id=&#34;why-this-matters&#34;&gt;Why This Matters&lt;/h2&gt;
-&lt;p&gt;I started writing about calibrating a full volatility surface and realised it first requires a clear understanding of a simpler problem: solving for implied vol from a single option price. At its core, this is a root-finding problem: given a market price, we need to find the volatility that makes the model match that price. Once framed this way, the question becomes how to solve this nonlinear problem efficiently and reliably.&lt;/p&gt;</description>
+&lt;p&gt;I plan to write about calibrating a full volatility surface, and that work rests on a clear understanding of a simpler problem: solving for implied vol from a single option price. At its core, this is a root-finding problem. Given a market quote, we look for the volatility at which the model price matches the market price. A common algorithm for this is Newton&amp;rsquo;s method. I learned it in class, saw it in textbooks, and implemented it in the traders&amp;rsquo; tools at work. Most of the time it just works. I knew convergence wasn&amp;rsquo;t guaranteed, but that stayed abstract until I hit an edge case.&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>
