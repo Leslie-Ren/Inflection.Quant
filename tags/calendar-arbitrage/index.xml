@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Calendar-Arbitrage on Inflection Quant</title>
+    <link>https://leslie-ren.github.io/Inflection.Quant/tags/calendar-arbitrage/</link>
+    <description>Recent content in Calendar-Arbitrage on Inflection Quant</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 26 Jun 2026 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://leslie-ren.github.io/Inflection.Quant/tags/calendar-arbitrage/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Constructing the Implied Volatility Surface: From Market Quotes to an Arbitrage-Free Fit</title>
+      <link>https://leslie-ren.github.io/Inflection.Quant/articles/vol_surface_calibration/</link>
+      <pubDate>Fri, 26 Jun 2026 00:00:00 +0000</pubDate>
+      <guid>https://leslie-ren.github.io/Inflection.Quant/articles/vol_surface_calibration/</guid>
+      <description>&lt;h2 id=&#34;why-this-matters&#34;&gt;Why This Matters&lt;/h2&gt;
+&lt;p&gt;For vanilla options, the simple models are usually sufficient. A plain call or put can be priced off Black-Scholes directly; we often do not need to reach for local volatility or a stochastic volatility model. Those heavier models earn their place with exotics, where the payoff depends on how the smile behaves rather than just its level today. For a vanilla option, we take the market&amp;rsquo;s implied volatility at the relevant strike and maturity and feed it into Black-Scholes. That assumes a volatility surface already exists. Before Black-Scholes can price anything, the surface it reads from has to be built, and building it can be less straightforward than it appears.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

@@ -107,7 +107,7 @@
       <description></description>
     </item>
     <item>
-      <title>Implied Volatility</title>
+      <title>Implied-Volatility</title>
       <link>https://leslie-ren.github.io/Inflection.Quant/tags/implied-volatility/</link>
       <pubDate>Thu, 23 Jul 2026 00:00:00 +0000</pubDate>
       <guid>https://leslie-ren.github.io/Inflection.Quant/tags/implied-volatility/</guid>
@@ -142,10 +142,31 @@
       <description></description>
     </item>
     <item>
-      <title>Black-Scholes</title>
-      <link>https://leslie-ren.github.io/Inflection.Quant/tags/black-scholes/</link>
+      <title>Black-Model</title>
+      <link>https://leslie-ren.github.io/Inflection.Quant/tags/black-model/</link>
       <pubDate>Fri, 26 Jun 2026 00:00:00 +0000</pubDate>
-      <guid>https://leslie-ren.github.io/Inflection.Quant/tags/black-scholes/</guid>
+      <guid>https://leslie-ren.github.io/Inflection.Quant/tags/black-model/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Butterfly-Arbitrage</title>
+      <link>https://leslie-ren.github.io/Inflection.Quant/tags/butterfly-arbitrage/</link>
+      <pubDate>Fri, 26 Jun 2026 00:00:00 +0000</pubDate>
+      <guid>https://leslie-ren.github.io/Inflection.Quant/tags/butterfly-arbitrage/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Calendar-Arbitrage</title>
+      <link>https://leslie-ren.github.io/Inflection.Quant/tags/calendar-arbitrage/</link>
+      <pubDate>Fri, 26 Jun 2026 00:00:00 +0000</pubDate>
+      <guid>https://leslie-ren.github.io/Inflection.Quant/tags/calendar-arbitrage/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Crude-Oil</title>
+      <link>https://leslie-ren.github.io/Inflection.Quant/tags/crude-oil/</link>
+      <pubDate>Fri, 26 Jun 2026 00:00:00 +0000</pubDate>
+      <guid>https://leslie-ren.github.io/Inflection.Quant/tags/crude-oil/</guid>
       <description></description>
     </item>
     <item>
@@ -156,17 +177,17 @@
       <description></description>
     </item>
     <item>
-      <title>Svi</title>
-      <link>https://leslie-ren.github.io/Inflection.Quant/tags/svi/</link>
-      <pubDate>Fri, 26 Jun 2026 00:00:00 +0000</pubDate>
-      <guid>https://leslie-ren.github.io/Inflection.Quant/tags/svi/</guid>
-      <description></description>
-    </item>
-    <item>
       <title>Volatility-Surface</title>
       <link>https://leslie-ren.github.io/Inflection.Quant/tags/volatility-surface/</link>
       <pubDate>Fri, 26 Jun 2026 00:00:00 +0000</pubDate>
       <guid>https://leslie-ren.github.io/Inflection.Quant/tags/volatility-surface/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Black-Scholes</title>
+      <link>https://leslie-ren.github.io/Inflection.Quant/tags/black-scholes/</link>
+      <pubDate>Tue, 16 Jun 2026 00:00:00 +0000</pubDate>
+      <guid>https://leslie-ren.github.io/Inflection.Quant/tags/black-scholes/</guid>
       <description></description>
     </item>
     <item>
