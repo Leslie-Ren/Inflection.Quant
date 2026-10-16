@@ -184,16 +184,5 @@ replication.&lt;/p&gt;</description>
       <description>&lt;h2 id=&#34;why-this-matters&#34;&gt;Why This Matters&lt;/h2&gt;
 &lt;p&gt;Brownian motion, the mathematical model underlying everything from stock prices to heat diffusion, has one of its most elegant properties: the variance of its position at time $t$ grows linearly with time. Not $t^2$, not $\sqrt{t}$, but exactly $t$. This seemingly abstract fact has a concrete consequence in financial markets: under the idealised conditions of an at-the-money option with zero rates, it is precisely why option prices scale with $\sqrt{T}$ rather than $T$, a direct fingerprint of Brownian motion inside Black-Scholes. Understanding why requires looking at both &lt;strong&gt;physical observations&lt;/strong&gt; and the &lt;strong&gt;mathematical construction&lt;/strong&gt; of Brownian motion.&lt;/p&gt;</description>
     </item>
-    <item>
-      <title></title>
-      <link>https://leslie-ren.github.io/Inflection.Quant/_index_consulting_version/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>https://leslie-ren.github.io/Inflection.Quant/_index_consulting_version/</guid>
-      <description>&lt;p&gt;&lt;strong&gt;From Quant Insights to Real-World Solutions&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;I help trading desks and quant teams tackle complex problems by designing models, frameworks, and tools that deliver measurable business impact. My work spans derivative pricing, risk management, and translating models into production systems, bridging the gap between quantitative ideas and their execution in live trading and risk environments.&lt;/p&gt;
-&lt;hr&gt;
-&lt;h2 id=&#34;what-i-do&#34;&gt;What I Do&lt;/h2&gt;
-&lt;p&gt;Many quant ideas are conceptually strong but challenging to implement in practice. I focus on solving real-world problems that have tangible business impact, turning models into usable tools and solutions. I enjoy diving into the details of implementation, because the process often uncovers practical insights that make the final solution more robust and effective.&lt;/p&gt;</description>
-    </item>
   </channel>
 </rss>
