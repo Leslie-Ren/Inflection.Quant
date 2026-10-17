@@ -306,3 +306,11 @@ it is the ratio of the density to the Black density built from the total varianc
 that same point, and that variance changes along the smile. Setting $w' = w'' = 0$ gives $g = 1$ and recovers the Black density:
 
 $$p(x) = \frac{1}{\sqrt{2\pi w}}\,\exp\!\left(-\frac{d_2^2}{2}\right).$$
+
+## References
+
+Breeden, D. T., and Litzenberger, R. H. (1978). Prices of state-contingent claims implicit in option prices. *Journal of Business*, 51(4), 621-651.
+
+Gatheral, J., and Jacquier, A. (2014). Arbitrage-free SVI volatility surfaces. *Quantitative Finance*, 14(1), 59-71.
+
+Lee, R. W. (2004). The moment formula for implied volatility at extreme strikes. *Mathematical Finance*, 14(3), 469-480.
