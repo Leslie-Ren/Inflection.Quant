@@ -8,11 +8,9 @@ tags: ["Brownian Motion", "Brownian Bridge", "Conditional Expectation", "Surviva
 
 ## Why This Matters
 
-In my earlier article on [Brownian motion]({{< relref "understanding_brownian_motion.md" >}}), I worked through the forward view: a process starting at a known value, diffusing into an uncertain future. Sometimes we know more than just the starting point. We also know where the process ended up, and we want to characterise the path in between. The object that answers this is the Brownian bridge: a Brownian motion conditioned on its terminal value.
+In my earlier article on [Brownian motion]({{< relref "understanding_brownian_motion.md" >}}), I worked through the forward view: a process starting at a known value, diffusing into an uncertain future. Sometimes we know more than just the starting point. We also know where the process ended up, and we want to characterize the path in between. The object that answers this is the Brownian bridge: a Brownian motion conditioned on its terminal value.
 
-My motivation for writing this is a follow-up article on Monte Carlo variance reduction, where one of the techniques, conditional Monte Carlo, uses the bridge to accelerate the pricing of barrier options. To keep that article focused on variance reduction, I am introducing the Brownian bridge here as a standalone reference. This article is meant as a brief introduction rather than a deep dive: the aim is to define the bridge, construct its form, and derive the survival probability that sits at the core of the variance reduction technique.
-
----
+My motivation for writing this is a follow-up article on [Monte Carlo variance reduction]({{< relref "mc_variance_reduction.md" >}}), where the bridge supports two of the techniques: conditional Monte Carlo uses it to accelerate the pricing of barrier options and remove the monitoring bias, and quasi-Monte Carlo uses it to reduce the effective dimension of the simulation for faster convergence. To keep that article focused on variance reduction, I am introducing the Brownian bridge here as a standalone reference. This article is meant as a brief introduction rather than a deep dive: the aim is to define the bridge, construct its form, derive the survival probability behind conditional Monte Carlo, and show how the bridge reduces the effective dimension for quasi-Monte Carlo.
 
 ## Definition
 
@@ -23,8 +21,6 @@ $$
 $$
 
 The definition is abstract. To work with the bridge in practice we need a concrete formula that, given a sample of an ordinary Brownian motion, produces a sample of the bridge.
-
----
 
 ## Decomposing $W_t$
  
@@ -60,7 +56,7 @@ $$
 
 ## Conditioning on $W_T = b$
 
-Conditioning acts on each piece separately. The first piece is a function of $W_T$, so fixing $W_T = b$ turns it into the deterministic value $\frac{t}{T} b$. The second piece is independent of $W_T$, so its distribution is unchanged. Putting them back together:
+With the split in hand, conditioning on the endpoint is straightforward, because it acts on each piece separately. The first piece is a function of $W_T$, so fixing $W_T = b$ turns it into the deterministic value $\frac{t}{T} b$. The second piece is independent of $W_T$, so its distribution is unchanged. Putting them back together:
 
 $$
 \{W_t \mid W_T = b\} = \frac{t}{T} b + \left(W_t - \frac{t}{T} W_T\right).
@@ -72,15 +68,15 @@ $$
 B_t = a + \frac{t}{T}(b - a) + \left(W_t - \frac{t}{T} W_T\right),\quad 0 \leq t \leq T.
 $$
 
-### A Word on Notation
+To simulate $B_t$, note that the $W_T$ inside the bracket is the random terminal value of the unconditioned Brownian motion we started with, not the fixed endpoint $b$. The formula is a recipe: simulate an ordinary Brownian motion, read off $W_t$ and $W_T$, and apply the transformation. The two are correlated, since $W_T$ contains everything $W_t$ did, so they are generated in order from two independent standard normals $Z_1$ and $Z_2$:
 
-The $W_T$ inside the bracket on the right is the random terminal value of the unconditioned Brownian motion we started with. It is not equal to $b$. The formula is a recipe: take any sample path of an unconditioned Brownian motion, look at its terminal value $W_T$, and apply the transformation. The subtraction removes the part of the sampled path that is correlated with its own terminal value; the linear interpolation then puts the desired endpoint $b$ back in. At $t = T$ the bracket vanishes by construction (the path's own terminal value cancels itself) and $B_T = b$.
-
----
+$$
+W_t = \sqrt{t}\,Z_1, \qquad W_T = W_t + \sqrt{T - t}\,Z_2.
+$$
 
 ## Mean and Covariance
 
-The construction expresses $B_t$ as a linear combination of Gaussian variables, so $B_t$ is itself Gaussian at every time, and the joint distribution of $(B_{t_1}, \ldots, B_{t_n})$ at any finite set of times is multivariate Gaussian. The process is fully characterised by its mean and covariance:
+Before putting the bridge to use, it helps to know what a typical bridge path looks like. The construction expresses $B_t$ as a linear combination of Gaussian variables, so $B_t$ is itself Gaussian at every time, and the joint distribution of $(B_{t_1}, \ldots, B_{t_n})$ at any finite set of times is multivariate Gaussian. The process is fully characterized by its mean and covariance:
 
 $$
 \mathbb{E}[B_t] = a + \frac{t}{T}(b - a),
@@ -92,10 +88,17 @@ $$
 
 with variance $\text{Var}(B_t) = t(T - t)/T$, a parabola vanishing at both endpoints and peaking at $T/2$. The uncertainty starts at zero, grows toward the middle of the interval, then shrinks back to zero as the process approaches the fixed endpoint. The bridge is therefore "pulled" toward the terminal value as maturity approaches.
 
----
+Knowing that $B_t$ is Gaussian with this mean and variance also gives a more direct way to simulate it than the recipe in the previous section. Instead of simulating $W_t$ and $W_T$ and transforming them, a single standard normal $Z$ is enough:
+
+$$
+B_t = a + \frac{t}{T}(b - a) + \sqrt{\frac{t(T - t)}{T}}\;Z.
+$$
+
+This samples the bridge at one time. Points at several times are correlated, so they cannot be drawn independently this way; the last section shows how to build a whole path.
+
 ## Survival Probability via the Reflection Principle
  
-The survival probability of the bridge, the probability that the bridge stays above a barrier, has a closed-form expression. This is the foundation of analytical down-and-out barrier option pricing and of the conditional Monte Carlo technique I cover in the [variance reduction article]({{< relref "mc_variance_reduction.md" >}}).
+Now we can turn to the question that makes the bridge so useful in pricing: given where a path started and where it ended, how likely is it that it never touched a barrier in between? This survival probability has a closed-form expression. This is the foundation of analytical down-and-out barrier option pricing and of the [conditional Monte Carlo]({{< ref "mc_variance_reduction.md#technique-3-conditional-monte-carlo" >}}) technique I cover in the variance reduction article.
  
 The bridge is the object whose survival probability we want, but the derivation does not use the bridge construction directly. The conditional probability is computed from unconditional Brownian motion via Bayes' rule, with the reflection principle supplying the joint density of the minimum and the terminal value.
  
@@ -148,5 +151,66 @@ P\!\left(\min_{0 \leq s \leq T} W_s > L \;\middle|\; W_0 = a,\ W_T = b\right) = 
 $$
  
 The symmetric form in $(a - L)$ and $(b - L)$ reflects the fact that the bridge is time-reversible: running the bridge backwards in time (mapping $s$ to $T - s$) gives another Brownian bridge with the start and end swapped. Reversing time does not change which values the path visits, only the order, so the minimum is the same in both directions. The survival probability must therefore give the same answer whether we call the endpoints $(a, b)$ or $(b, a)$, which forces the formula to be symmetric in the two.
- 
- 
+
+## Building a Path from the Endpoint Inward
+
+So far we have used the bridge to answer questions about a Brownian path whose endpoints are given. The same conditional distribution also lets us simulate Brownian motion paths in a different order from the usual one. The usual way builds a path forward in time, one increment after another. The bridge lets us fix the endpoint first, then fill in points between values we already know.
+
+Suppose $W_u$ and $W_v$ are known at times $u < v$, and we want $W_s$ at some $u < s < v$. Given its two ends, the segment in between is a Brownian bridge, so from the mean and covariance above, $W_s$ is normal with
+
+$$
+\mathbb{E}[W_s \mid W_u, W_v] = \frac{(v-s)\,W_u + (s-u)\,W_v}{v-u}, \qquad \text{Var}(W_s \mid W_u, W_v) = \frac{(s-u)(v-s)}{v-u}.
+$$
+
+A path on a grid can then be built by bisection. Draw the endpoint $W_T = \sqrt{T}\,Z_1$, then the midpoint given both ends using $Z_2$, then the two quarter points using $Z_3$ and $Z_4$, and so on until every grid point is filled. Each new point consumes one standard normal, so the path uses the same number of normals as the forward construction and has exactly the same distribution.
+
+What changes is how much each normal matters. Each new point is placed in the middle of a gap between two points we already know, and its uncertainty depends only on the size of that gap. Setting $s$ halfway between $u$ and $v$ in the conditional variance above shows that a point in the middle of a gap of length $g$ has variance $g/4$. The first normal sets the endpoint, with the full uncertainty of a one-year Brownian motion. The next sets the midpoint, which is already pinned down from both sides, so its variance is a quarter of the endpoint's. Every round halves the gaps, and the new points become steadily more constrained. With $T = 1$:
+
+| Round | Normals used | Points filled | Gap between known points | Variance of each new point |
+|---|---|---|---|---|
+| 0 | $Z_1$ | endpoint, $t = 1$ | none | 1 |
+| 1 | $Z_2$ | midpoint, $t = \tfrac{1}{2}$ | 1 | $\tfrac{1}{4}$ |
+| 2 | $Z_3, Z_4$ | quarters, $t = \tfrac{1}{4}, \tfrac{3}{4}$ | $\tfrac{1}{2}$ | $\tfrac{1}{8}$ |
+| 3 | $Z_5$ to $Z_8$ | eighths | $\tfrac{1}{4}$ | $\tfrac{1}{16}$ |
+| … | … | … | … | … |
+| 8 | the last ~120 | each step of a 252-step grid | $\tfrac{1}{128}$ | $\tfrac{1}{512}$ |
+| … | … | … | … | … |
+
+The first few normals therefore decide the overall shape of the path: where it ends, where it sits halfway, and so on. The later ones only add small wiggles between neighbors that are already fixed. For ordinary Monte Carlo this ordering makes no difference, since every normal is equally random. For quasi-Monte Carlo it matters a great deal, because the first few inputs of a low-discrepancy sequence are its most evenly spread. The [Monte Carlo variance reduction article]({{< ref "mc_variance_reduction.md#reducing-the-effective-dimension" >}}) shows how this reduces the effective dimension when pricing a barrier option.
+
+<details style="margin-bottom: 1.5em;">
+<summary>Brownian bridge path construction</summary>
+
+```python
+def bridge_order(M):
+    # bisection order: endpoint first, then midpoints of each known interval
+    order, left, right = [M - 1], [-1], [-1]
+    queue = [(-1, M - 1)]
+    while queue:
+        nxt = []
+        for a, b in queue:
+            if b - a > 1:
+                m = (a + b) // 2
+                order.append(m); left.append(a); right.append(b)
+                nxt += [(a, m), (m, b)]
+        queue = nxt
+    return order, left, right
+
+def bridge_paths(Z, T, M):
+    t = np.arange(1, M + 1) * T / M
+    order, left, right = bridge_order(M)
+    W = np.zeros_like(Z)
+    W[:, M - 1] = np.sqrt(T) * Z[:, 0]
+    for k in range(1, M):
+        i, a, b = order[k], left[k], right[k]
+        ta = 0.0 if a < 0 else t[a]
+        Wa = 0.0 if a < 0 else W[:, a]
+        tb, ti = t[b], t[i]
+        mean = ((tb - ti) * Wa + (ti - ta) * W[:, b]) / (tb - ta)
+        W[:, i] = mean + np.sqrt((ti - ta) * (tb - ti) / (tb - ta)) * Z[:, k]
+    return W, t
+```
+
+Given an array `Z` of standard normals with one column per time step, `bridge_paths(Z, T, M)` returns the Brownian paths `W` on the grid `t`. A geometric Brownian motion path then follows as `S0 * np.exp((r - 0.5*sigma**2)*t + sigma*W)`.
+
+</details>

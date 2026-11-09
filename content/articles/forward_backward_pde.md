@@ -169,7 +169,7 @@ $(Qu)_i$ is the expected rate of value gain from state $i$: each possible transi
 The consequence of the duality is that the expected payoff does not move at all. By the product rule and the two evolution equations,
 
 $$
-\frac{d}{dt}\big(\pi^\top u\big) = \left(\frac{d\pi}{dt}\right)^\top u + \pi^\top \frac{du}{dt} = \big(Q^\top \pi\big)^\top u + \pi^\top \big(-Q u\big) = 0,
+\frac{d}{dt}\big(\pi^\top u\big) = \left(\frac{d\pi}{dt}\right)^\top u + \pi^\top \frac{du}{dt} = \big(Q^\top \pi\big)^\top u + \pi^\top \big(-Q u\big) = 0.
 $$
 
 This is the invariance in continuous time. In the discrete case the expected payoff was the same number at every step; here it is the same number at every instant.
@@ -254,7 +254,7 @@ $$
 \int (L u)\, p \, dx = \int u\, (L^* p)\, dx
 $$
 
-for all suitable $u$ and $p$. This is the continuous duality. The forward equation then follows,
+for all suitable $u$ and $p$. This is the continuous duality. Drawing the same analogy, the forward equation is the adjoint acting on the density,
 
 $$
 \partial_t p = L^* p,
@@ -273,7 +273,7 @@ $$
 For the diffusion term, integrate by parts twice:
 
 $$
-\int \tfrac{1}{2}\sigma^2(x)\, \partial_{xx} u\, p(x)\, dx = \int u(x)\, \tfrac{1}{2}\partial_{xx}\big(\sigma^2(x) p(x)\big)\, dx.
+\int \tfrac{1}{2}\sigma^2(x)\, \partial_{xx} u\, p(x)\, dx = \int u(x)\, \tfrac{1}{2}\partial_{xx}\big(\sigma^2(x) p(x)\big)\, dx,
 $$
 
 so the forward equation, written out, becomes
@@ -281,6 +281,8 @@ so the forward equation, written out, becomes
 $$
 \partial_t p = L^* p = -\partial_x\big(\mu(x) p\big) + \tfrac{1}{2}\partial_{xx}\big(\sigma^2(x) p\big).
 $$
+
+The same derivation holds when $\mu$ and $\sigma$ also depend on time. The generator only looks one instant ahead, so the coefficients enter at their current values, and the integration by parts acts in $x$ alone. The result is the same Fokker-Planck equation with $\mu(x, t)$ and $\sigma(x, t)$.
 
 ### Summary
 
@@ -315,7 +317,7 @@ $$
 L^* p = -\partial_S\big(r S\, p\big) + \tfrac{1}{2}\partial_{SS}\big(\sigma^2 S^2\, p\big),
 $$
 
-and the risk-neutral transition density $p(S, T \mid S_0, t_0)$ satisfies the Fokker-Planck equation $\partial_T p = L^* p$ in the forward variables $S$ and $T$. In contrast, the backward equation carries the current spot as a variable. But in the market the current spot is already observed, a single fixed number, not something that varies. The forward equation instead solves for the density over the terminal underlying price $S$ and the maturity $T$, and this is what matches how the market quotes option prices: $T$ runs along the maturity axis of the quoted surface directly, and the price at any strike $K$ comes from integrating the terminal density against that contract's payoff. This is what makes the forward equation the workhorse of vol calibration. In the follow-up article on local vol, we will show how the forward equation is used to derive the Dupire calibration formula.
+and the risk-neutral transition density $p(S, T \mid S_0, t_0)$ satisfies the Fokker-Planck equation $\partial_T p = L^* p$ in the forward variables $S$ and $T$. In contrast, the backward equation carries the current spot as a variable. But in the market the current spot is already observed, a single fixed number, not something that varies. The forward equation instead solves for the density over the terminal underlying price $S$ and the maturity $T$, and this is what matches how the market quotes option prices: $T$ runs along the maturity axis of the quoted surface directly, and the price at any strike $K$ comes from integrating the terminal density against that contract's payoff. This is what makes the forward equation the workhorse of vol calibration. In the [local vol article]({{< ref "local_vol.md" >}}), we show how the forward equation is used to derive the Dupire calibration formula.
 
 ## A Closing Reflection
 
@@ -332,7 +334,10 @@ $$
 where $p(y \mid x, dt)$ is the probability density of landing near $y$ having started at $x$ an interval $dt$ earlier. As stated in the main text, if the transition density were known in closed form we would substitute it and be done. For a general diffusion it is not known. What we know about the transition is its first two moments:
 
 $$
-\mathbb{E}[\Delta X \mid X_t = x] = \int (y-x)\, p(y\mid x, dt)\, dy = \mu(x)\,dt + o(dt), \qquad \mathbb{E}\big[(\Delta X)^2 \mid X_t = x\big] = \int (y-x)^2\, p(y\mid x, dt)\, dy = \sigma^2(x)\,dt + o(dt),
+\begin{aligned}
+&\mathbb{E}[\Delta X \mid X_t = x] = \int (y-x)\, p(y\mid x, dt)\, dy = \mu(x)\,dt + o(dt), \\
+&\mathbb{E}\big[(\Delta X)^2 \mid X_t = x\big] = \int (y-x)^2\, p(y\mid x, dt)\, dy = \sigma^2(x)\,dt + o(dt),
+\end{aligned}
 $$
 
 where $\Delta X = X_{t+dt} - x$, with all higher moments $o(dt)$.

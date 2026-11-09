@@ -326,7 +326,7 @@ print(heston_call(100, 100, 1.0, 0.03, 0.04, 2.0, 0.04, 0.3, -0.7))   # 9.2425
 print(heston_call(100, 100, 1.0, 0.03, 0.04, 2.0, 0.04, 1e-4, -0.7))  # 9.4134
 ```
 
-As a check, setting $\xi$ close to zero with $v_0 = \theta = 0.04$ should recover Black-Scholes at 20% vol. With $S_0 = K = 100$, $T = 1$, $r = 3\%$ and $\alpha = 1.5$, the formula gives 9.4134, matching the Black-Scholes price to four decimal places.
+As a check, setting $\xi$ close to zero with $v_0 = \theta = 0.04$ should recover Black-Scholes at 20% vol. With $S_0 = K = 100$, $T = 1$, $r = 3\%$ and $\alpha = 1.5$, the formula gives 9.4134, matching the Black-Scholes price to four decimal places. The price also does not depend on $\alpha$ when the integral is evaluated adaptively, as `quad` does: with the parameters of the first example above, the four year at the money call comes out at <span class="tex2jax_ignore">&#36;21.1611</span> for any $\alpha$ from 1.1 to 10.
 
 ### What the Square Root Bought
 
@@ -539,7 +539,7 @@ We have seen what Heston offers: a variance that mean reverts and stays positive
 
 ### Departures from Market Behavior
 
-**Vol of vol.** The vol of vol $\xi$ is a critical parameter that stochastic vol introduces, since it is what makes the vol itself random, so we examine it first. The simplest place to look is the VIX and its own vol index, the VVIX, which Cboe computes from VIX options in the same way the VIX is computed from SPX options. It measures how much the market expects the VIX to move over the next 30 days, as a percentage of its own level. Both histories can be downloaded free from Cboe. Here are five years of daily closes:
+**Vol of vol.** The vol of vol $\xi$ is a critical parameter that stochastic vol introduces, since it is what makes the vol itself random, so we examine it first. The simplest place to look is the VIX and its own vol index, the VVIX, which Cboe computes from VIX options in the same way the VIX is computed from SPX options. It measures how much the market expects the VIX to move over the next 30 days, as a percentage of its own level. Here are five years of daily closes:
 
 {{< vix_vvix >}}
 
