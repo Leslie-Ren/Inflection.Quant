@@ -33,7 +33,7 @@ fundamentally unobservable. So what can we do?&lt;/p&gt;</description>
 unintuitive. The theorem claims that a deterministic PDE and the expectation of
 a stochastic process are two representations of the same object. A PDE is smooth and
 deterministic. A stochastic expectation involves randomness, probability measures, and
-averaging over infinitely many paths. How could these be the same thing? I understood the steps of the proof, but I still didn’t have a clear intuition for why this equivalence should exist.&lt;/p&gt;</description>
+averaging over infinitely many paths. How could these be the same thing? I understood the steps of the standard textbook proof, but I still didn’t have a clear intuition for why this equivalence should exist.&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>

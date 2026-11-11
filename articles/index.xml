@@ -64,8 +64,7 @@
       <link>https://leslie-ren.github.io/Inflection.Quant/articles/mc_variance_reduction/</link>
       <pubDate>Tue, 02 Jun 2026 00:00:00 +0000</pubDate>
       <guid>https://leslie-ren.github.io/Inflection.Quant/articles/mc_variance_reduction/</guid>
-      <description>&lt;p&gt;&lt;strong&gt;Under review:&lt;/strong&gt; some results and code in this article are being revised.&lt;/p&gt;
-&lt;h2 id=&#34;why-this-matters&#34;&gt;Why This Matters&lt;/h2&gt;
+      <description>&lt;h2 id=&#34;why-this-matters&#34;&gt;Why This Matters&lt;/h2&gt;
 &lt;p&gt;In the article on the &lt;a href=&#34;../Inflection.Quant/articles/feynman_kac/&#34;&gt;Feynman-Kac theorem&lt;/a&gt;, we saw that the price of a derivative can be expressed equivalently as the solution to a deterministic PDE or as the expectation of a discounted payoff under the risk-neutral measure. This gives us two complementary numerical approaches to pricing. For low-dimensional problems with smooth payoffs, finite difference methods on the PDE side are efficient and accurate. For high-dimensional problems, path-dependent payoffs, or models where the PDE is hard to derive, Monte Carlo (MC) on the expectation side becomes the natural choice.&lt;/p&gt;</description>
     </item>
     <item>
@@ -74,7 +73,7 @@
       <pubDate>Thu, 28 May 2026 00:00:00 +0000</pubDate>
       <guid>https://leslie-ren.github.io/Inflection.Quant/articles/brownian_bridge/</guid>
       <description>&lt;h2 id=&#34;why-this-matters&#34;&gt;Why This Matters&lt;/h2&gt;
-&lt;p&gt;In my earlier article on &lt;a href=&#34;../Inflection.Quant/articles/understanding_brownian_motion/&#34;&gt;Brownian motion&lt;/a&gt;, I worked through the forward view: a process starting at a known value, diffusing into an uncertain future. Sometimes we know more than just the starting point. We also know where the process ended up, and we want to characterise the path in between. The object that answers this is the Brownian bridge: a Brownian motion conditioned on its terminal value.&lt;/p&gt;</description>
+&lt;p&gt;In my earlier article on &lt;a href=&#34;../Inflection.Quant/articles/understanding_brownian_motion/&#34;&gt;Brownian motion&lt;/a&gt;, I worked through the forward view: a process starting at a known value, diffusing into an uncertain future. Sometimes we know more than just the starting point. We also know where the process ended up, and we want to characterize the path in between. The object that answers this is the Brownian bridge: a Brownian motion conditioned on its terminal value.&lt;/p&gt;</description>
     </item>
     <item>
       <title>Quanto vs Compo Commodity Options: The Role of FX in Pricing and Risk</title>
@@ -118,7 +117,7 @@ fundamentally unobservable. So what can we do?&lt;/p&gt;</description>
 unintuitive. The theorem claims that a deterministic PDE and the expectation of
 a stochastic process are two representations of the same object. A PDE is smooth and
 deterministic. A stochastic expectation involves randomness, probability measures, and
-averaging over infinitely many paths. How could these be the same thing? I understood the steps of the proof, but I still didn’t have a clear intuition for why this equivalence should exist.&lt;/p&gt;</description>
+averaging over infinitely many paths. How could these be the same thing? I understood the steps of the standard textbook proof, but I still didn’t have a clear intuition for why this equivalence should exist.&lt;/p&gt;</description>
     </item>
     <item>
       <title>Futures-Style Margined Options: The Absence of Early Exercise Premium</title>
