@@ -42,13 +42,13 @@ Notice that the last condition encodes linear variance growth: an increment over
 Consider a simple symmetric random walk:
 
 $$
-S_n = X_1 + X_2 + \dots + X_n
+S_n = \xi_1 + \xi_2 + \dots + \xi_n
 $$
 
-where each $X_i$ is $\pm 1$ with equal probability. Because the steps are independent:
+where each $\xi_i$ is $\pm 1$ with equal probability. Because the steps are independent:
 
 $$
-\text{Var}(S_n) = \text{Var}(X_1) + \dots + \text{Var}(X_n) = n
+\text{Var}(S_n) = \text{Var}(\xi_1) + \dots + \text{Var}(\xi_n) = n
 $$
 
 Variance grows linearly with the number of steps.
@@ -70,7 +70,7 @@ $$
 Then, the Brownian motion approximation is:
 
 $$
-B(t) \approx \delta (X_1 + X_2 + \dots + X_n)
+B(t) \approx \delta (\xi_1 + \xi_2 + \dots + \xi_n)
 $$
 
 and the total variance becomes:
@@ -79,7 +79,7 @@ $$
 \text{Var}[B(t)] = n \cdot \delta^2 = n \cdot \frac{t}{n} = t
 $$
 
-This shows that the step size must scale as $\sqrt{\Delta t}$ to reproduce the observed linear growth of variance in continuous time. Moreover, as $n \to \infty$, the Central Limit Theorem guarantees that the normalised sum $\delta(X_1 + \dots + X_n)$ converges in distribution to a Gaussian — which is why the limit is not merely variance-correct, but fully normally distributed, justifying the $N(0, t)$ increments in the formal definition above.
+This shows that the step size must scale as $\sqrt{\Delta t}$ to reproduce the observed linear growth of variance in continuous time. Moreover, as $n \to \infty$, the Central Limit Theorem guarantees that the normalized sum $\delta(\xi_1 + \dots + \xi_n)$ converges in distribution to a Gaussian, which is why the limit is not merely variance-correct, but fully normally distributed, justifying the $N(0, t)$ increments in the formal definition above.
 
 ### Why Other Step Sizes Fail
 

@@ -12,22 +12,15 @@ The first time I encountered the Feynman-Kac theorem, I found it fascinating but
 unintuitive. The theorem claims that a deterministic PDE and the expectation of
 a stochastic process are two representations of the same object. A PDE is smooth and
 deterministic. A stochastic expectation involves randomness, probability measures, and
-averaging over infinitely many paths. How could these be the same thing? I understood the steps of the proof, but I still didn’t have a clear intuition for why this equivalence should exist.
+averaging over infinitely many paths. How could these be the same thing? I understood the steps of the standard textbook proof, but I still didn’t have a clear intuition for why this equivalence should exist.
 
-I also found myself slightly confused about its role in practice. In derivative pricing, we often work directly with risk-neutral expectations. The PDE formulation and the stochastic formulation both appear natural, so it is not immediately obvious what additional insight Feynman-Kac is adding.
-
-This article is my attempt to answer both. Starting from a simple random walk, I hope
-the equivalence feels less like a coincidence by the end, and that it becomes clear
-where Feynman-Kac sits in derivative valuation and why it matters even when it may
-appear unnecessary.
-
----
+In this article, I start from a simple random walk to build that intuition. I then turn to derivative pricing, where the PDE follows from a hedging argument and the expectation from risk-neutral pricing, so both seem natural on their own, and ask why their equivalence matters in practice.
 
 ## The Intuition: A Random Walk
 
 Before stating any theorem, I want to show through the simplest possible example why
 a deterministic equation and a stochastic expectation are naturally the same thing.
-The key is to start from neither, and instead start from something more primitive.
+Rather than starting from either one, we begin with a simple rule that leads to both.
 
 ### Setup
 
@@ -50,13 +43,11 @@ particle could reach at the next step:
 $$u(x, t) = \frac{1}{2}u(x + \Delta x, t + \Delta t) +
 \frac{1}{2}u(x - \Delta x, t + \Delta t)$$
 
-with the boundary condition $u(x, T) = g(x)$.
+with the terminal condition $u(x, T) = g(x)$.
 
 This is the only thing we are asking of $u$. If we know the value at every position
 at time $t + \Delta t$, the value at time $t$ must be the average of the two possible
 next positions.
-
----
 
 ## Two Consequences of the Same Property
 
@@ -72,18 +63,21 @@ $$u(x, t) - u(x, t + \Delta t) =
 \frac{1}{2}\left[u(x + \Delta x, t + \Delta t) - 2u(x, t + \Delta t) +
 u(x - \Delta x, t + \Delta t)\right]$$
 
-The left side is a difference in time. The right side is a second difference in
-space. Dividing through by $\Delta t$, using the diffusion scaling
-$\frac{(\Delta x)^2}{\Delta t} = 1$ (equivalently $\Delta x = \sqrt{\Delta t}$, the
-same scaling condition established in
-[Brownian Motion: From Random Walks to Option Prices]({{< relref "understanding_brownian_motion.md" >}})),
-and taking $\Delta t \to 0$, $\Delta x \to 0$, we obtain:
+The left side is a difference in time. The right side is a second difference in space. Dividing through by $\Delta t$:
+
+$$-\frac{u(x, t + \Delta t) - u(x, t)}{\Delta t} = \frac{1}{2}\,\frac{(\Delta x)^2}{\Delta t}\cdot
+\frac{u(x + \Delta x, t + \Delta t) - 2u(x, t + \Delta t) + u(x - \Delta x, t + \Delta t)}{(\Delta x)^2}$$
+
+As $\Delta t \to 0$, writing $c = \lim (\Delta x)^2/\Delta t$, this becomes
+
+$$-\frac{\partial u}{\partial t} = \frac{c}{2}\,\frac{\partial^2 u}{\partial x^2}$$
+
+What survives depends on $c$. If $c = 0$, the right side vanishes and $\partial u/\partial t = 0$: the value never changes, as if the particle were frozen in place. If $c$ is infinite, dividing through by $c$ leaves $\partial^2 u/\partial x^2 = 0$, so $u$ would have to be linear in $x$ and could not match a general payoff $g$. Only a finite, nonzero $c$ keeps both terms. Setting $c = 1$, that is $\Delta x = \sqrt{\Delta t}$, makes the random walk converge to a standard Brownian motion, as explained in the [Brownian motion article]({{< relref "understanding_brownian_motion.md#brownian-motion-as-a-limit-of-a-random-walk" >}}), and we obtain:
 
 $$\frac{\partial u}{\partial t} + \frac{1}{2}\frac{\partial^2 u}{\partial x^2} = 0
 \quad \text{with } u(x, T) = g(x)$$
 
-The key point is not the algebra itself, but the structure: the local averaging rule
-forces a second-order spatial structure in the limit. That structure is the PDE.
+The key point is not the algebra but what it shows: the averaging rule ties the change in $u$ over time to its curvature in space. That relationship is the PDE.
 
 ### Consequence 2: $u$ equals a stochastic expectation.
 
@@ -116,8 +110,6 @@ viewed globally. The PDE and the expectation are not two different models that h
 to agree. They are two ways of reading the same underlying structure: one in the
 language of calculus, one in the language of probability. This is the intuition
 behind Feynman-Kac.
-
----
 
 ## Feynman-Kac: The Theorem
 
@@ -152,8 +144,6 @@ and $g$; we assume these are satisfied throughout.
 | Diffusion $\frac{1}{2}\sigma^2 \frac{\partial^2 u}{\partial x^2}$ | Diffusion of $X_t$ |
 | Discounting $-r u$ | Discount factor $e^{-\int_t^T r\,ds}$ inside the expectation |
 | Terminal condition $u(x, T) = g(x)$ | Payoff function $g(X_T)$ |
-
----
 
 ## Two Paths to Derivative Valuation
 
@@ -214,11 +204,9 @@ satisfies:
 $$\frac{\partial V}{\partial t} + \frac{1}{2}\sigma^2 F^2
 \frac{\partial^2 V}{\partial F^2} - rV = 0, \quad V(F, T) = g(F)$$
 
-This is exactly the PDE from Path 1. The two approaches are not just compatible in the cases we can solve by hand. They are guaranteed to produce the same function for any well-posed diffusion model, whether or not an analytical solution exists. In simple models like Black-Scholes this equivalence can feel almost unnecessary, but in more complex models such as stochastic volatility settings, where closed-form solutions are no longer available, the multidimensional version of Feynman-Kac provides the rigorous link that ensures the PDE formulation and the expectation formulation remain consistent representations of the same quantity.
+This is exactly the PDE from Path 1. The two approaches are not just compatible in the cases we can solve by hand. They are guaranteed to produce the same function for any well-posed diffusion model, whether or not an analytical solution exists. In simple models like Black-Scholes this equivalence can feel almost unnecessary, but in more complex models such as stochastic volatility settings, where closed-form solutions are no longer available, the multidimensional version of Feynman-Kac provides the rigorous link that ensures the PDE formulation and the expectation formulation remain consistent representations of the same quantity. The [Heston article]({{< relref "heston.md#putting-the-vol-of-vol-back" >}}) uses exactly this, turning an expectation in the two state variables into a two-dimensional backward PDE.
 
-One caveat in that setting: volatility is not a traded asset, so the pricing PDE contains a market price of volatility risk, and each choice of that quantity corresponds to a choice of $\mathbb{Q}$. Feynman-Kac links the PDE and the expectation for a given choice; it does not make the choice.
-
----
+So each approach answers half the question. The martingale approach gives the price as an expectation, but not the hedge. The PDE approach comes from the hedging argument, so its solution is the cost of replicating the payoff, with hedge ratio $\partial V/\partial F$. Feynman-Kac shows the two are the same function, so the martingale price is also the cost of the hedge, and a Monte Carlo engine and a PDE solver are guaranteed to agree.
 
 ## When Does It Matter Which Representation We Use?
 
@@ -229,8 +217,8 @@ structure of the problem.
 
 | Situation | Preferred approach | Reason |
 |---|---|---|
-| Computing smooth Greeks | PDE | Finite differences on the grid are stable; Monte Carlo differentiation is noisy |
-| Model calibration | Forward PDE or semi-analytic pricer | Each calibration iteration requires fast, deterministic prices across many strikes and expiries; a forward (Dupire or Fokker-Planck) PDE delivers all strikes in a single solve, while Monte Carlo is slower and introduces noise into the objective function |
+| Computing smooth Greeks | PDE | Greeks come directly from the grid; Monte Carlo Greeks need extra care, such as common random numbers or pathwise estimators |
+| Model calibration | Forward PDE | Each calibration iteration requires fast, deterministic prices across many strikes and expiries; for a model such as [local vol]({{< relref "local_vol.md" >}}), a single [forward PDE]({{< relref "forward_backward_pde.md" >}}) solve prices all strikes at once, while Monte Carlo is slower and introduces noise into the objective function |
 | Pricing across a range of underlying scenarios | PDE | A single grid solve covers all $F$ at once; Monte Carlo requires a separate simulation per scenario |
 | High-dimensional underlyings (basket options) | Monte Carlo | PDE grid grows exponentially in dimension; simulation cost scales with paths |
 | Path-dependent payoffs (Asian, lookback) | Monte Carlo | Path history requires extra state variables, turning a 2D grid into 3D or higher; simulation handles it naturally by following the full path |

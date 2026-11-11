@@ -14,31 +14,27 @@ What drew me to the PDE approach is how much falls out of that single grid solve
 
 The workhorse for solving these PDEs numerically is the finite difference method, and that is what the rest of the article is about. Rather than start with the Black-Scholes PDE directly, I will build the method up on the heat equation from physics. The two share the same diffusion structure, but the heat equation has constant coefficients where Black-Scholes has variable ones, so it shows the numerical ideas without the algebraic clutter. Everything we develop carries over to Black-Scholes with those extra terms added back in.
 
----
-
 ## The Heat Equation
 
 Picture a thin metal rod. Heat a spot on it, then leave it alone. The warm spot cools and spreads, and the rod drifts toward a uniform temperature. We want an equation for how the temperature $u(x, t)$ at position $x$ and time $t$ evolves.
 
-Rather than reach for a known equation, let us ask what properties it must have. Heat conduction is local: a point exchanges heat only with its immediate neighbours, not with the rod as a whole. So the rate of change $\partial_t u$ at a point should be driven by how that point compares to its neighbours on each side.
+Rather than reach for a known equation, let us ask what properties it must have. Heat conduction is local: a point exchanges heat only with its immediate neighbors, not with the rod as a whole. So the rate of change $\partial_t u$ at a point should be driven by how that point compares to its neighbors on each side.
 
-Consider a small segment around a point. If the left neighbour is one degree cooler and the right one degree warmer, the point loses heat to the left at the same rate it gains from the right. The flows balance and the temperature holds steady, despite the clear slope through the point. So the slope $\partial_x u$ is not what drives the change; a constant slope produces balanced flow and no change at all. What drives the change is an imbalance between the two sides, the slope being steeper on one side than the other. That imbalance is the curvature $\partial_{xx} u$, and it gives the heat equation:
+Consider a small segment around a point. If the left neighbor is one degree cooler and the right one degree warmer, the point loses heat to the left at the same rate it gains from the right. The flows balance and the temperature holds steady, despite the clear slope through the point. So the slope $\partial_x u$ is not what drives the change; a constant slope produces balanced flow and no change at all. What drives the change is an imbalance between the two sides, the slope being steeper on one side than the other. That imbalance is the curvature $\partial_{xx} u$, and it gives the heat equation:
 
 $$
 \partial_t u = \kappa\, \partial_{xx} u, \qquad \kappa > 0,
 $$
 
-with $\kappa$ a positive constant, set by the material, controlling how fast heat spreads. The sign of the curvature sets the direction: a point that rises above its neighbours has negative curvature in $x$ and cools, a dip below them has positive curvature and warms, a straight run holds still.
+with $\kappa$ a positive constant, set by the material, controlling how fast heat spreads. The sign of the curvature sets the direction: a point that rises above its neighbors has negative curvature in $x$ and cools, a dip below them has positive curvature and warms, a straight run holds still.
 
-The equation governs how each interior point evolves, but it says nothing about the two ends of the rod, which have a neighbour on only one side. On its own it does not determine a unique solution; we also have to say what happens at the ends. The simplest choice is to hold each end at a fixed temperature: imagine the ends sitting in an ice bath, pinned at zero while the interior evolves. This is a boundary condition, and the equation needs one at each end before the problem is complete. It is why every curve in the figure below is tied down to zero at the two edges.
+The equation governs how each interior point evolves, but it says nothing about the two ends of the rod, which have a neighbor on only one side. On its own it does not determine a unique solution; we also have to say what happens at the ends. The simplest choice is to hold each end at a fixed temperature: imagine the ends sitting in an ice bath, pinned at zero while the interior evolves. This is a boundary condition, and the equation needs one at each end before the problem is complete. It is why every curve in the figure below is tied down to zero at the two edges.
 
 {{< heat_rod_evolution >}}
 
-The heat starts concentrated at a single point in the middle of the rod. The figure shows the profile shortly after, spreading outward into a bump that widens and flattens over time, conserving total heat while smoothing it out. This diffusion is the behaviour we will be approximating numerically.
+The heat starts concentrated at a single point in the middle of the rod. The figure shows the profile shortly after, spreading outward into a bump that widens and flattens over time, while the cold ends slowly draw heat out of the rod. This diffusion is the behavior we will be approximating numerically.
 
----
-
-## Discretising the Equation
+## Discretizing the Equation
 
 To solve the heat equation numerically we replace the continuous derivatives with finite differences on a grid. Space is divided into points $x_0, x_1, \ldots, x_M$ spaced $\Delta x$ apart, and time into levels $t_0, t_1, \ldots, t_N$ spaced $\Delta t$ apart. We write $u_i^n$ for the approximation to $u(x_i, t_n)$.
 
@@ -56,11 +52,9 @@ $$
 \partial_{xx} u(x_i) \approx \frac{u_{i-1} - 2 u_i + u_{i+1}}{(\Delta x)^2}.
 $$
 
-This is the discrete form of the curvature: it measures how far $u_i$ sits above or below the average of its two neighbours, the same quantity that drove the heat equation.
+This is the discrete form of the curvature: it measures how far $u_i$ sits above or below the average of its two neighbors, the same quantity that drove the heat equation.
 
 The equation sets the time difference equal to this curvature, but it leaves one thing open: at which time level do we measure the curvature? At $t_n$, where we already know all the values, or at $t_{n+1}$, where we do not? Nothing so far decides it. We have to choose, and that single choice produces two schemes with very different character.
-
----
 
 ## The Explicit Scheme
 
@@ -82,27 +76,25 @@ $$
 u_i^{n+1} = \lambda\, u_{i-1}^n + (1 - 2\lambda)\, u_i^n + \lambda\, u_{i+1}^n.
 $$
 
-The value at the next time step is a weighted combination of the current value at that point and its two neighbours. Each point is updated independently, which makes the scheme cheap and easy to implement.
+The value at the next time step is a weighted combination of the current value at that point and its two neighbors. Each point is updated independently, which makes the scheme cheap and easy to implement.
 
 {{< fdm_stencil_explicit >}}
 
 The stencil shows what the update reaches for: the new value at $t_{n+1}$ is built from the three known values in the previous time column at $t_n$.
 
-This update applies only to the interior points. The two end points have a neighbour on just one side, so the three-point stencil would run off the grid. We do not compute them from the update at all: the boundary condition fixes them directly, setting the edge values to zero at every step. The first interior point still reaches for its outer neighbour, but that neighbour is now the known boundary value, so its update is well defined.
-
----
+This update applies only to the interior points. The two end points have a neighbor on just one side, so the three-point stencil would run off the grid. We do not compute them from the update at all: the boundary condition fixes them directly, setting the edge values to zero at every step. The first interior point still reaches for its outer neighbor, but that neighbor is now the known boundary value, so its update is well defined.
 
 ## When the Explicit Scheme Breaks
 
-The explicit scheme works well when the time step is small, but the simplicity hides a trap. Recall that the update writes the next value as a combination of three current values, with weights $\lambda$, $1 - 2\lambda$, $\lambda$ that always sum to one. As long as all three are non-negative, which holds when $\lambda \leq 1/2$, the next value is a weighted average of the three, so it lands somewhere between the coolest and warmest of them. A hot point cools toward its neighbours, never dropping below them in a single step, which is how heat should behave. Starting from a single point at temperature 1 between two neighbours at 0, with $\lambda = 1/3$, the heat simply spreads and fades, every value staying between 0 and 1.
+The explicit scheme works well when the time step is small, but the simplicity hides a trap. Recall that the update writes the next value as a combination of three current values, with weights $\lambda$, $1 - 2\lambda$, $\lambda$ that always sum to one. As long as all three are non-negative, which holds when $\lambda \leq 1/2$, the next value is a weighted average of the three, so it lands somewhere between the coolest and warmest of them. A hot point cools toward its neighbors, never dropping below them in a single step, which is how heat should behave. Starting from a single point at temperature 1 between two neighbors at 0, with $\lambda = 1/3$, the heat simply spreads and fades, every value staying between 0 and 1.
 
 {{< stability_heatmap_stable >}}
 
-Once $\lambda > 1/2$, the central weight turns negative and the update is no longer an average. Now a point can be pushed past its neighbours instead of settling between them. Let us look at the same starting point with $\lambda = 1$, and watch what the update does step after step.
+Once $\lambda > 1/2$, the central weight turns negative and the update is no longer an average. Now a point can be pushed past its neighbors instead of settling between them. Let us look at the same starting point with $\lambda = 1$, and watch what the update does step after step.
 
 {{< stability_heatmap >}}
 
-Follow the centre row. The point starts at 1, and a single step sends it to -1, already colder than the neighbours it was meant to settle toward. The next step overshoots it back to 3, then to -7, then to 19. Each step flips the sign and grows the magnitude, in space and in time, producing the intensifying checkerboard above. Left to run, it swamps the real solution within a few steps.
+Follow the center row. The point starts at 1, and a single step sends it to -1, already colder than the neighbors it was meant to settle toward. The next step overshoots it back to 3, then to -7, then to 19. Each step flips the sign and grows the magnitude, in space and in time, producing the intensifying checkerboard above. Left to run, it swamps the real solution within a few steps.
 
 The condition for the weights to stay non-negative is
 
@@ -111,8 +103,6 @@ $$
 $$
 
 which caps the time step at $\Delta t \leq (\Delta x)^2 / (2\kappa)$. The cost of this is steep. The maximum step shrinks with the square of the spatial spacing, so using ten times as many spatial points forces the time step to shrink by a factor of a hundred. Ten times the spatial points and a hundred times the time steps is a thousandfold increase in total work, all to refine the spatial grid tenfold. To stay stable on a fine grid, the explicit scheme is forced into a very large number of small steps.
-
----
 
 ## The Implicit Scheme
 
@@ -130,7 +120,7 @@ $$
 
 {{< fdm_stencil_implicit >}}
 
-The stencil shows why: the new value connects to its spatial neighbours in the same time column at $t_{n+1}$, which are themselves unknown, rather than only to known values at $t_n$.
+The stencil shows why: the new value connects to its spatial neighbors in the same time column at $t_{n+1}$, which are themselves unknown, rather than only to known values at $t_n$.
 
 There is one such equation at every interior grid point, giving a linear system in all the unknowns at $t_{n+1}$. In matrix form, with $\mathbf{u}^n$ the vector of grid values,
 
@@ -138,38 +128,68 @@ $$
 A\, \mathbf{u}^{n+1} = \mathbf{u}^n,
 $$
 
-where $A$ is tridiagonal: $1 + 2\lambda$ on the diagonal, $-\lambda$ on the two off-diagonals. Each step requires solving this system rather than reading off an answer. We solve it directly with a standard tridiagonal algorithm rather than forming the inverse $A^{-1}$: the inverse is dense, and building it would discard the structure that makes the problem cheap. A general dense system of $N$ unknowns costs on the order of $N^3$ operations to solve, but the tridiagonal system, being almost all zeros, can be solved in work proportional to $N$, nearly as cheap as a single sweep over the grid.
+where $A$ is tridiagonal: $1 + 2\lambda$ on the diagonal, $-\lambda$ on the two off-diagonals. Each step requires solving this system rather than reading off an answer. We solve it directly with a standard tridiagonal algorithm rather than forming the inverse $A^{-1}$: the inverse is dense, and building it would discard the structure that makes the problem cheap. A general dense system of $M$ unknowns costs on the order of $M^3$ operations to solve, but the tridiagonal system, being almost all zeros, can be solved in work proportional to $M$, nearly as cheap as a single sweep over the grid.
 
-The payoff is that the implicit scheme is stable for any time step. There is no $\lambda \leq 1/2$ constraint, so the step is no longer limited by stability. Each step costs more than an explicit step, but the freedom to take large steps wins comfortably on the fine grids where the explicit scheme would be forced into a crawl.
+<details style="margin-bottom: 1.5em;">
+<summary>Solving the tridiagonal system</summary>
 
----
+The standard method, the Thomas algorithm, is a single forward sweep that eliminates the lower diagonal followed by a single backward sweep that substitutes upward, so the work grows only in proportion to $M$. In practice `scipy.linalg.solve_banded` does the same job.
+
+```python
+import numpy as np
+
+def solve_tridiagonal(a, b, c, d):
+    """Solve A x = d for tridiagonal A with sub-diagonal a, diagonal b, super-diagonal c."""
+    n = len(d)
+    c_, d_ = np.zeros(n), np.zeros(n)
+    c_[0], d_[0] = c[0] / b[0], d[0] / b[0]
+    for i in range(1, n):                      # forward sweep: eliminate the sub-diagonal
+        m = b[i] - a[i] * c_[i - 1]
+        c_[i] = c[i] / m if i < n - 1 else 0.0
+        d_[i] = (d[i] - a[i] * d_[i - 1]) / m
+    x = np.zeros(n)
+    x[-1] = d_[-1]
+    for i in range(n - 2, -1, -1):             # backward sweep: substitute upward
+        x[i] = d_[i] - c_[i] * x[i + 1]
+    return x
+
+def implicit_step(u, lam):
+    """One implicit step of the heat equation; the end values u[0], u[-1] stay fixed."""
+    n = len(u) - 2
+    a = np.full(n, -lam); b = np.full(n, 1 + 2 * lam); c = np.full(n, -lam)
+    d = u[1:-1].copy()
+    d[0] += lam * u[0]; d[-1] += lam * u[-1]   # known boundary values move to the right side
+    u_new = u.copy()
+    u_new[1:-1] = solve_tridiagonal(a, b, c, d)
+    return u_new
+```
+
+</details>
+
+The payoff of solving a system of linear equations is that the implicit scheme is stable for any time step. There is no $\lambda \leq 1/2$ constraint, so the step is no longer limited by stability. Each step costs more than an explicit step, but the freedom to take large steps wins comfortably on the fine grids where the explicit scheme would be forced into a crawl.
 
 ## Why the Implicit Scheme Cannot Blow Up
 
-The explicit update cools a hot point by an amount that grows with the step size. When the step is large it removes more than the whole gap to the neighbours, so the point overshoots past them. Subtraction can remove too much.
+Recall why the explicit scheme breaks. Its update weights the point and its two neighbors by $\lambda$, $1 - 2\lambda$ and $\lambda$, which makes it an average only while all three weights are non-negative. Once $\lambda$ exceeds $1/2$, the central weight turns negative, the update is no longer an average, and a hot point can be pushed past its neighbors instead of settling between them.
 
-The implicit update does not work by subtraction. Isolating the centre term in its equation,
+The implicit update can also be written as a weighted average. Dividing its equation by $1 + 2\lambda$,
 
 $$
-(1 + 2\lambda)\, u_i^{n+1} = u_i^n + \lambda\left(u_{i-1}^{n+1} + u_{i+1}^{n+1}\right),
+u_i^{n+1} = \frac{1}{1+2\lambda}\,u_i^n + \frac{\lambda}{1+2\lambda}\left(u_{i-1}^{n+1} + u_{i+1}^{n+1}\right),
 $$
 
-the new value carries a factor of $1 + 2\lambda$, so finding it means *dividing* by that factor. The denominator is always greater than one, no matter how large $\lambda$ grows, so the division can only shrink a value toward zero, never flip its sign or amplify it. A sharp feature is divided down harder as the step grows, which is what diffusion should do to it. No step size turns the division into an overshoot.
+the new value blends its own old value with its two new neighbors. The weights are non-negative and sum to one for every $\lambda$, however large. So the hottest point of the new solution cannot be hotter than its new neighbors and its old self, and the coldest cannot be colder: no new value can overshoot the range of the old ones.
 
-The same fact has a physical reading, and it comes down to which state the equation is enforced on. The implicit scheme enforces the equation on the new state, so the new values are required to satisfy it. This acts as a check: if the solver tried to overshoot a hot point into a dip below its neighbours, that dip would have positive curvature, and the equation says a point with positive curvature warms rather than sits cold. The overshoot would violate the equation the new state must obey, so it cannot be the solution. The explicit scheme enforces the equation only on the old, known state and computes the new value from it directly, with nothing constraining the new value itself. That is the difference: implicit holds the new state to the equation, explicit does not.
+The same fact has a physical reading, and it comes down to which state the equation is enforced on. The implicit scheme enforces the equation on the new state, so the new values are required to satisfy it. This acts as a check: if the solver tried to overshoot a hot point into a dip below its neighbors, that dip would have positive curvature, and the equation says a point with positive curvature warms rather than sits cold. The overshoot would violate the equation the new state must obey, so it cannot be the solution. The explicit scheme enforces the equation only on the old, known state and computes the new value from it directly, with nothing constraining the new value itself. That is the difference: implicit holds the new state to the equation, explicit does not.
 
----
-
-## Reflection: Marching Forward or Solving Together
+## Marching Forward or Solving Together
 
 Looking past the formulas, the two schemes hold different views of how the system evolves.
 
 - **Explicit:** the known state generates the next one. For the heat equation, where we solve forward from the present, this is literally the present generating the future.
 - **Implicit:** the step is a constraint. The new state is the one that satisfies the equation at every point at once, reached by solving rather than generating.
 
-Both converge to the same continuous solution as the grid is refined, since the gap between $t_n$ and $t_{n+1}$ vanishes and the choice of where to enforce the equation stops mattering. What differs is the stance: marching forward, or solving a constraint. That stance is what made one scheme able to overshoot and the other not.
-
----
+Both converge to the same continuous solution as the grid is refined. For the explicit scheme this holds only if the time step shrinks fast enough to keep $\lambda$ at or below $1/2$. As the gap between $t_n$ and $t_{n+1}$ vanishes, the choice of where to enforce the equation stops mattering. What differs is the stance: marching forward, or solving a constraint. That stance is what made one scheme able to overshoot and the other not.
 
 ## Crank-Nicolson
 
@@ -179,11 +199,11 @@ $$
 \frac{u^{n+1} - u^n}{\Delta t} = \partial_t u + \frac{\Delta t}{2}\, \partial_{tt} u + \cdots,
 $$
 
-so the error is proportional to $\Delta t$; the same expansion on the spatial neighbours gives a central difference with error proportional to $(\Delta x)^2$. Both vanish as the grid is refined. The time error is only first-order, and once we take the large steps the implicit scheme allows, it dominates: driving it down forces us back into many small steps, the very thing going implicit was meant to avoid.
+so the error is proportional to $\Delta t$; the same expansion on the spatial neighbors gives a central difference with error proportional to $(\Delta x)^2$. Both vanish as the grid is refined. The time error is only first-order, and once we take the large steps the implicit scheme allows, it dominates: driving it down forces us back into many small steps, the very thing going implicit was meant to avoid.
 
-So how can we make the scheme converge faster in time? Let us borrow the idea behind computing a delta numerically. To estimate the slope of an option value in the underlying, a one-sided difference $\frac{f(x+h) - f(x)}{h}$ is first-order, but a centred difference $\frac{f(x+h) - f(x-h)}{2h}$ is second-order, which is why the centred form is the usual choice: its errors on the two sides cancel. The lesson is that a central estimate beats a one-sided one. Explicit and implicit are both one-sided in time, each evaluating the spatial term at one end of the step, which is what makes their time error first-order.
+So how can we make the scheme converge faster in time? Let us borrow the idea behind computing a delta numerically. To estimate the slope of an option value in the underlying, a one-sided difference $\frac{f(x+h) - f(x)}{h}$ is first-order, but a centered difference $\frac{f(x+h) - f(x-h)}{2h}$ is second-order, which is why the centered form is the usual choice: its errors on the two sides cancel. The lesson is that a central estimate beats a one-sided one. Explicit and implicit are both one-sided in time, each evaluating the spatial term at one end of the step, which is what makes their time error first-order.
 
-Crank-Nicolson applies the same fix in time: it evaluates the spatial term at both ends of the step and averages them, centring it at the midpoint.
+Crank-Nicolson (Crank and Nicolson, 1947) applies the same fix in time: it evaluates the spatial term at both ends of the step and averages them, centering it at the midpoint.
 
 $$
 \frac{u_i^{n+1} - u_i^n}{\Delta t} = \frac{1}{2}\Big( \underbrace{\kappa\, \tfrac{\delta^2 u_i^n}{(\Delta x)^2}}_{\text{explicit}} + \underbrace{\kappa\, \tfrac{\delta^2 u_i^{n+1}}{(\Delta x)^2}}_{\text{implicit}} \Big), \qquad \delta^2 u_i = u_{i-1} - 2u_i + u_{i+1}.
@@ -191,9 +211,9 @@ $$
 
 {{< fdm_stencil_cranknicolson >}}
 
-The stencil reaches into both time levels: the three points at $t_n$ that the explicit scheme uses, and the coupled points at $t_{n+1}$ that the implicit scheme uses. Centring this way makes the time error second-order, so a given accuracy needs far fewer steps. The unknowns at $t_{n+1}$ are still coupled, so each step is a tridiagonal solve, and the scheme keeps the implicit scheme's unconditional stability.
+The stencil reaches into both time levels: the three points at $t_n$ that the explicit scheme uses, and the coupled points at $t_{n+1}$ that the implicit scheme uses. Centering this way makes the time error second-order, so a given accuracy needs far fewer steps. The unknowns at $t_{n+1}$ are still coupled, so each step is a tridiagonal solve, and the scheme keeps the implicit scheme's unconditional stability.
 
----
+Unconditional stability does not mean Crank-Nicolson behaves like the implicit scheme in every respect. Half of its update is explicit, so with large time steps it no longer guarantees the averaging that prevents overshoot, and a sharp feature such as the kink of a payoff at the strike can leave small oscillations in the computed prices that flip sign every step and die out only slowly. The absolute error in the price is very small, but gamma divides the difference between neighboring prices by $(\Delta S)^2$, a very small number, so the same error can become larger than gamma itself and produce clear swings around the strike. A common remedy is **Rannacher smoothing** (Rannacher, 1984; Giles and Carter, 2006): take the first few steps with the implicit scheme, which smooths the kink, before switching to Crank-Nicolson.
 
 ## From the Heat Equation to Black-Scholes
 
@@ -211,8 +231,6 @@ One thing does change when we move from the heat equation to Black-Scholes. Pric
 
 Two examples show what the PDE approach buys us, each handled naturally on the grid: the early-exercise decision of an American option, and the knock-out level of a barrier option.
 
----
-
 ## Early Exercise: American Options
 
 An American option can be exercised at any time before expiry, which adds a decision at every point: hold the option, or exercise it now. The PDE handles this naturally because it already solves backward in time.
@@ -227,7 +245,7 @@ So $V_i^{\text{cont}}$, the continuation value, is what the PDE step alone gives
 
 This comparison is applied pointwise at every grid point and time level. The grid already holds the value at every spot and time, so the question "is it worth exercising here and now" can be asked everywhere at once. The boundary between the hold region and the exercise region falls out of the solve, with no special treatment beyond the pointwise maximum.
 
----
+With the explicit scheme this pointwise maximum is exact, since each node's continuation value is computed on its own. With implicit or Crank-Nicolson, the new values are solved jointly, so applying the maximum after the solve is a small approximation. A common way to build the exercise decision into the solve itself is the penalty method (Forsyth and Vetzal, 2002). I plan to cover American option pricing with numerical methods, comparing trees, PDEs and Monte Carlo, in a future article.
 
 ## Path Dependence: Barrier Options
 
@@ -237,18 +255,34 @@ $$
 V(S, t) = 0 \quad \text{for } S \leq B.
 $$
 
-This is the ice bath again. Just as the rod's ends were held at zero and the chill spread inward, the value is held at zero along the barrier and the backward solve carries that zero into the living region above it. A spot just above the barrier has a neighbour pinned at zero, which drags its value down, and that influence spreads further up the grid at each step. By the time the solve reaches today, the value at a spot well above the barrier has already been reduced by the chance of drifting down and knocking out, without any path ever being traced.
+This is the ice bath again. Just as the rod's ends were held at zero and the chill spread inward, the value is held at zero along the barrier and the backward solve carries that zero into the living region above it. A spot just above the barrier has a neighbor pinned at zero, which drags its value down, and that influence spreads further up the grid at each step. By the time the solve reaches today, the value at a spot well above the barrier has already been reduced by the chance of drifting down and knocking out, without any path ever being traced.
 
-This is where the grid picture and the path picture part ways most sharply. In Monte Carlo the barrier is an event in time: a trajectory crosses $B$ and the option dies. The PDE has no trajectories, and it cannot, since the equation relates each point only to its neighbours, leaving nowhere for a path's past to live. Instead the barrier becomes geometry: the edge of the region the equation is solved on. The question "did the path cross the barrier" is replaced by "where is the edge of the domain," and the backward solve prices the knockout by letting that zero-edge bleed inward.
+This is where the grid picture and the path picture part ways most sharply. In Monte Carlo the barrier is an event in time: a trajectory crosses $B$ and the option dies. The PDE has no trajectories, and it cannot, since the equation relates each point only to its neighbors, leaving nowhere for a path's past to live. Instead the barrier becomes geometry: the edge of the region the equation is solved on. The question "did the path cross the barrier" is replaced by "where is the edge of the domain," and the backward solve prices the knockout by letting that zero-edge bleed inward.
 
-This also avoids the monitoring bias that troubles Monte Carlo, where the barrier is checked only at discrete sample times and a path can dip below and back between checks, the same bias the [Monte Carlo article]({{< relref "mc_variance_reduction.md" >}}) had to correct for on this very option. The grid has no unobserved trajectory between steps; the barrier condition applies across the whole domain at once. The PDE still carries its own time-discretisation error, but not this bias. One practical point: the barrier should land on a grid line. If $B$ falls between two spatial points, the effective barrier is misplaced by up to a grid spacing, so the $S$ grid is usually aligned to put a node exactly on $B$.
+This also avoids the monitoring bias that troubles Monte Carlo, where the barrier is checked only at discrete sample times and a path can dip below and back between checks, the same bias the [Monte Carlo article]({{< relref "mc_variance_reduction.md" >}}) had to correct for on this very option. The grid has no unobserved trajectory between steps; the barrier condition applies across the whole domain at once. The PDE still carries its own time-discretization error, but not this bias. One practical point: the barrier should land on a grid line. If $B$ falls between two spatial points, the effective barrier is misplaced by up to a grid spacing, so the $S$ grid is usually aligned to put a node exactly on $B$.
 
 This clean treatment is for a continuously-monitored barrier. A discretely-monitored barrier, checked only at set dates, is handled by imposing the zero condition only on those dates and letting the region below $B$ stay alive in between, which is closer to what Monte Carlo does and loses some of the tidiness.
 
----
+## Reflection
 
-## Conclusion
+Explicit, implicit and Crank-Nicolson all come down to one choice: at which time level the equation is enforced. The explicit scheme enforces it at the current time level, the implicit scheme at the next, and Crank-Nicolson averages the two to gain an order of accuracy.
 
-Explicit and implicit schemes solve the same equation in two ways: marching forward off the values we know, or solving for a level jointly consistent with them. The first is simple but carries a stability limit; the second costs a linear solve per step and removes the stability constraint. Crank-Nicolson sits between them and gains an order of accuracy. It all traces back to one choice, at which time level the equation is enforced, the same choice that reappears, flipped in direction, when we move from the forward-solved heat equation to the backward-solved Black-Scholes PDE. And what makes the approach worth the trouble is everything that comes after the price: Greeks fall out of the grid as finite differences, a single solve values the option across every spot, early exercise reduces to a pointwise maximum, and level-based barriers to a boundary condition. The grid holds the whole solution surface, and most of the questions worth asking can be read directly off it.
+The stability condition of the explicit scheme, $\Delta t \leq (\Delta x)^2/(2\kappa)$, also has a probabilistic meaning. To see it, we read the heat equation through [Feynman-Kac]({{< relref "feynman_kac.md" >}}), which links a PDE to an expectation over a random process. Feynman-Kac applies to an equation solved backward from a terminal value, so we first reverse time. Fixing a horizon $t$ and writing $v(x, s) = u(x, t - s)$ turns the heat equation into
 
-**One last thread, left for you to pull.** The explicit scheme is stable only when $\Delta t$ scales with $(\Delta x)^2$. If that relationship looks familiar, it is the same scaling that turns a random walk into Brownian motion, the one explored in the [Brownian motion article]({{< relref "brownian_bridge.md" >}}): step variance grows like $\Delta t$, step size like $\Delta x$, and the two must balance as $(\Delta x)^2 \sim \Delta t$ for the walk to converge to a diffusion. That is probably not a coincidence. By [Feynman-Kac]({{< relref "feynman_kac.md" >}}), the heat equation is the deterministic face of a Brownian motion, so a scheme for it is, in some sense, simulating that process. Write the stable update with its weights summing to one, and read them as the chances of stepping up, staying, and stepping down. Then ask what the stability condition is really demanding of those weights, and whether a scheme that violates it is still describing a random walk at all. I think the answer is worth finding yourself.
+$$\partial_s v + \kappa\, \partial_{xx} v = 0, \qquad v(x, t) = u(x, 0).$$
+
+This is the backward equation of a driftless Brownian motion with variance $2\kappa$ per unit time, a scaled version of the Brownian motion that arises as the limit of a random walk in the [Brownian motion article]({{< relref "understanding_brownian_motion.md#brownian-motion-as-a-limit-of-a-random-walk" >}}). The explicit update has the same structure as one step of such a walk:
+
+$$u_i^{n+1} = \lambda\, u_{i-1}^n + (1 - 2\lambda)\, u_i^n + \lambda\, u_{i+1}^n.$$
+
+The new value is an average over stepping down, staying, and stepping up, with probabilities $\lambda$, $1 - 2\lambda$, and $\lambda$. One step has variance $2\lambda(\Delta x)^2 = 2\kappa\,\Delta t$, exactly what the Brownian motion needs over $\Delta t$. The weights we earlier required to be non-negative are, in this reading, the probabilities of the random walk behind the heat equation, and the stability limit $\lambda \leq 1/2$ is the point beyond which they stop being probabilities.
+
+## References
+
+Crank, J., and Nicolson, P. (1947). A practical method for numerical evaluation of solutions of partial differential equations of the heat-conduction type. *Proceedings of the Cambridge Philosophical Society*, 43(1), 50-67.
+
+Forsyth, P. A., and Vetzal, K. R. (2002). Quadratic convergence for valuing American options using a penalty method. *SIAM Journal on Scientific Computing*, 23(6), 2095-2122.
+
+Giles, M. B., and Carter, R. (2006). Convergence analysis of Crank-Nicolson and Rannacher time-marching. *Journal of Computational Finance*, 9(4), 89-112.
+
+Rannacher, R. (1984). Finite element solution of diffusion problems with irregular data. *Numerische Mathematik*, 43(2), 309-327.
