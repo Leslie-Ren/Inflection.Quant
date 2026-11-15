@@ -32,4 +32,4 @@ If something resonates, or you think I've got something wrong, I would like to h
 
 ---
 
-*Some articles are written with AI-assisted drafting and editing where helpful. All analysis, interpretations, and conclusions are my own.*
+*Some articles are written with AI-assisted editing where helpful. All analysis, interpretations, and conclusions are my own.*
