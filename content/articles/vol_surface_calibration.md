@@ -169,13 +169,13 @@ But how do we translate the volatility surface into a density? Not through the l
 
 $$q(K) = \frac{\partial^2 C}{\partial K^2}.$$
 
-To see why, take the first derivative first. Move the strike from $K$ to $K + dK$. In every scenario where the option finishes out of the money it still pays zero, so those scenarios are unchanged; in every scenario where it finishes in the money it now pays $dK$ less. The drop in the call value is $dK$ weighted by the probability of landing in the money, $dC = -\,\mathbb{P}(F > K)\,dK$, so
+To see why, take the first derivative first. Move the strike from $K$ to $K + dK$. In every scenario where the option finishes out of the money it still pays zero, so those scenarios are unchanged; in every scenario where it finishes in the money it now pays $dK$ less. The drop in the call value is $dK$ weighted by the probability of landing in the money under the risk-neutral measure $\mathbb{Q}$, $dC = -\,\mathbb{Q}(F > K)\,dK$, so
 
-$$\frac{\partial C}{\partial K} = -\,\mathbb{P}(F > K).$$
+$$\frac{\partial C}{\partial K} = -\,\mathbb{Q}(F > K).$$
 
 Now differentiate again. Moving $K$ to $K + dK$ changes the in-the-money probability by the mass in that band, and that mass over $dK$ is the density at $K$:[^density_df]
 
-$$\frac{\partial^2 C}{\partial K^2} = -\,\frac{\partial}{\partial K}\mathbb{P}(F > K) = \frac{\mathbb{P}(K < F < K + dK)}{dK} = q(K).$$
+$$\frac{\partial^2 C}{\partial K^2} = -\,\frac{\partial}{\partial K}\mathbb{Q}(F > K) = \frac{\mathbb{Q}(K < F < K + dK)}{dK} = q(K).$$
 
 This identity is the <strong id="breeden-litzenberger">Breeden-Litzenberger</strong> formula (1978). In practice this second derivative can be approximated numerically, on a grid of strikes spaced $\Delta K$ apart, by the central difference
 
@@ -220,7 +220,7 @@ For this surface the strips are the near months, where the check applies. Compar
 
 {{< calendar_total_variance >}}
 
-[^density_df]: These clean forms rely on the futures-style margining set up earlier: the quote is the undiscounted option value, so $C(K) = \mathbb{E}[(F-K)^+]$ with no discount factor. For a premium-paid option, $C(K) = e^{-r\tau}\,\mathbb{E}[(F-K)^+]$, and the discount factor carries through both derivatives, $\partial C/\partial K = -e^{-r\tau}\,\mathbb{P}(F > K)$ and $\partial^2 C/\partial K^2 = e^{-r\tau}\,q(K)$. Recovering a unit-mass density then means dividing by $e^{-r\tau}$.
+[^density_df]: These clean forms rely on the futures-style margining set up earlier: the quote is the undiscounted option value, so $C(K) = \mathbb{E}[(F-K)^+]$ with no discount factor. For a premium-paid option, $C(K) = e^{-r\tau}\,\mathbb{E}[(F-K)^+]$, and the discount factor carries through both derivatives, $\partial C/\partial K = -e^{-r\tau}\,\mathbb{Q}(F > K)$ and $\partial^2 C/\partial K^2 = e^{-r\tau}\,q(K)$. Recovering a unit-mass density then means dividing by $e^{-r\tau}$.
 
 ## What Happens to the Wings
 

@@ -10,9 +10,9 @@ TocOpen: false
 
 ## Why This Matters
 
-The local vol model we discussed in the [previous article]({{< ref "local_vol.md#linking-densities-to-option-quotes" >}}) assumes the vol is a deterministic function of spot and time, so the vol has no randomness of its own. But the market does not treat vol that way. The VIX is the market's implied vol for SPX, and options on the VIX are themselves quoted with an implied vol, a vol of vol. The market is pricing vol itself as a random quantity.
+The local vol model we discussed previously assumes the vol is a deterministic function of spot and time, so the vol has no randomness of its own. But the market does not treat vol that way. The VIX is the market's implied vol for SPX, and options on the VIX are themselves quoted with an implied vol, a vol of vol. The market is pricing vol itself as a random quantity.
 
-One consequence of ignoring the randomness in the vol is that the forward vol skew comes out wrong: it flattens as the start date moves out, so a forward starting option is mispriced, as we explained in the local vol article. A common fix is the stochastic vol model, which treats vol as a second stochastic process. Heston is among the most commonly used models of this kind. When I first learned about Heston, it was not obvious to me why we landed on that particular form, so before stating its assumptions and working through its pricing, I want to first trace the earlier models that led to Heston.
+One consequence of the local vol model ignoring the randomness in the vol is that its forward vol skew comes out wrong: it flattens as the start date moves out, so a forward starting option is mispriced, as we explained in the [local vol article]({{< ref "local_vol.md#local-vol-matches-the-marginals-not-the-path" >}}). A common fix is the stochastic vol model, which treats vol as a second stochastic process. Heston is among the most commonly used models of this kind. When I first learned about Heston, it was not obvious to me why the model takes the particular form it does, so before stating its assumptions and working through its pricing, I want to first trace the earlier models that led to Heston.
 
 ## The Road to Heston
 
