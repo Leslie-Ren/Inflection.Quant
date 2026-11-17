@@ -356,7 +356,7 @@ The right panel weights the density difference by the payoff. For the vanilla, i
 
 The size and even the sign of this gap belong to this particular example. A different contract such as a down-and-out put would give a different comparison. Still, the example provides a general lesson: an exotic should be priced with a model that reproduces the smile. Black-Scholes with the constant vol of a single strike implies a lognormal distribution at maturity, which differs from the one the market implies, and most of the gap above comes from that alone.
 
-## Local Vol Matches the Marginals, Not the Path
+## Local Vol Matches the Spot's Marginal Distributions, Not Its Path
 
 The barrier example leaves an open question. A model that matches the market vol smile is the minimum requirement, and local vol meets it. But is that enough to capture how the spot moves between the quoted maturities? We can confirm that local vol matches the smile by checking that it reprices the market's vanilla options at each maturity, but those prices say nothing about the vol dynamics in between. To judge whether local vol models those dynamics realistically, we need a different perspective: compare what the model assumes about vol with how vol actually behaves in the market.
 
