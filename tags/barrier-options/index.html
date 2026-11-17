@@ -152,7 +152,7 @@ document.addEventListener("DOMContentLoaded", function() {
     </h2>
   </header>
   <div class="entry-content">
-    <p>Why This Matters The local vol model we discussed in the previous article assumes the vol is a deterministic function of spot and time, so the vol has no randomness of its own. But the market does not treat vol that way. The VIX is the market’s implied vol for SPX, and options on the VIX are themselves quoted with an implied vol, a vol of vol. The market is pricing vol itself as a random quantity.
+    <p>Why This Matters The local vol model we discussed previously assumes the vol is a deterministic function of spot and time, so the vol has no randomness of its own. But the market does not treat vol that way. The VIX is the market’s implied vol for SPX, and options on the VIX are themselves quoted with an implied vol, a vol of vol. The market is pricing vol itself as a random quantity.
 ...</p>
   </div>
   <footer class="entry-footer"><span title='2026-09-30 00:00:00 +0000 UTC'>September 30, 2026</span></footer>
@@ -166,7 +166,7 @@ document.addEventListener("DOMContentLoaded", function() {
   </header>
   <div class="entry-content">
     <p>Why This Matters In an earlier article we constructed the implied volatility surface and used it primarily to price vanilla options. But a great deal of what trades is not vanilla. Products like barriers and autocallables depend on the path the underlying takes, not only where it lands.
-Suppose I price a barrier by Monte Carlo. At each step the spot sits at some level, and I need a volatility to advance it. What vol do I use? The surface gives me a vol for every strike, but simulation does not ask about strikes. It asks what volatility the spot experiences at this level, at this moment, which the surface cannot answer.
+Suppose I price a barrier by Monte Carlo. At each step the spot sits at some level, and I need a volatility to advance it. What vol do I use? The implied vol surface gives me a vol for every strike. A simulation needs something else: a vol for the level the simulated path has reached at that step.
 ...</p>
   </div>
   <footer class="entry-footer"><span title='2026-07-23 00:00:00 +0000 UTC'>July 23, 2026</span></footer>
