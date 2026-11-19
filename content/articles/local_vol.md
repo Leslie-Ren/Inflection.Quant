@@ -412,7 +412,7 @@ Whether this matters in practice depends on how close the contract months are to
 
 Some markets do list several option expiries against a single contract, such as the Henry Hub weeklies, which are listed for four weeks. But that reaches only the nearest contract, and the rest of the strip is left with one expiry each. For most of the curve the maturity dimension therefore has to be modeled rather than read off the quotes. There is more than one way to do this, and the topic deserves its own article, so here I only summarize the main ideas of two approaches.
 
-### A Two Factor Model
+### Two-Factor Model
 
 The first approach assumes a shape for how each contract's vol evolves in time. A common choice is a two factor model (Schwartz and Smith, 2000), in which the futures delivering at $T$ follows
 
