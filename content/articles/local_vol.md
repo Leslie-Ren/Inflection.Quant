@@ -42,9 +42,9 @@ My default instinct is to reuse the approach from the implied vol article. There
 
 The trouble is that $S$ and $t$ are continuous, so every point $(S, t)$ the spot might visit needs its own volatility, and each vanilla price depends on the local vol at every point its paths pass through. The unknowns cannot be solved one at a time. Even discretized onto a grid, matching the surface by trial and error means solving for all the values together and repricing the whole surface at each step. We need something better than guess-and-match.
 
-### What the Market Already Gives Us
+### The Market Already Gives Us the Density
 
-The market does give us the implied density directly. Based on Breeden-Litzenberger, derived [in the earlier article]({{< ref "vol_surface_calibration.md#breeden-litzenberger" >}}),
+The market gives us the implied density directly. Based on Breeden-Litzenberger, derived [in the earlier article]({{< ref "vol_surface_calibration.md#breeden-litzenberger" >}}),
 
 $$\frac{\partial^2 C}{\partial K^2}(K, T) = e^{-rT} p(K, T)$$
 
@@ -56,7 +56,7 @@ Luckily, we already know how $\partial p / \partial t$ behaves. In the [forward 
 
 $$\frac{\partial p}{\partial t} = -\frac{\partial}{\partial S}\left[ r S \, p \right] + \frac{1}{2} \frac{\partial^2}{\partial S^2}\left[ \sigma^2(S, t) S^2 p \right]$$
 
-### Linking Densities to Option Quotes
+### Linking Fokker-Planck to Option Quotes
 
 Note the Fokker-Planck equation is in terms of $S$, and we have to link it to the information available from the market, which is option prices. Since the call price can be written as an integral over $S$,
 
@@ -356,7 +356,7 @@ The right panel weights the density difference by the payoff. For the vanilla, i
 
 The size and even the sign of this gap belong to this particular example. A different contract such as a down-and-out put would give a different comparison. Still, the example provides a general lesson: an exotic should be priced with a model that reproduces the smile. Black-Scholes with the constant vol of a single strike implies a lognormal distribution at maturity, which differs from the one the market implies, and most of the gap above comes from that alone.
 
-## Local Vol Matches the Spot's Marginal Distributions, Not Its Path
+## Local Vol Matches Risk-Neutral Marginals, Not Paths
 
 The barrier example leaves an open question. A model that matches the market vol smile is the minimum requirement, and local vol meets it. But is that enough to capture how the spot moves between the quoted maturities? We can confirm that local vol matches the smile by checking that it reprices the market's vanilla options at each maturity, but those prices say nothing about the vol dynamics in between. To judge whether local vol models those dynamics realistically, we need a different perspective: compare what the model assumes about vol with how vol actually behaves in the market.
 
